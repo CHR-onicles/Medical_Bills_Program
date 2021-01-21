@@ -16,6 +16,17 @@ class UIMainWindow(QMainWindow):
         self.setWindowIcon(QIcon(':/icon/cat'))
         self.resize(1200, 800)
 
+        self.UIComponents()
+
+    def UIComponents(self):
+        self.widgets()
+        self.layouts()
+
+    def widgets(self):
+        pass
+
+    def layouts(self):
+        pass
 
 
 
