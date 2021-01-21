@@ -18,7 +18,8 @@ class UIMainWindow(QMainWindow):
         super(UIMainWindow, self).__init__()
         self.setWindowTitle('Med Bills App')
         self.setWindowIcon(QIcon(':/icon/cat'))
-        self.resize(1200, 800)
+        self.resize(1200, 700)
+        self.setStyleSheet(styles.main_window_style())
 
 
         self.UIComponents()
@@ -33,17 +34,22 @@ class UIMainWindow(QMainWindow):
 
         # BIG TITLE ----------------------------------------------------------------------------------------
         self.lbl_title = QLabel('MEDICAL BILLS 2021')
+        # self.lbl_title = QLabel('Medical Bills 2021')
+        self.lbl_title.setObjectName('lbl_title')
         self.lbl_title.setAlignment(Qt.AlignHCenter)
 
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.statusBar().showMessage('Welcome, this is the status bar...')
+        self.btn_refresh = QPushButton('Refresh')
+        self.statusBar().addPermanentWidget(self.btn_refresh)
 
         # TABS ---------------------------------------------------------------------------------------------
         self.tabs = QTabWidget()
         self.tab_1 = QWidget()
+        # self.tab_1.setStyleSheet(styles.tab1_style())
         self.tab_2 = QWidget()
         self.tab_3 = QWidget()
-        self.tabs.addTab(self.tab_1, 'RECEIPT ENTRY')  # may change later
+        self.tabs.addTab(self.tab_1, 'Receipt Entry')  # may change later
         self.tabs.addTab(self.tab_2, 'Tab 2')
         self.tabs.addTab(self.tab_3, 'Tab 3')
 
@@ -60,15 +66,16 @@ class UIMainWindow(QMainWindow):
 
         # Entry from Receipt Widgets -----------------------------------------------------------------------
         self.lbl_entry_from_receipt = QLabel('Entry From Receipt')
+        self.lbl_entry_from_receipt.setAlignment(Qt.AlignHCenter)
         self.lbl_staff_dependant = QLabel('Staff/Dependant Name:')
         self.entry_staff_dependant = QLineEdit()
-        self.lbl_amount = QLabel('Amount')
+        self.lbl_amount = QLabel('Amount:')
         self.entry_amount = QLineEdit()
         self.btn_submit = QPushButton('Submit')
 
         self.vline = QVSeparationLine()
-        self.vline.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)  # todo: make sure its ok
-        self.vline.setStyleSheet('border: 1px dashed gray;')
+        # self.vline.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)  # todo: make sure its ok
+        self.vline.setStyleSheet('border: 1px solid gray;')
 
         # Staff Details widgets ----------------------------------------------------------------------------
         self.lbl_staff_details = QLabel('Staff Details')
@@ -80,7 +87,7 @@ class UIMainWindow(QMainWindow):
         self.lbl_spouse = QLabel('Spouse:')
         self.entry_spouse = QLineEdit()
         self.lbl_children = QLabel('Child(ren):')
-        self.entry_children = QLineEdit()
+        self.entry_children = QComboBox()
         self.lbl_cur_amount = QLabel('Current Amount For Month:')
         self.lbl_cur_amount.setWordWrap(True)
         self.entry_cur_amount = QLineEdit()
@@ -123,14 +130,14 @@ class UIMainWindow(QMainWindow):
         self.tab1_entry_and_details_main_layout.addWidget(self.vline, 4)
         self.tab1_entry_and_details_main_layout.addLayout(self.staff_details_layout, 48)
 
-        self.entry_from_receipt_layout.addWidget(self.lbl_entry_from_receipt, 30)
-        self.entry_from_receipt_layout.addLayout(self.entry_form, 70)
+        self.entry_from_receipt_layout.addWidget(self.lbl_entry_from_receipt, 20)
+        self.entry_from_receipt_layout.addLayout(self.entry_form, 80)
         self.entry_form.addRow(self.lbl_staff_dependant, self.entry_staff_dependant)
         self.entry_form.addRow(self.lbl_amount, self.entry_amount)
         self.entry_form.addRow('', self.btn_submit)
 
-        self.staff_details_layout.addWidget(self.lbl_staff_details, 30)
-        self.staff_details_layout.addLayout(self.staff_form, 70)
+        self.staff_details_layout.addWidget(self.lbl_staff_details, 20)
+        self.staff_details_layout.addLayout(self.staff_form, 80)
         self.staff_form.addRow(self.lbl_staff_name, self.entry_staff_name)
         self.staff_form.addRow(self.lbl_department, self.entry_department)
         self.staff_form.addRow(self.lbl_spouse, self.entry_spouse)
@@ -161,3 +168,8 @@ if __name__ == '__main__':
     window = UIMainWindow()
     window.show()
     sys.exit(app.exec_())
+
+
+    # ---------------------------------------- TODO --------------------------------------------------------
+    # TODO:
+    #   1. Set Tooltips
