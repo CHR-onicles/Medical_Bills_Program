@@ -56,7 +56,7 @@ class CurrencyInputValidator(QValidator):
         # invalid_chars = """
         # `~!@#$%^&*()-_=+{[}]|\\'",<>/?
         # """  # Might need them in future
-
+        state = None
         if len(v_string) < 4 or v_string[:4] != 'GH₵ ':
             ic('Less than 4 or not GHC - invalid')
             state = QValidator.Invalid
@@ -71,18 +71,12 @@ class CurrencyInputValidator(QValidator):
             state = QValidator.Acceptable
 
         for x in v_string[4:]:
-            if x.isalpha():
-                state = QValidator.Invalid
-                ic('Has alpha - invalid')
-                break
-
-        for x in v_string[4:]:
-            if (x.isdigit() is False) and '.' not in v_string[4:]:
-                ic('Anything else - invalid')
+            if ((x.isdigit() is False) and '.' not in v_string[4:]) or x.isalpha():
+                ic('Alpha or Anything else - invalid')
                 state = QValidator.Invalid
 
+        nums = v_string[4:].split('.')
         if '.' in v_string[4:]:
-            nums = v_string[4:].split('.')
             if (nums[0].isdigit() and nums[1].isdigit()) is True:
                 ic('Has period and both numbers are legit - VALID')
                 state = QValidator.Acceptable
@@ -90,10 +84,14 @@ class CurrencyInputValidator(QValidator):
                 ic('More than 2 digits after period - invalid')
                 state = QValidator.Invalid
 
+        if '.' in v_string[4:] and len(v_string.split('.')[1]) >= 1:
+            if (nums[0].isdigit() is True) and (nums[1].isdigit() is False):
+                ic('Has period, but other chars too - invalid')
+                state = QValidator.Invalid
+
         if v_string.count('.') > 1:
             ic('More than one period - invalid')
             state = QValidator.Invalid
-
 
         return state, v_string, index
 

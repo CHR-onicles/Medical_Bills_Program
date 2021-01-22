@@ -18,7 +18,8 @@ class UIMainWindow(QMainWindow):
         super(UIMainWindow, self).__init__()
         self.setWindowTitle('Med Bills App')
         self.setWindowIcon(QIcon(':/icon/cat'))
-        self.resize(1300, 800)
+        # self.resize(1300, 800)
+        self.resize(1000, 800)
         self.setMinimumSize(QSize(1000, 700))
         self.setStyleSheet(styles.main_window_style())
 
@@ -106,7 +107,7 @@ class UIMainWindow(QMainWindow):
         self.lbl_cur_amount = QLabel('Current Amount For Month:')
         self.lbl_cur_amount.setWordWrap(True)
         self.entry_cur_amount = QLineEdit('GH₵ ')
-        # self.entry_cur_amount.setValidator(insert here) # todo: Add Validator
+        self.entry_cur_amount.setValidator(CurrencyInputValidator())
 
 
 
