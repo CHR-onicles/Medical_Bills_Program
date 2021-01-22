@@ -7,7 +7,7 @@ import sys
 
 # Local imports
 import resources_rc, styles
-from custom_widgets import QHSeparationLine, QVSeparationLine
+from custom_widgets import QHSeparationLine, QVSeparationLine, CurrencyInputValidator
 
 
 
@@ -77,7 +77,8 @@ class UIMainWindow(QMainWindow):
         self.lbl_staff_dependant = QLabel('Staff/Dependant Name:')
         self.entry_staff_dependant = QLineEdit()
         self.lbl_amount = QLabel('Amount:')
-        self.entry_amount = QLineEdit()
+        self.entry_amount = QLineEdit('GH₵ ')
+        self.entry_amount.setValidator(CurrencyInputValidator())
         self.btn_submit = QPushButton('Submit')
         self.btn_submit.setObjectName('btn_submit')
 
@@ -104,7 +105,8 @@ class UIMainWindow(QMainWindow):
         self.entry_children = QComboBox()
         self.lbl_cur_amount = QLabel('Current Amount For Month:')
         self.lbl_cur_amount.setWordWrap(True)
-        self.entry_cur_amount = QLineEdit()
+        self.entry_cur_amount = QLineEdit('GH₵ ')
+        # self.entry_cur_amount.setValidator(insert here) # todo: Add Validator
 
 
 
@@ -191,3 +193,4 @@ if __name__ == '__main__':
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
     #   1. Set Tooltips
+    #   2. Create validators for entries (especially for the currency ones)
