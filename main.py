@@ -1,4 +1,4 @@
-from PyQt5.QtCore import (QSize, Qt)
+from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QTimer)
 from PyQt5.QtGui import (QPixmap, QIcon)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QStatusBar)
