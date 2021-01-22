@@ -19,6 +19,7 @@ class UIMainWindow(QMainWindow):
         self.setWindowTitle('Med Bills App')
         self.setWindowIcon(QIcon(':/icon/cat'))
         self.resize(1300, 800)
+        self.setMinimumSize(QSize(1000, 700))
         self.setStyleSheet(styles.main_window_style())
 
 
@@ -48,7 +49,6 @@ class UIMainWindow(QMainWindow):
         # TABS ---------------------------------------------------------------------------------------------
         self.tabs = QTabWidget()
         self.tab_1 = QWidget()
-        # self.tab_1.setStyleSheet(styles.tab1_style())
         self.tab_2 = QWidget()
         self.tab_3 = QWidget()
         self.tabs.addTab(self.tab_1, 'Receipt Entry')  # may change later
@@ -148,19 +148,18 @@ class UIMainWindow(QMainWindow):
         self.entry_from_receipt_layout.addWidget(self.lbl_entry_from_receipt, 20)
         self.entry_from_receipt_layout.addLayout(self.entry_form, 80)
         self.entry_form.addRow(self.lbl_staff_dependant, self.entry_staff_dependant)
-        self.entry_form.addRow(QLabel(' '))
         self.entry_form.addRow(self.lbl_amount, self.entry_amount)
-        self.entry_form.addRow(QLabel(' '))
         self.entry_form.addRow('', self.btn_submit)
+        self.entry_form.setVerticalSpacing(25)
 
         self.staff_details_layout.addWidget(self.lbl_staff_details, 20)
         self.staff_details_layout.addLayout(self.staff_form, 80)
         self.staff_form.addRow(self.lbl_staff_name, self.entry_staff_name)
-        self.staff_form.addRow(QLabel(' '))
         self.staff_form.addRow(self.lbl_department, self.entry_department)
         self.staff_form.addRow(self.lbl_spouse, self.entry_spouse)
         self.staff_form.addRow(self.lbl_children, self.entry_children)
         self.staff_form.addRow(self.lbl_cur_amount, self.entry_cur_amount)
+        self.staff_form.setVerticalSpacing(25)  # fixme: the children combobox might be messed up because of this so watch out
 
         self.tab1_main_layout.addLayout(self.tab1_quick_search_layout, 18)
         self.tab1_main_layout.addLayout(self.tab1_month_layout, 18)

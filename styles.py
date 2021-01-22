@@ -25,6 +25,11 @@ def main_window_style():
         min-width: 4em;
     }
     
+    QPushButton#btn_submit {
+        padding-top: 7px;
+        padding-bottom: 7px;
+    }
+    
     
     
     /* QDarkStyle from here on ----------------------------------------------- */
