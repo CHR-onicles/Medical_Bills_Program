@@ -49,7 +49,7 @@ class QVSeparationLine(QFrame):
 
 class CurrencyInputValidator(QValidator):
     """
-    Custom class to validate currency input in line edits
+    Custom validator class to validate currency input in line edits.
     """
 
     def validate(self, v_string: str, index: int):
@@ -65,7 +65,6 @@ class CurrencyInputValidator(QValidator):
             ic('Greater than 4 - VALID')
             state = QValidator.Intermediate
 
-
         if (v_string[4:].isdigit()) is True:
             ic('All digits - VALID')
             state = QValidator.Acceptable
@@ -80,13 +79,12 @@ class CurrencyInputValidator(QValidator):
             if (nums[0].isdigit() and nums[1].isdigit()) is True:
                 ic('Has period and both numbers are legit - VALID')
                 state = QValidator.Acceptable
+            if '.' in v_string[4:] and len(v_string.split('.')[1]) >= 1:
+                if (nums[0].isdigit() is True) and (nums[1].isdigit() is False):
+                    ic('Has period, but other chars too - invalid')
+                    state = QValidator.Invalid
             if len(nums[1]) > 2:
                 ic('More than 2 digits after period - invalid')
-                state = QValidator.Invalid
-
-        if '.' in v_string[4:] and len(v_string.split('.')[1]) >= 1:
-            if (nums[0].isdigit() is True) and (nums[1].isdigit() is False):
-                ic('Has period, but other chars too - invalid')
                 state = QValidator.Invalid
 
         if v_string.count('.') > 1:
@@ -94,5 +92,3 @@ class CurrencyInputValidator(QValidator):
             state = QValidator.Invalid
 
         return state, v_string, index
-
-
