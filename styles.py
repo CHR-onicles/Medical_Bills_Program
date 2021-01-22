@@ -4,13 +4,25 @@ def main_window_style():
         font: 15pt century gothic;
     }
     
-    QLabel#lbl_title {
+    QLabel#lbl_header {
         font: 32pt century gothic;
         color: rgb(0, 110, 161);
         background-color: rgb(147, 147, 147);
     }
     
+    QLabel#lbl_titles {
+        font: 75 20pt 'century gothic';
+        color: rgb(255, 85, 255);
+    }
+    
+    QComboBox#combo_titles {
+        font: 20pt century gothic;
+    }
+    
+    
+    
     /* QDarkStyle from here on ----------------------------------------------- */
+    
     QProgressBar:horizontal {
     border: 1px solid #3A3939;
     text-align: center;
