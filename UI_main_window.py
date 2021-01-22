@@ -1,8 +1,7 @@
-from PyQt5.QtCore import (QSize, Qt, QTimer, pyqtSignal, pyqtSlot)
-from PyQt5.QtGui import (QFont, QPixmap, QIcon)
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QTabWidget, QComboBox, QCompleter,
-                             QLineEdit, QStyle, QGridLayout, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox,
-                             QWidget, QSizePolicy)
+from PyQt5.QtCore import (QSize, Qt)
+from PyQt5.QtGui import (QPixmap, QIcon)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QSizePolicy,
+                             QLineEdit, QGridLayout, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox)
 import sys
 
 # Local imports
@@ -25,6 +24,7 @@ class UIMainWindow(QMainWindow):
 
 
         self.UIComponents()
+        self.show()
 
     def UIComponents(self):
         self.widgets()
@@ -35,7 +35,7 @@ class UIMainWindow(QMainWindow):
         self.central_widget = QWidget()
 
         # BIG TITLE ----------------------------------------------------------------------------------------
-        self.lbl_title = QLabel('MEDICAL BILLS 2021')
+        self.lbl_title = QLabel('MEDICAL BILLS 2021')  # todo: link this to the excel file name somehow
         # self.lbl_title = QLabel('Medical Bills 2021')
         self.lbl_title.setObjectName('lbl_header')
         self.lbl_title.setAlignment(Qt.AlignHCenter)
@@ -173,19 +173,6 @@ class UIMainWindow(QMainWindow):
         self.tab_1.setLayout(self.tab1_main_layout)
 
 
-
-
-
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = UIMainWindow()
-    window.show()
-    sys.exit(app.exec_())
-
-
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
     #   1. Set Tooltips [Optional]
-    #   2. Create validators for entries (especially for the currency ones)
