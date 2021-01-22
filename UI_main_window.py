@@ -1,8 +1,9 @@
 from PyQt5.QtCore import (QSize, Qt)
 from PyQt5.QtGui import (QPixmap, QIcon)
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QSizePolicy,
-                             QLineEdit, QGridLayout, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox)
+from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QSizePolicy, QApplication,
+                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox)
 import sys
+from icecream import ic
 
 # Local imports
 import resources_rc, styles
@@ -11,10 +12,10 @@ from custom_widgets import (QHSeparationLine, QVSeparationLine, CurrencyInputVal
 
 
 
-class UIMainWindow(QMainWindow):
+class UIMainWindow(QWidget):
 
     def __init__(self):
-        super(UIMainWindow, self).__init__()
+        super().__init__()
         self.setWindowTitle('Med Bills App')
         self.setWindowIcon(QIcon(':/icon/cat'))
         # self.resize(1300, 800)
@@ -27,13 +28,10 @@ class UIMainWindow(QMainWindow):
         self.show()
 
     def UIComponents(self):
-        self.widgets()
-        self.layouts()
+        self.UIwidgets()
+        self.UIlayouts()
 
-    def widgets(self):
-
-        self.central_widget = QWidget()
-
+    def UIwidgets(self):
         # BIG TITLE ----------------------------------------------------------------------------------------
         self.lbl_title = QLabel('MEDICAL BILLS 2021')  # todo: link this to the excel file name somehow
         # self.lbl_title = QLabel('Medical Bills 2021')
@@ -41,10 +39,10 @@ class UIMainWindow(QMainWindow):
         self.lbl_title.setAlignment(Qt.AlignHCenter)
 
         # STATUS BAR ---------------------------------------------------------------------------------------
-        self.statusBar().showMessage('Welcome, this is the status bar...')
-        self.btn_refresh = QPushButton('Refresh')
-        self.btn_refresh.setObjectName('btn_quick_search_and_refresh')
-        self.statusBar().addPermanentWidget(self.btn_refresh)
+        # self.statusBar().showMessage('Welcome, this is the status bar...')
+        # self.btn_refresh = QPushButton('Refresh')
+        # self.btn_refresh.setObjectName('btn_quick_search_and_refresh')
+        # self.statusBar().addPermanentWidget(self.btn_refresh)
 
 
         # TABS ---------------------------------------------------------------------------------------------
@@ -113,14 +111,10 @@ class UIMainWindow(QMainWindow):
 
 
 
-    def layouts(self):
+    def UIlayouts(self):
+        self.widgets()
         # MAIN WINDOW LAYOUT (CENTRAL WIDGET) --------------------------------------------------------------
         self.central_layout = QVBoxLayout()
-        self.central_widget.setLayout(self.central_layout)
-        self.setCentralWidget(self.central_widget)
-        self.central_layout.setContentsMargins(0, 10, 0, 0)
-        self.central_layout.addWidget(self.lbl_title)
-        self.central_layout.addWidget(self.tabs)
 
         # TAB 1 LAYOUTS ------------------------------------------------------------------------------------
         self.tab1_main_layout = QVBoxLayout()
@@ -171,6 +165,11 @@ class UIMainWindow(QMainWindow):
         self.tab1_main_layout.addWidget(self.hline, 4)
         self.tab1_main_layout.addLayout(self.tab1_entry_and_details_main_layout, 60)
         self.tab_1.setLayout(self.tab1_main_layout)
+
+        self.central_layout.setContentsMargins(0, 10, 0, 0)
+        self.central_layout.addWidget(self.lbl_title)
+        self.central_layout.addWidget(self.tabs)
+        self.setLayout(self.central_layout)
 
 
     # ---------------------------------------- TODO --------------------------------------------------------

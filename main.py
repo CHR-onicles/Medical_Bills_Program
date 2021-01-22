@@ -14,7 +14,7 @@ from UI_main_window import UIMainWindow
 class MainApp(UIMainWindow, QWidget):
 
     def __init__(self):
-        super(MainApp, self).__init__()
+        super().__init__()
 
 
         self.UI()
@@ -24,8 +24,6 @@ class MainApp(UIMainWindow, QWidget):
 
     def widgets(self):
         pass
-
-
 
 
 
