@@ -14,6 +14,7 @@
 
 from PyQt5.QtGui import QValidator
 from PyQt5.QtWidgets import QFrame, QSizePolicy, QWidget
+from icecream import ic
 
 
 
@@ -52,25 +53,46 @@ class CurrencyInputValidator(QValidator):
     """
 
     def validate(self, v_string: str, index: int):
+        # invalid_chars = """
+        # `~!@#$%^&*()-_=+{[}]|\\'",<>/?
+        # """  # Might need them in future
 
         if len(v_string) < 4 or v_string[:4] != 'GH₵ ':
+            ic('Less than 4 or not GHC - invalid')
             state = QValidator.Invalid
 
         if len(v_string) >= 4:
+            ic('Greater than 4 - VALID')
             state = QValidator.Intermediate
 
-        for x in v_string:
+
+        if (v_string[4:].isdigit()) is True:
+            ic('All digits - VALID')
+            state = QValidator.Acceptable
+
+        for x in v_string[4:]:
             if x.isalpha():
                 state = QValidator.Invalid
+                ic('Has alpha - invalid')
                 break
 
-        if '.' in v_string:
-            nums = v_string.split('.')
-            if (nums[0].isdigit() and nums[1].isdigit()) is True:
-                state = QValidator.Acceptable
+        for x in v_string[4:]:
+            if (x.isdigit() is False) and '.' not in v_string[4:]:
+                ic('Anything else - invalid')
+                state = QValidator.Invalid
 
-        if v_string[4:].isdigit():
-            state = QValidator.Acceptable
+        if '.' in v_string[4:]:
+            nums = v_string[4:].split('.')
+            if (nums[0].isdigit() and nums[1].isdigit()) is True:
+                ic('Has period and both numbers are legit - VALID')
+                state = QValidator.Acceptable
+            if len(nums[1]) > 2:
+                ic('More than 2 digits after period - invalid')
+                state = QValidator.Invalid
+
+        if v_string.count('.') > 1:
+            ic('More than one period - invalid')
+            state = QValidator.Invalid
 
 
         return state, v_string, index
