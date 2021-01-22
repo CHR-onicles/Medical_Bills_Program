@@ -126,3 +126,4 @@ dmypy.json
 
 # For my personal logs and testing; (*.log) is already included
 test.py
+*.xlsx

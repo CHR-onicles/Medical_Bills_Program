@@ -1,6 +1,6 @@
 from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QTimer)
 from PyQt5.QtGui import (QPixmap, QIcon)
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy, QCompleter,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QStatusBar)
 import sys
 
@@ -8,6 +8,7 @@ import sys
 # Local imports
 import resources_rc, styles
 from UI_main_window import UIMainWindow
+from med_bills_functions import MBillsFunctions
 
 
 
@@ -24,6 +25,11 @@ class MainApp(QMainWindow):
         self.setMinimumSize(QSize(1000, 720))
 
 
+        MBillsFunctions.initializeFiles()
+        self.names = MBillsFunctions.getMedBillsNames()
+        self.completer = QCompleter()
+
+
 
         self.UIComp()
 
@@ -31,6 +37,7 @@ class MainApp(QMainWindow):
         self.widgets()
 
     def widgets(self):
+        self.UI.entry_staff_or_dependant.setCompleter(self.completer)
 
 
         # STATUS BAR ---------------------------------------------------------------------------------------
