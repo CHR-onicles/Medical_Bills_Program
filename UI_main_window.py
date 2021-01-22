@@ -6,7 +6,6 @@ import sys
 from icecream import ic
 
 # Local imports
-import resources_rc, styles
 from custom_widgets import (QHSeparationLine, QVSeparationLine, CurrencyInputValidator)
 
 
@@ -18,14 +17,11 @@ class UIMainWindow(QWidget):
         super().__init__()
         self.setWindowTitle('Med Bills App')
         self.setWindowIcon(QIcon(':/icon/cat'))
-        # self.resize(1300, 800)
-        self.resize(1000, 800)  # for testing purposes
-        self.setMinimumSize(QSize(1000, 720))
-        self.setStyleSheet(styles.main_window_style())
+        # self.setStyleSheet(styles.main_window_style())  # Not needed here anymore
 
 
         self.UIComponents()
-        self.show()
+        # self.show()
 
     def UIComponents(self):
         self.UIwidgets()
@@ -37,12 +33,6 @@ class UIMainWindow(QWidget):
         # self.lbl_title = QLabel('Medical Bills 2021')
         self.lbl_title.setObjectName('lbl_header')
         self.lbl_title.setAlignment(Qt.AlignHCenter)
-
-        # STATUS BAR ---------------------------------------------------------------------------------------
-        # self.statusBar().showMessage('Welcome, this is the status bar...')
-        # self.btn_refresh = QPushButton('Refresh')
-        # self.btn_refresh.setObjectName('btn_quick_search_and_refresh')
-        # self.statusBar().addPermanentWidget(self.btn_refresh)
 
 
         # TABS ---------------------------------------------------------------------------------------------
@@ -104,7 +94,7 @@ class UIMainWindow(QWidget):
         self.entry_spouse.setReadOnly(True)
         self.lbl_children = QLabel('Child(ren):')
         self.entry_children = QComboBox()
-        self.lbl_cur_amount = QLabel('Current Amount For Month:')
+        self.lbl_cur_amount = QLabel('Current Amount\nFor Month:')
         self.lbl_cur_amount.setWordWrap(True)
         self.entry_cur_amount = QLineEdit('GH₵ ')
         self.entry_cur_amount.setReadOnly(True)
@@ -112,7 +102,6 @@ class UIMainWindow(QWidget):
 
 
     def UIlayouts(self):
-        self.widgets()
         # MAIN WINDOW LAYOUT (CENTRAL WIDGET) --------------------------------------------------------------
         self.central_layout = QVBoxLayout()
 
