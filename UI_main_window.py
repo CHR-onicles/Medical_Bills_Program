@@ -19,8 +19,8 @@ class UIMainWindow(QMainWindow):
         self.setWindowTitle('Med Bills App')
         self.setWindowIcon(QIcon(':/icon/cat'))
         # self.resize(1300, 800)
-        self.resize(1000, 800)
-        self.setMinimumSize(QSize(1000, 700))
+        self.resize(1000, 800)  # for testing purposes
+        self.setMinimumSize(QSize(1000, 720))
         self.setStyleSheet(styles.main_window_style())
 
 
@@ -50,11 +50,11 @@ class UIMainWindow(QMainWindow):
         # TABS ---------------------------------------------------------------------------------------------
         self.tabs = QTabWidget()
         self.tab_1 = QWidget()
-        self.tab_2 = QWidget()
-        self.tab_3 = QWidget()
+        self.tab_2 = QWidget()  # todo: Implement statistics or staff list here
+        # self.tab_3 = QWidget()  # todo: Implement Later (for Graphs maybe)
         self.tabs.addTab(self.tab_1, 'Receipt Entry')  # may change later
         self.tabs.addTab(self.tab_2, 'Tab 2')
-        self.tabs.addTab(self.tab_3, 'Tab 3')
+        # self.tabs.addTab(self.tab_3, 'Tab 3')
 
         # TAB 1 WIDGETS ------------------------------------------------------------------------------------
         self.lbl_month = QLabel('Month:')
@@ -95,19 +95,21 @@ class UIMainWindow(QMainWindow):
         self.lbl_staff_details.setAlignment(Qt.AlignHCenter)
         self.lbl_staff_details.setObjectName('lbl_titles')
 
-
         self.lbl_staff_name = QLabel('Staff Name:')
-        self.entry_staff_name = QLineEdit()  # todo: make them all read-only
+        self.entry_staff_name = QLineEdit()
+        self.entry_staff_name.setReadOnly(True)
         self.lbl_department = QLabel('Department:')
         self.entry_department = QLineEdit()
+        self.entry_department.setReadOnly(True)
         self.lbl_spouse = QLabel('Spouse:')
         self.entry_spouse = QLineEdit()
+        self.entry_spouse.setReadOnly(True)
         self.lbl_children = QLabel('Child(ren):')
         self.entry_children = QComboBox()
         self.lbl_cur_amount = QLabel('Current Amount For Month:')
         self.lbl_cur_amount.setWordWrap(True)
         self.entry_cur_amount = QLineEdit('GH₵ ')
-        self.entry_cur_amount.setValidator(CurrencyInputValidator())
+        self.entry_cur_amount.setReadOnly(True)
 
 
 
@@ -176,14 +178,6 @@ class UIMainWindow(QMainWindow):
 
 
 
-
-
-
-
-
-
-
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = UIMainWindow()
@@ -193,5 +187,5 @@ if __name__ == '__main__':
 
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
-    #   1. Set Tooltips
+    #   1. Set Tooltips [Optional]
     #   2. Create validators for entries (especially for the currency ones)
