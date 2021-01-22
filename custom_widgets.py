@@ -92,3 +92,4 @@ class CurrencyInputValidator(QValidator):
             state = QValidator.Invalid
 
         return state, v_string, index
+    # todo: refresh button might clear the cedi sign from the line edits...take care of it
