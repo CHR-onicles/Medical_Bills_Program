@@ -41,7 +41,9 @@ class UIMainWindow(QMainWindow):
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.statusBar().showMessage('Welcome, this is the status bar...')
         self.btn_refresh = QPushButton('Refresh')
+        self.btn_refresh.setObjectName('btn_quick_search_and_refresh')
         self.statusBar().addPermanentWidget(self.btn_refresh)
+
 
         # TABS ---------------------------------------------------------------------------------------------
         self.tabs = QTabWidget()
@@ -65,6 +67,7 @@ class UIMainWindow(QMainWindow):
         self.lbl_quick_search = QLabel('Quick Search For Dependant or Staff:')
         self.entry_quick_search = QLineEdit()
         self.btn_quick_search = QPushButton('Search')
+        self.btn_quick_search.setObjectName('btn_quick_search_and_refresh')
 
         # Entry from Receipt Widgets -----------------------------------------------------------------------
         self.lbl_entry_from_receipt = QLabel('Entry From Receipt')
@@ -76,6 +79,7 @@ class UIMainWindow(QMainWindow):
         self.lbl_amount = QLabel('Amount:')
         self.entry_amount = QLineEdit()
         self.btn_submit = QPushButton('Submit')
+        self.btn_submit.setObjectName('btn_submit')
 
         self.vline = QVSeparationLine()
         self.vline.setStyleSheet('border: 1px solid gray;')

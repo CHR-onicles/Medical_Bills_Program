@@ -19,6 +19,12 @@ def main_window_style():
         font: 20pt century gothic;
     }
     
+    QPushButton#btn_quick_search_and_refresh {
+        padding-top: 3px;
+        padding-bottom: 3px;
+        min-width: 4em;
+    }
+    
     
     
     /* QDarkStyle from here on ----------------------------------------------- */
