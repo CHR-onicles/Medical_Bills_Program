@@ -7,7 +7,7 @@ import sys
 
 # Local imports
 import resources_rc, styles
-from custom_widgets import QHSeparationLine, QVSeparationLine, CurrencyInputValidator
+from custom_widgets import (QHSeparationLine, QVSeparationLine, CurrencyInputValidator)
 
 
 
@@ -75,8 +75,8 @@ class UIMainWindow(QMainWindow):
         self.lbl_entry_from_receipt.setAlignment(Qt.AlignHCenter)
         self.lbl_entry_from_receipt.setObjectName('lbl_titles')
 
-        self.lbl_staff_dependant = QLabel('Staff/Dependant Name:')
-        self.entry_staff_dependant = QLineEdit()
+        self.lbl_staff_or_dependant = QLabel('Staff/Dependant Name:')
+        self.entry_staff_or_dependant = QLineEdit()
         self.lbl_amount = QLabel('Amount:')
         self.entry_amount = QLineEdit('GH₵ ')
         self.entry_amount.setValidator(CurrencyInputValidator())
@@ -152,7 +152,7 @@ class UIMainWindow(QMainWindow):
 
         self.entry_from_receipt_layout.addWidget(self.lbl_entry_from_receipt, 20)
         self.entry_from_receipt_layout.addLayout(self.entry_form, 80)
-        self.entry_form.addRow(self.lbl_staff_dependant, self.entry_staff_dependant)
+        self.entry_form.addRow(self.lbl_staff_or_dependant, self.entry_staff_or_dependant)
         self.entry_form.addRow(self.lbl_amount, self.entry_amount)
         self.entry_form.addRow('', self.btn_submit)
         self.entry_form.setVerticalSpacing(25)

@@ -93,3 +93,25 @@ class CurrencyInputValidator(QValidator):
 
         return state, v_string, index
     # todo: refresh button might clear the cedi sign from the line edits...take care of it
+
+
+
+# class NameInputValidator(QValidator):
+#     """
+#     Custom validator class to validate entries of names
+#     """
+#
+#     def validate(self, v_string, index):
+#         state = None
+#
+#         if v_string.isalpha():
+#             state = QValidator.Acceptable
+#
+#         if '.' or '-' in v_string:
+#             state = QValidator.Intermediate
+#
+#         else:
+#             state = QValidator.Invalid
+#
+#         return state, v_string, index
+     # don't think I need a validator for names
