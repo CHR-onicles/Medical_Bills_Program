@@ -30,6 +30,12 @@ def main_window_style():
         padding-bottom: 7px;
     }
     
+    QListView::item:!selected:hover#completer_popup, QListView::item:!selected:hover#completer_popup {
+    background: rgba(0, 0, 0, 0);
+    
+    color: #FFFFFF
+    }
+
     
     
     /* QDarkStyle from here on ----------------------------------------------- */

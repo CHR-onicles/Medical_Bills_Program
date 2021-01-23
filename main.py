@@ -1,7 +1,8 @@
 from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QTimer)
 from PyQt5.QtGui import (QPixmap, QIcon)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy, QCompleter,
-                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QStatusBar)
+                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QStatusBar, QListView,
+                             QStyledItemDelegate)
 import sys
 
 
@@ -25,10 +26,33 @@ class MainApp(QMainWindow):
         self.setMinimumSize(QSize(1000, 720))
 
 
-        MBillsFunctions.initializeFiles()
-        self.names = MBillsFunctions.getMedBillsNames()
-        self.completer = QCompleter()
+        w1, w2 = MBillsFunctions.initializeFiles('test_med_bills_20.xlsx', 'test_staff_list.xlsx')
+        self.names = MBillsFunctions.getMedBillsNames(w1)
 
+        self.completer = QCompleter(self.names)
+        self.com_delegate = QStyledItemDelegate(self)  # have to do this to set style cuz of some bs thingy...
+        self.completer.popup().setItemDelegate(self.com_delegate)  # Source: (https://www.qtcentre.org/threads/39268-Styling-a-QAbstractItemView-item)
+        self.completer.popup().setStyleSheet("""
+        QListView {
+            font: 10pt century gothic;
+            background-color: silver;
+            border: 1px solid #444;
+            border-radius: 3px;
+            margin-left: 3px;
+            color: black;
+        }
+
+        QListView::item:hover {
+            background: #3d8ec9;
+            color: #FFFFFF;
+        }
+        
+        QListView::item:selected {
+            background: #78879b;
+            outline: 0;
+            color: #FFFFFF;
+        }
+        """)
 
 
         self.UIComp()

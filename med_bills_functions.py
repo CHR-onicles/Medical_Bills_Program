@@ -11,7 +11,7 @@ class MBillsFunctions:
     """
 
     @staticmethod
-    def initializeFiles(med_bill_file, staff_list_file):
+    def initializeFiles(med_bill_file, staff_list_file=None):
         """
         Loads med bills file and staff list file.
 
@@ -40,7 +40,7 @@ class MBillsFunctions:
                     # check for gray color, bold font, and whether cell is filled (not containing '0')
                     if cell.fill.start_color.index == 'FFD8D8D8' and cell.font.b is True \
                             and cell.value != 0:
-                        people.append(cell.value.title() + ' | ' + workbook[sheet].title)
+                        people.append(cell.value.title())  # + ' | ' + workbook[sheet].title)
 
         # Debugging stuff ---------------------------------------------
         # print(f'Number of all people in Med Bills: {len(people)}\n')
