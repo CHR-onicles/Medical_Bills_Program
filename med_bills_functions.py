@@ -54,6 +54,15 @@ class MBillsFunctions:
         return people
 
 
+    @staticmethod
+    def getStaffListNames(workbook):
+        """
+        Function to extract all staff, spouse, and children names from Staff List File
+
+        :param workbook:Staff List Workbook
+        :return:
+        """
+
 
     @staticmethod
     def saveFile(workbook, new_name):
@@ -61,7 +70,7 @@ class MBillsFunctions:
 
         :param workbook:
         :param new_name:
-        :return:
+        :return: Boolean whether save was successful or not
         """
         return workbook.save(new_name)
 
