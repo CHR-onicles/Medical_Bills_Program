@@ -29,16 +29,8 @@ def main_window_style():
         padding-top: 7px;
         padding-bottom: 7px;
     }
-    
-    QListView::item:!selected:hover#completer_popup, QListView::item:!selected:hover#completer_popup {
-    background: rgba(0, 0, 0, 0);
-    
-    color: #FFFFFF
-    }
-
-    
-    
-    /* QDarkStyle from here on ----------------------------------------------- */
+ 
+    /* QDarkStyle from here on ---------------------------------------------------------------------------------- */
     
     QProgressBar:horizontal {
     border: 1px solid #3A3939;
@@ -1278,9 +1270,3 @@ ColorButton::disabled {
     border: 1px solid #AAAAAA;
 }
     """
-
-# def tab1_style():
-#     return """
-#      {
-#     }
-#     """
