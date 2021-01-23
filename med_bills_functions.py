@@ -25,7 +25,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def getMedBillsNames(workbook):
+    def getAllMedBillsNames(workbook):
         """
         Function to get all names from Med Bills File
 
@@ -55,13 +55,30 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def getStaffListNames(workbook):
+    def getAllDependantNames(workbook):
         """
-        Function to extract all staff, spouse, and children names from Staff List File
+        Function to extract all spouse, and children's names from Staff List File.
 
         :param workbook:Staff List Workbook
-        :return:
+        :return: list of all dependants from Staff list workbook
         """
+
+        d_names = []
+
+        for sheet in workbook.sheetnames:
+            for row in workbook[sheet].iter_rows(min_row=3, max_row=700, min_col=3, max_col=4):
+                for cell in row:
+                    if cell.value is not None and cell.value.isupper() is True:  # check for upper case letters and not empty cell
+                        d_names.append(cell.value.title())
+
+        # For Debugging ---------------------------------------------
+        # print(f'There are {len(d_names)} dependants for staff.\n')
+        # for i in d_names:
+        #     print(i)
+        # End Debugging ---------------------------------------------
+
+        return d_names
+
 
 
     @staticmethod

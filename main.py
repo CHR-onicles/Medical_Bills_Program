@@ -26,10 +26,12 @@ class MainApp(QMainWindow):
         self.setMinimumSize(QSize(1000, 720))
 
 
-        w1, w2 = MBillsFunctions.initializeFiles('test_med_bills_20.xlsx', 'test_staff_list.xlsx')
-        self.names = MBillsFunctions.getMedBillsNames(w1)
+        med_bills_wkbk, staff_list_wkbk = MBillsFunctions.initializeFiles('test_med_bills_20.xlsx', 'test_staff_list.xlsx')
+        self.all_names = MBillsFunctions.getAllMedBillsNames(med_bills_wkbk)
+        self.all_names.extend(MBillsFunctions.getAllDependantNames(staff_list_wkbk))
 
-        self.completer = QCompleter(self.names)
+        # Completer configs -----------------------------------------------------------------------------
+        self.completer = QCompleter(self.all_names)
         self.com_delegate = QStyledItemDelegate(self)  # have to do this to set style cuz of some bs thingy...
         self.completer.popup().setItemDelegate(self.com_delegate)  # Source: (https://www.qtcentre.org/threads/39268-Styling-a-QAbstractItemView-item)
         self.completer.popup().setStyleSheet("""
