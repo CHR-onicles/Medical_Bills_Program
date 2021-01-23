@@ -32,6 +32,7 @@ class MainApp(QMainWindow):
 
         # Completer configs -----------------------------------------------------------------------------
         self.completer = QCompleter(self.all_names)
+        self.completer.setCaseSensitivity(Qt.CaseInsensitive)
         self.com_delegate = QStyledItemDelegate(self)  # have to do this to set style cuz of some bs thingy...
         self.completer.popup().setItemDelegate(self.com_delegate)  # Source: (https://www.qtcentre.org/threads/39268-Styling-a-QAbstractItemView-item)
         self.completer.popup().setStyleSheet("""
