@@ -1,10 +1,10 @@
-from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QTimer)
+from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool, QRunnable)
 from PyQt5.QtGui import (QPixmap, QIcon)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy, QCompleter,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QStatusBar, QListView,
                              QStyledItemDelegate)
 import sys
-
+from icecream import ic
 
 # Local imports
 import resources_rc, styles
@@ -18,6 +18,8 @@ class MainApp(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        self.setWindowTitle('Med Bills App')
+        self.setWindowIcon(QIcon(':/icon/cat'))
         self.UI = UIMainWindow()
         self.setCentralWidget(self.UI)
         self.setStyleSheet(styles.main_window_style())
@@ -26,9 +28,9 @@ class MainApp(QMainWindow):
         self.setMinimumSize(QSize(1000, 720))
 
         # Medical Bills Files configs -------------------------------------------------------------------
-        self.med_bills_wkbk, self.staff_list_wkbk = MBillsFunctions.initializeFiles('test_med_bills_20.xlsx', 'test_staff_list.xlsx')
-        self.all_names = MBillsFunctions.getAllMedBillsNames(self.med_bills_wkbk)
-        self.all_names.extend(MBillsFunctions.getAllDependantNames(self.staff_list_wkbk))
+        self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initializeFiles('test_med_bills_20.xlsx', 'test_staff_list.xlsx')
+        self.all_names = MBillsFunctions.getAllMedBillsNames(self.wkbk_med_bills)
+        self.all_names.extend(MBillsFunctions.getAllDependantNames(self.wkbk_staff_list))
 
         # Completer configs -----------------------------------------------------------------------------
         self.completer = QCompleter(self.all_names)
@@ -67,8 +69,8 @@ class MainApp(QMainWindow):
         self.UI.entry_staff_or_dependant.setCompleter(self.completer)
 
         self.UI.entry_quick_search.setCompleter(self.completer)
-        self.UI.entry_quick_search.returnPressed.connect(self.populateStaffDetails)
-        self.UI.btn_quick_search.clicked.connect(self.populateStaffDetails)
+        # self.UI.entry_quick_search.returnPressed.connect(lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
+        self.UI.btn_quick_search.clicked.connect(lambda: self.populateStaffDetails(self.UI.entry_quick_search.text()))
 
 
 
@@ -84,8 +86,27 @@ class MainApp(QMainWindow):
         self.setContentsMargins(0, 0, 20, 0)
 
 
-    def populateStaffDetails(self):
-        self.staff_details = MBillsFunctions.getDetailsOfPermanentStaff(self.staff_list_wkbk)
+    def populateStaffDetails(self, person):
+        ic.enable()
+        ic('Entered populate function')
+
+        # self.clearStaffDetails()
+        self.staff_details = MBillsFunctions.getDetailsOfPermanentStaff(self.wkbk_staff_list)
+        ic('Finished staff Details')
+        details = MBillsFunctions.searchForPerson(person.upper(), self.staff_details)  # all names in staff list are uppercase
+        print('Extracted searched person\'s details')
+
+        if details is not None:
+            self.UI.entry_staff_name.setText(details[0].title())
+
+        else:
+            pass
+            # todo: show message box here
+
+
+        ic.disable()
+
+
 
 
     def clearStaffDetails(self):

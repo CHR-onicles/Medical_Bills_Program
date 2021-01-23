@@ -15,8 +15,6 @@ class UIMainWindow(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Med Bills App')
-        self.setWindowIcon(QIcon(':/icon/cat'))
         # self.setStyleSheet(styles.main_window_style())  # Not needed here anymore
 
 

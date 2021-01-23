@@ -1,6 +1,8 @@
 import os
 import openpyxl
 from openpyxl.styles import colors, PatternFill
+from icecream import ic
+from datetime import datetime
 
 
 
@@ -86,12 +88,13 @@ class MBillsFunctions:
         Function to get staff names connected with their spouse and children.
 
         :param workbook: Staff list workbook
+
         :return: dictionary of staff names, their spouse and children.
         """
-
         staff_details = {}
-        sheet = workbook.active
-
+        # sheet = workbook.active
+        sheet = workbook['2020 STAFF LIST']
+        start = datetime.now()
         for row in range(3, 701):  # ignoring header labels
             for col in range(1, 5):  # 1st to 4th column
                 cell = sheet.cell(row=row, column=col)
@@ -125,7 +128,8 @@ class MBillsFunctions:
                         staff_details[backup_staff_cell.value].append(cell.value)
                     else:
                         staff_details[staff_cell.value].append(cell.value)
-
+        stop = datetime.now()
+        ic('Time for extracting:', stop-start)
         # For Debugging -------------------------
         # for k, v in staff_details.items():
         #     #     print(k,'->', v)
@@ -138,8 +142,38 @@ class MBillsFunctions:
         #         print(x)
         #         print(staff_details[x])
         # End Debugging -------------------------
-
         return staff_details
+
+    @staticmethod
+    def searchForPerson(person, staff_details):
+        """
+        Function to search for anyone using staff list. If found, returns staff's details...if not returns none for
+        those particulars in the details(For casuals and guests).
+
+        :param staff_details: dictionary of staff with details
+
+        :param person: person to search for
+
+        :return: tuple of staff with dependant(s)
+        """
+        start = datetime.now()
+        for staff, dependants in staff_details.items():
+            ic.enable()
+            if staff == person:
+                ic('Found with key:', staff, dependants)
+                stop = datetime.now()
+                ic('Time for Search elapsed:', stop - start)
+                return staff, dependants
+            else:
+                for d in dependants:
+                    if d == person:
+                        ic('Found with value:', staff, dependants)
+                        stop = datetime.now()
+                        ic('Time for Search elapsed:', stop - start)
+                        return staff, dependants
+            ic.disable()
+
+
 
 
 
@@ -155,3 +189,9 @@ class MBillsFunctions:
         :return: Boolean whether save was successful or not
         """
         return workbook.save(new_name)
+
+
+
+    # ---------------------------------------- TODO --------------------------------------------------------
+    # TODO:
+    #   1. Make documentation more comprehensible
