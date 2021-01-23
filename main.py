@@ -25,7 +25,7 @@ class MainApp(QMainWindow):
         # self.resize(1000, 800)  # for testing purposes
         self.setMinimumSize(QSize(1000, 720))
 
-
+        # Medical Bills Files configs -------------------------------------------------------------------
         med_bills_wkbk, staff_list_wkbk = MBillsFunctions.initializeFiles('test_med_bills_20.xlsx', 'test_staff_list.xlsx')
         self.all_names = MBillsFunctions.getAllMedBillsNames(med_bills_wkbk)
         self.all_names.extend(MBillsFunctions.getAllDependantNames(staff_list_wkbk))

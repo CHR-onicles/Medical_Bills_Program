@@ -68,6 +68,7 @@ class UIMainWindow(QWidget):
         self.lbl_amount = QLabel('Amount:')
         self.entry_amount = QLineEdit('GH₵ ')
         self.entry_amount.setValidator(CurrencyInputValidator())
+        self.entry_amount.setObjectName('entry_amount')
         self.btn_submit = QPushButton('Submit')
         self.btn_submit.setObjectName('btn_submit')
 
@@ -98,6 +99,7 @@ class UIMainWindow(QWidget):
         self.lbl_cur_amount.setWordWrap(True)
         self.entry_cur_amount = QLineEdit('GH₵ ')
         self.entry_cur_amount.setReadOnly(True)
+        self.entry_cur_amount.setObjectName('entry_amount')
 
 
 

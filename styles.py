@@ -29,6 +29,12 @@ def main_window_style():
         padding-top: 7px;
         padding-bottom: 7px;
     }
+    
+    QLineEdit#entry_amount {
+        /*color: #78879b;*/
+        color: #3d8ec9;
+    }
+    
  
     /* QDarkStyle from here on ---------------------------------------------------------------------------------- */
     
