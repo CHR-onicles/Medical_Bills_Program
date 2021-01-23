@@ -5,6 +5,7 @@ from openpyxl.styles import colors, PatternFill
 
 
 
+
 class MBillsFunctions:
     """
     Class which contains operations to be carried out on medical bills files.
@@ -59,7 +60,7 @@ class MBillsFunctions:
         """
         Function to extract all spouse, and children's names from Staff List File.
 
-        :param workbook:Staff List Workbook
+        :param workbook: Staff List Workbook
         :return: list of all dependants from Staff list workbook
         """
 
@@ -79,6 +80,70 @@ class MBillsFunctions:
 
         return d_names
 
+    @staticmethod
+    def getDetailsOfPermanentStaff(workbook):
+        """
+        Function to get staff names connected with their spouse and children.
+
+        :param workbook: Staff list workbook
+        :return: dictionary of staff names, their spouse and children.
+        """
+
+        staff_details = {}
+        sheet = workbook.active
+
+        for row in range(3, 701):  # ignoring header labels
+            for col in range(1, 5):  # 1st to 4th column
+                cell = sheet.cell(row=row, column=col)
+                staff_cell = sheet.cell(row=row, column=1)  # cell with staff name
+
+                if col == 1 and cell.value is not None and cell.font.b is True and cell.font.i is False:  # staff name
+                    backup_staff_cell = sheet.cell(row=row, column=1)
+                    staff_details[cell.value] = []
+
+                if col == 2 and cell.value is not None:
+                    staff_details[staff_cell.value].append(cell.value)
+
+                if col == 3 and cell.value is None:  # means no spouse
+                    if staff_cell.value is not None:  # there was a staff name in first cell
+                        staff_details[staff_cell.value].append(None)
+                    else:
+                        continue
+
+                if col == 3 and cell.value is not None:  # has a spouse
+                    staff_details[staff_cell.value].append(cell.value)
+
+                if col == 4 and cell.value is None:  # doesn't have a child
+                    if staff_cell.value is not None:
+                        staff_details[staff_cell.value].append(None)
+                    else:
+                        continue
+
+                if col == 4 and cell.value is not None:  # has a child
+                    if (staff_cell.value and sheet.cell(row=row, column=2)
+                            and sheet.cell(row=row, column=3)) is None:  # first 3 columns are empty means staff has multiple children
+                        staff_details[backup_staff_cell.value].append(cell.value)
+                    else:
+                        staff_details[staff_cell.value].append(cell.value)
+
+        # For Debugging -------------------------
+        # for k, v in staff_details.items():
+        #     #     print(k,'->', v)
+        #     pass
+        # print(staff_details)
+        # print(len(staff_details))
+
+        # for x in staff_details.keys():
+        #     if 'ABIGAIL' in x:
+        #         print(x)
+        #         print(staff_details[x])
+        # End Debugging -------------------------
+
+        return staff_details
+
+
+
+
 
 
     @staticmethod
@@ -90,7 +155,3 @@ class MBillsFunctions:
         :return: Boolean whether save was successful or not
         """
         return workbook.save(new_name)
-
-
-
-

@@ -66,6 +66,8 @@ class MainApp(QMainWindow):
     def widgets(self):
         self.UI.entry_staff_or_dependant.setCompleter(self.completer)
 
+        self.UI.entry_quick_search.setCompleter(self.completer)
+
 
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.status_bar = QStatusBar()
@@ -88,3 +90,9 @@ if __name__ == '__main__':
     window = MainApp()
     window.show()
     sys.exit(app.exec_())
+
+
+    # ---------------------------------------- TODO --------------------------------------------------------
+    # TODO:
+    #   1. Difference between quick search and typing staff/dependant name directly???
+    #   2.
