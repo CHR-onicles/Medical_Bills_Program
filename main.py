@@ -100,6 +100,8 @@ class MainApp(QMainWindow):
 
         if details is not None:
             self.UI.entry_staff_name.setText(details[0].title())
+            self.UI.entry_department.setText(details[1][0])  # todo: Later implement department names in full
+
 
         else:
             pass
