@@ -26,9 +26,9 @@ class MainApp(QMainWindow):
         self.setMinimumSize(QSize(1000, 720))
 
         # Medical Bills Files configs -------------------------------------------------------------------
-        med_bills_wkbk, staff_list_wkbk = MBillsFunctions.initializeFiles('test_med_bills_20.xlsx', 'test_staff_list.xlsx')
-        self.all_names = MBillsFunctions.getAllMedBillsNames(med_bills_wkbk)
-        self.all_names.extend(MBillsFunctions.getAllDependantNames(staff_list_wkbk))
+        self.med_bills_wkbk, self.staff_list_wkbk = MBillsFunctions.initializeFiles('test_med_bills_20.xlsx', 'test_staff_list.xlsx')
+        self.all_names = MBillsFunctions.getAllMedBillsNames(self.med_bills_wkbk)
+        self.all_names.extend(MBillsFunctions.getAllDependantNames(self.staff_list_wkbk))
 
         # Completer configs -----------------------------------------------------------------------------
         self.completer = QCompleter(self.all_names)
@@ -67,6 +67,9 @@ class MainApp(QMainWindow):
         self.UI.entry_staff_or_dependant.setCompleter(self.completer)
 
         self.UI.entry_quick_search.setCompleter(self.completer)
+        self.UI.entry_quick_search.returnPressed.connect(self.populateStaffDetails)
+        self.UI.btn_quick_search.clicked.connect(self.populateStaffDetails)
+
 
 
         # STATUS BAR ---------------------------------------------------------------------------------------
@@ -75,11 +78,22 @@ class MainApp(QMainWindow):
         self.status_bar.showMessage('Welcome, this is the status bar...')
         self.btn_refresh = QPushButton('Refresh')
         self.btn_refresh.setObjectName('btn_quick_search_and_refresh')
+        self.btn_refresh.clicked.connect(self.clearStaffDetails)
         self.status_bar.addPermanentWidget(self.btn_refresh)
         self.status_bar.setFixedHeight(60)
         self.setContentsMargins(0, 0, 20, 0)
 
 
+    def populateStaffDetails(self):
+        self.staff_details = MBillsFunctions.getDetailsOfPermanentStaff(self.staff_list_wkbk)
+
+
+    def clearStaffDetails(self):
+        self.UI.entry_staff_name.clear()
+        self.UI.entry_department.clear()
+        self.UI.entry_spouse.clear()
+        self.UI.combo_children.clear()
+        self.UI.entry_cur_amount.setText('GH₵ ')
 
 
 

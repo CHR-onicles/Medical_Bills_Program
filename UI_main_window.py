@@ -94,7 +94,7 @@ class UIMainWindow(QWidget):
         self.entry_spouse = QLineEdit()
         self.entry_spouse.setReadOnly(True)
         self.lbl_children = QLabel('Child(ren):')
-        self.entry_children = QComboBox()
+        self.combo_children = QComboBox()
         self.lbl_cur_amount = QLabel('Current Amount\nFor Month:')
         self.lbl_cur_amount.setWordWrap(True)
         self.entry_cur_amount = QLineEdit('GH₵ ')
@@ -147,7 +147,7 @@ class UIMainWindow(QWidget):
         self.staff_form.addRow(self.lbl_staff_name, self.entry_staff_name)
         self.staff_form.addRow(self.lbl_department, self.entry_department)
         self.staff_form.addRow(self.lbl_spouse, self.entry_spouse)
-        self.staff_form.addRow(self.lbl_children, self.entry_children)
+        self.staff_form.addRow(self.lbl_children, self.combo_children)
         self.staff_form.addRow(self.lbl_cur_amount, self.entry_cur_amount)
         self.staff_form.setVerticalSpacing(25)  # fixme: the children combobox might be messed up because of this so watch out
 
