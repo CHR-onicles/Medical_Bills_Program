@@ -53,6 +53,7 @@ class CurrencyInputValidator(QValidator):
     """
 
     def validate(self, v_string: str, index: int):
+        ic.disable()
         # invalid_chars = """
         # `~!@#$%^&*()-_=+{[}]|\\'",<>/?
         # """  # Might need them in future

@@ -31,8 +31,8 @@ def main_window_style():
     }
     
     QLineEdit#entry_amount {
-        /*color: #78879b;*/
-        color: #3d8ec9;
+        /*color: #78879b; duller blue */
+        color: #3d8ec9; /* brighter blue */
     }
     
  
