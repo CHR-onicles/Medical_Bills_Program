@@ -32,6 +32,9 @@ class MainApp(QMainWindow):
         self.all_names = MBillsFunctions.getAllMedBillsNames(self.wkbk_med_bills)
         self.all_names.extend(MBillsFunctions.getAllDependantNames(self.wkbk_staff_list))
 
+        self.staff_details = MBillsFunctions.getDetailsOfPermanentStaff(self.wkbk_staff_list)
+
+
         # Completer configs -----------------------------------------------------------------------------
         self.completer = QCompleter(self.all_names)
         self.completer.setCaseSensitivity(Qt.CaseInsensitive)
@@ -90,8 +93,7 @@ class MainApp(QMainWindow):
         ic.enable()
         ic('Entered populate function')
 
-        # self.clearStaffDetails()
-        self.staff_details = MBillsFunctions.getDetailsOfPermanentStaff(self.wkbk_staff_list)
+        self.clearStaffDetails()
         ic('Finished staff Details')
         details = MBillsFunctions.searchForPerson(person.upper(), self.staff_details)  # all names in staff list are uppercase
         print('Extracted searched person\'s details')
