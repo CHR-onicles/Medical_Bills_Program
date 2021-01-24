@@ -126,5 +126,5 @@ dmypy.json
 
 # For my personal logs and testing; (*.log) is already included
 test.py
-test-func.py
+test_func.py
 *.xlsx
