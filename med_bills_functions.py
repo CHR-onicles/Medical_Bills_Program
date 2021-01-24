@@ -6,7 +6,8 @@ from datetime import datetime
 
 
 
-
+# Global variables
+staff_details = {}
 
 class MBillsFunctions:
     """
@@ -91,67 +92,72 @@ class MBillsFunctions:
 
         return d_names
 
+
     @staticmethod
     def getDetailsOfPermanentStaff(workbook):
         """
-        Function to get staff names connected with their spouse and children.
+        Optimized function to extract details of staff members from the staff list file.
 
         :param workbook: Staff list workbook
 
         :return: dictionary of staff names, their spouse and children.
         """
-        staff_details = {}
-        # sheet = workbook.active
-        sheet = workbook['2020 STAFF LIST']
+        sheet = workbook.active
+
         start = datetime.now()
-        for row in range(3, 581):  # ignoring header labels
-            for col in range(1, 5):  # 1st to 4th column
-                cell = sheet.cell(row=row, column=col)
-                staff_cell = sheet.cell(row=row, column=1)  # cell with staff name
 
-                if col == 1 and cell.value is not None and cell.font.b is True:  # staff name
-                    backup_staff_cell = sheet.cell(row=row, column=1)
-                    staff_details[cell.value] = []
+        def row_any(row):
+            """
+            Reimplementation of python's any() function but for rows.
 
-                if col == 2 and cell.value is not None:
-                    staff_details[staff_cell.value].append(cell.value)
+            :param row: Row to be checked.
 
-                if col == 3 and cell.value is None:  # means no spouse
-                    if staff_cell.value is not None:  # there was a staff name in first cell
-                        staff_details[staff_cell.value].append(None)
-                    else:
-                        continue
+            :return: Returns False if all cells in a row are empty. True otherwise.
+            """
+            non_empty_cells = [x for x in row if x.value is not None]
+            return any(non_empty_cells)
 
-                if col == 3 and cell.value is not None:  # has a spouse
-                    staff_details[staff_cell.value].append(cell.value)
+        helper_staff_name = ''
 
-                if col == 4 and cell.value is None:  # doesn't have a child
-                    if staff_cell.value is not None:
-                        staff_details[staff_cell.value].append(None)
-                    else:
-                        continue
+        def process_row(_row):
+            """
+            Function to process rows and create dictionary of staff details.
 
-                if col == 4 and cell.value is not None:  # has a child
-                    if (staff_cell.value and sheet.cell(row=row, column=2)
-                            and sheet.cell(row=row, column=3)) is None:  # first 3 columns are empty means staff has multiple children
-                        staff_details[backup_staff_cell.value].append(cell.value)
-                    else:
-                        staff_details[staff_cell.value].append(cell.value)
+            :param _row: rows from staff list sheet
+
+            :return: dictionary containing all permanent staff details
+            """
+            global helper_staff_name, staff_details
+            if _row[0].value is not None:
+                helper_staff_name = _row[0].value
+
+            # Assigning dept, spouse and child to staff name if staff is not empty
+            # (meaning staff has multiple children according to the format of the file)
+            if _row[0].value is not None:
+                staff_details[_row[0].value] = [cell for cell in [_row[1].value, _row[2].value, _row[3].value]]
+            else:
+                if helper_staff_name == '':
+                    raise Exception('Staff name provided was None!!')
+                else:
+                    staff_details[helper_staff_name].append(_row[-1].value)
+
+            return staff_details
+
+        # Filtering out rows which are empty which is ~40% of all rows...improving performance
+        rows = [x for x in sheet.iter_rows(min_row=3, max_row=600, min_col=1, max_col=4) if row_any(x)]
+        for row in rows:
+            process_row(row)
 
         stop = datetime.now()
-        ic('Time elapsed for extracting:', (stop-start))
+        ic('Time elapsed for extracting:', (stop - start))
         # For Debugging -------------------------
         # for k, v in staff_details.items():
         #     #     print(k,'->', v)
         #     pass
         # print(staff_details)
         # print(len(staff_details))
-
-        # for x in staff_details.keys():
-        #     if 'ABIGAIL' in x:
-        #         print(x)
-        #         print(staff_details[x])
         # End Debugging -------------------------
+
         return staff_details
 
 
@@ -169,7 +175,7 @@ class MBillsFunctions:
         """
         start = datetime.now()
         for staff, dependants in staff_details.items():
-            ic.enable()
+            ic.disable()
             if staff == person:
                 ic('Found with key:', staff, dependants)
                 stop = datetime.now()
@@ -182,7 +188,7 @@ class MBillsFunctions:
                         stop = datetime.now()
                         ic('Time for Search elapsed:', stop - start)
                         return staff, dependants
-            ic.disable()
+            # ic.disable()
 
 
     @staticmethod
