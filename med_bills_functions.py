@@ -14,17 +14,26 @@ class MBillsFunctions:
     """
 
     @staticmethod
-    def initializeFiles(med_bill_file, staff_list_file=None):
+    def initializeFiles(med_bill_file=None, staff_list_file=None):
         """
         Loads med bills file and staff list file.
 
         :param med_bill_file: Medical Bills File
         :param staff_list_file: Staff List File
-        :return: Both workbooks
+        :return: Both workbooks, one of them or None if one is type: None
         """
-        workbook1 = openpyxl.load_workbook(med_bill_file)
-        workbook2 = openpyxl.load_workbook(staff_list_file, read_only=True)
-        return workbook1, workbook2
+        if med_bill_file and staff_list_file is not None:
+            workbook1 = openpyxl.load_workbook(med_bill_file)
+            workbook2 = openpyxl.load_workbook(staff_list_file, read_only=True)
+            return workbook1, workbook2
+        elif med_bill_file is None:
+            workbook = openpyxl.load_workbook(staff_list_file, read_only=True)
+            return workbook
+        elif staff_list_file is None:
+            workbook = openpyxl.load_workbook(med_bill_file)
+            return workbook
+        else:
+            return None
 
 
     @staticmethod
@@ -69,7 +78,7 @@ class MBillsFunctions:
         d_names = []
 
         for sheet in workbook.sheetnames:
-            for row in workbook[sheet].iter_rows(min_row=3, max_row=700, min_col=3, max_col=4):
+            for row in workbook[sheet].iter_rows(min_row=3, max_row=600, min_col=3, max_col=4):
                 for cell in row:
                     if cell.value is not None and cell.value.isupper() is True:  # check for upper case letters and not empty cell
                         d_names.append(cell.value.title())
@@ -95,12 +104,12 @@ class MBillsFunctions:
         # sheet = workbook.active
         sheet = workbook['2020 STAFF LIST']
         start = datetime.now()
-        for row in range(3, 701):  # ignoring header labels
+        for row in range(3, 581):  # ignoring header labels
             for col in range(1, 5):  # 1st to 4th column
                 cell = sheet.cell(row=row, column=col)
                 staff_cell = sheet.cell(row=row, column=1)  # cell with staff name
 
-                if col == 1 and cell.value is not None and cell.font.b is True and cell.font.i is False:  # staff name
+                if col == 1 and cell.value is not None and cell.font.b is True:  # staff name
                     backup_staff_cell = sheet.cell(row=row, column=1)
                     staff_details[cell.value] = []
 
@@ -128,8 +137,9 @@ class MBillsFunctions:
                         staff_details[backup_staff_cell.value].append(cell.value)
                     else:
                         staff_details[staff_cell.value].append(cell.value)
+
         stop = datetime.now()
-        ic('Time for extracting:', stop-start)
+        ic('Time elapsed for extracting:', (stop-start))
         # For Debugging -------------------------
         # for k, v in staff_details.items():
         #     #     print(k,'->', v)
@@ -143,6 +153,7 @@ class MBillsFunctions:
         #         print(staff_details[x])
         # End Debugging -------------------------
         return staff_details
+
 
     @staticmethod
     def searchForPerson(person, staff_details):
@@ -172,12 +183,6 @@ class MBillsFunctions:
                         ic('Time for Search elapsed:', stop - start)
                         return staff, dependants
             ic.disable()
-
-
-
-
-
-
 
 
     @staticmethod
