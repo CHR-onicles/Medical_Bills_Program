@@ -180,7 +180,6 @@ class MBillsFunctions:
         return temp[0] if temp != [] else None
 
 
-
     @staticmethod
     def getDepartmentFromName(person, all_people_and_dept):
         """

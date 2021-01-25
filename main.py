@@ -207,20 +207,16 @@ class MainApp(QMainWindow):
                                                           self.months, self.UI.combo_months.currentText())
             if 'GUEST' in guest_or_casual.split('|')[1]:
                 self.UI.lbl_staff_name.setText(person_status[1])
-                self.UI.entry_staff_name.setText(person)
                 self.UI.entry_department.setText('GUEST')
-                self.UI.entry_spouse.setText('None')
-                self.UI.combo_children.addItem('None')
-                self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
 
             elif 'CASUAL' in guest_or_casual.split('|')[1]:
                 self.UI.lbl_staff_name.setText(person_status[-1])
-                self.UI.entry_staff_name.setText(person)
                 self.UI.entry_department.setText('CASUAL')
-                self.UI.entry_spouse.setText('None')
-                self.UI.combo_children.addItem('None')
-                self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
 
+            self.UI.entry_staff_name.setText(person)
+            self.UI.entry_spouse.setText('None')
+            self.UI.combo_children.addItem('None')
+            self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
 
 
     def clearStaffDetails(self):
@@ -249,3 +245,4 @@ if __name__ == '__main__':
     # TODO:
     #   1. Difference between quick search and typing staff/dependant name directly???
     #   2. Let status bar show status of long processes
+    #   3. Update amount when months combo box changes
