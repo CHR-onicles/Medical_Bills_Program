@@ -46,7 +46,7 @@ class MBillsFunctions:
         people = []
 
         for sheet in workbook.sheetnames:
-            for col in workbook[sheet].iter_cols(min_row=1, max_row=700, min_col=1, max_col=1):
+            for col in workbook[sheet].iter_cols(min_row=1, max_row=500, min_col=1, max_col=1):
                 for cell in col:
                     # check for gray color, bold font, and whether cell is filled (not containing '0')
                     if cell.fill.start_color.index == 'FFD8D8D8' and cell.font.b is True \
@@ -215,12 +215,12 @@ class MBillsFunctions:
 
         :return: Amount from cell
         """
-        ic.enable()
+        ic.disable()
         s1 = datetime.now()
         dept = MBillsFunctions.getDepartmentFromName(person, all_people)
 
         sheet = workbook[dept]
-        for col in sheet.iter_cols(min_row=4, max_row=700, min_col=1, max_col=1):
+        for col in sheet.iter_cols(min_row=4, max_row=500, min_col=1, max_col=1):
             for cell in col:
                 if cell.value == person:
                     if '=' in str(cell.offset(row=0, column=months.get(month, 0)).value):
@@ -237,8 +237,6 @@ class MBillsFunctions:
                         s2 = datetime.now()
                         ic('Time taken to get amount:', s2 - s1)
                         return cell.offset(row=0, column=months.get(month, 0)).value
-
-                # todo: check to evaluate expression -> '330+11.11+20'
 
 
     @staticmethod
