@@ -72,13 +72,6 @@ class MBillsFunctions:
                 for cell in row:
                     if cell.value is not None and cell.value.isupper() is True:  # check for upper case letters and not empty cell
                         d_names.append(cell.value.title())
-
-        # For Debugging ---------------------------------------------
-        # print(f'There are {len(d_names)} dependants for staff.\n')
-        # for i in d_names:
-        #     print(i)
-        # End Debugging ---------------------------------------------
-
         return d_names
 
 
@@ -140,19 +133,11 @@ class MBillsFunctions:
 
         stop = datetime.now()
         ic('Time elapsed for extracting:', (stop - start))
-        # For Debugging -------------------------
-        # for k, v in staff_details.items():
-        #     #     print(k,'->', v)
-        #     pass
-        # print(staff_details)
-        # print(len(staff_details))
-        # End Debugging -------------------------
-
         return staff_details
 
 
     @staticmethod
-    def searchForPerson(person, staff_detes):
+    def searchForStaffFromStaffList(person, staff_detes):
         """
         Function to search for anyone using staff list. If found, returns staff's details...if not returns none for
         those particulars in the details(For casuals and guests).
@@ -178,7 +163,22 @@ class MBillsFunctions:
                         stop = datetime.now()
                         ic('Time for Search elapsed:', stop - start)
                         return staff, dependants
-            # ic.disable()
+
+
+    @staticmethod
+    def searchForCasualOrGuest(people_in_med_bill, person):
+        """
+        Function to search specifically for a guest or casual since they are not in the staff list.
+
+        :param people_in_med_bill: List of all people in med bills file with departments
+
+        :param person: Person to be searched for
+
+        :return:
+        """
+        temp = [p for p in people_in_med_bill if p.split('|')[0] == person]
+        return temp[0] if temp != [] else None
+
 
 
     @staticmethod
@@ -202,7 +202,6 @@ class MBillsFunctions:
         """
         Function to get the current amount of a person in med bills for the month
 
-
         :param all_people:
 
         :param workbook: Med Bills file
@@ -212,8 +211,6 @@ class MBillsFunctions:
         :param months: Dictionary with months as keys
 
         :param person: Name of Person in Med Bill file
-
-        :param dept: Department of Person
 
         :return: Amount from cell
         """
@@ -231,9 +228,14 @@ class MBillsFunctions:
                         s2 = datetime.now()
                         ic('Time taken to get amount:', s2 - s1)
                         return amt
-                    return cell.offset(row=0, column=months.get(month, 0)).value
+                    else:
+                        s2 = datetime.now()
+                        ic('Time taken to get amount:', s2 - s1)
+                        return cell.offset(row=0, column=months.get(month, 0)).value
+
                 # todo: check to evaluate expression -> '330+11.11+20'
-                # todo: exception for typing in dependants who are NOT in the med bills file
+                # todo: exception for typing in dependants not in MED BILL file
+                # todo: exception for typing guests and casuals
 
 
     @staticmethod

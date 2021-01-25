@@ -174,12 +174,14 @@ class MainApp(QMainWindow):
 
 
     def populateStaffDetails(self, person):
+        person_status = ['Staff Name:', 'Guest Name:', 'Casual Name:']
         self.clearStaffDetails()
 
-        details = MBillsFunctions.searchForPerson(person.upper(),
-                                                  self.staff_details)  # all names in staff list are uppercase
+        details = MBillsFunctions.searchForStaffFromStaffList(person.upper(),
+                                                              self.staff_details)  # all names in staff list are uppercase
 
         if details is not None:
+            self.UI.lbl_staff_name.setText(person_status[0])
             self.UI.entry_staff_name.setText(details[0].title())
             self.UI.entry_department.setText(details[1][0])
             if details[1][1] is not None:  # Spouse name
@@ -199,9 +201,26 @@ class MainApp(QMainWindow):
 
             self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
 
-        else:
-            pass
-            # todo: show message box here
+        else:  # means person is a guest or casual
+            guest_or_casual = MBillsFunctions.searchForCasualOrGuest(self.all_names_and_dept, person)
+            amt = MBillsFunctions.getPersonAmountForMonth(self.wkbk_med_bills, person, self.all_names_and_dept,
+                                                          self.months, self.UI.combo_months.currentText())
+            if 'GUEST' in guest_or_casual.split('|')[1]:
+                self.UI.lbl_staff_name.setText(person_status[1])
+                self.UI.entry_staff_name.setText(person)
+                self.UI.entry_department.setText('GUEST')
+                self.UI.entry_spouse.setText('None')
+                self.UI.combo_children.addItem('None')
+                self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
+
+            elif 'CASUAL' in guest_or_casual.split('|')[1]:
+                self.UI.lbl_staff_name.setText(person_status[-1])
+                self.UI.entry_staff_name.setText(person)
+                self.UI.entry_department.setText('CASUAL')
+                self.UI.entry_spouse.setText('None')
+                self.UI.combo_children.addItem('None')
+                self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
+
 
 
     def clearStaffDetails(self):
