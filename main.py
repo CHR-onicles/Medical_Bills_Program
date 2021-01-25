@@ -43,12 +43,12 @@ class MainApp(QMainWindow):
         # Medical Bills Files configs -------------------------------------------------------------------
         self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initializeFiles('test_med_bills_20.xlsx',
                                                                                     'test_staff_list.xlsx')
-        self.all_names = MBillsFunctions.getAllMedBillsNames(self.wkbk_med_bills)
-        self.all_names.extend(MBillsFunctions.getAllDependantNames(self.wkbk_staff_list))
+        self.all_names_and_dept = MBillsFunctions.getAllMedBillsNamesAndDept(self.wkbk_med_bills)
+        self.all_names_and_dept.extend(MBillsFunctions.getAllDependantNames(self.wkbk_staff_list))
         self.staff_details = MBillsFunctions.getDetailsOfPermanentStaff(self.wkbk_staff_list)
 
         # Completer configs -----------------------------------------------------------------------------
-        self.completer = QCompleter(self.all_names)
+        self.completer = QCompleter([name.split('|')[0] for name in self.all_names_and_dept])
         self.completer.setCaseSensitivity(Qt.CaseInsensitive)
         self.com_delegate = QStyledItemDelegate(self)  # have to do this to set style cuz of some bs thingy...
         self.completer.popup().setItemDelegate(
@@ -141,7 +141,6 @@ class MainApp(QMainWindow):
         
         """)
 
-
         self.UIComp()
 
 
@@ -149,15 +148,17 @@ class MainApp(QMainWindow):
         self.widgets()
 
     def widgets(self):
-        months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
-                  'August': 9, 'September': 10, 'October': 11, 'November': 12, 'December': 13}
-        self.UI.combo_months.addItems(list(months.keys()))
+        self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
+                       'August': 9, 'September': 10, 'October': 11, 'November': 12, 'December': 13}
+        self.UI.combo_months.addItems(list(self.months.keys()))
 
         self.UI.entry_staff_or_dependant.setCompleter(self.completer)
 
         self.UI.entry_quick_search.setCompleter(self.completer)
-        self.UI.entry_quick_search.returnPressed.connect(lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
-        self.UI.btn_quick_search.clicked.connect(lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
+        self.UI.entry_quick_search.returnPressed.connect(
+            lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
+        self.UI.btn_quick_search.clicked.connect(
+            lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
 
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.status_bar = QStatusBar()
@@ -193,10 +194,14 @@ class MainApp(QMainWindow):
                     self.UI.combo_children.addItem(child.title())
                     self.UI.combo_children.setCurrentText(person)
 
+            amt = MBillsFunctions.getPersonAmountForMonth(self.wkbk_med_bills, person, self.all_names_and_dept,
+                                                          self.months, self.UI.combo_months.currentText())
+
+            self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
+
         else:
             pass
             # todo: show message box here
-
 
 
     def clearStaffDetails(self):

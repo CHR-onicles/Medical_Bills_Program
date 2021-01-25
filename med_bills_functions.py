@@ -36,7 +36,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def getAllMedBillsNames(workbook):
+    def getAllMedBillsNamesAndDept(workbook):
         """
         Function to get all names from Med Bills File
 
@@ -51,16 +51,7 @@ class MBillsFunctions:
                     # check for gray color, bold font, and whether cell is filled (not containing '0')
                     if cell.fill.start_color.index == 'FFD8D8D8' and cell.font.b is True \
                             and cell.value != 0:
-                        people.append(cell.value.title())  # + ' | ' + workbook[sheet].title)
-
-        # Debugging stuff ---------------------------------------------
-        # print(f'Number of all people in Med Bills: {len(people)}\n')
-        # staff.sort()
-        # for c, sf in enumerate(people):
-        #     print(c + 1, sf)
-        # s = set(people)
-        # len(s)
-        # End Debugging -----------------------------------------------
+                        people.append(cell.value.title() + '|' + workbook[sheet].title)
 
         return people
 
@@ -100,6 +91,7 @@ class MBillsFunctions:
 
         :return: dictionary of staff names, their spouse and children.
         """
+        ic.disable()
         sheet = workbook.active
 
         start = datetime.now()
@@ -187,6 +179,61 @@ class MBillsFunctions:
                         ic('Time for Search elapsed:', stop - start)
                         return staff, dependants
             # ic.disable()
+
+
+    @staticmethod
+    def getDepartmentFromName(person, all_people_and_dept):
+        """
+        Function that scans Med Bills File for a person's department.
+
+        :param all_people_and_dept: List of all people in Med Bills File
+
+        :param person: Person to be searched for
+
+        :return: Returns Department of the person passed in
+        """
+        for names in all_people_and_dept:
+            if person == names.split('|')[0]:
+                return names.split('|')[1]
+
+
+    @staticmethod
+    def getPersonAmountForMonth(workbook, person: str, all_people: list, months: dict, month: str):
+        """
+        Function to get the current amount of a person in med bills for the month
+
+
+        :param all_people:
+
+        :param workbook: Med Bills file
+
+        :param month: Specific month to extract amount from (key from months dict)
+
+        :param months: Dictionary with months as keys
+
+        :param person: Name of Person in Med Bill file
+
+        :param dept: Department of Person
+
+        :return: Amount from cell
+        """
+        ic.enable()
+        s1 = datetime.now()
+        dept = MBillsFunctions.getDepartmentFromName(person, all_people)
+
+        sheet = workbook[dept]
+        for col in sheet.iter_cols(min_row=4, max_row=700, min_col=1, max_col=1):
+            for cell in col:
+                if cell.value == person:
+                    if '=' in str(cell.offset(row=0, column=months.get(month, 0)).value):
+                        temp = str(cell.offset(row=0, column=months.get(month, 0)).value)[1:]
+                        amt = round(float(temp), 2)
+                        s2 = datetime.now()
+                        ic('Time taken to get amount:', s2 - s1)
+                        return amt
+                    return cell.offset(row=0, column=months.get(month, 0)).value
+                # todo: check to evaluate expression -> '330+11.11+20'
+                # todo: exception for typing in dependants who are NOT in the med bills file
 
 
     @staticmethod
