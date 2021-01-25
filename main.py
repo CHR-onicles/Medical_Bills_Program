@@ -48,6 +48,8 @@ class MainApp(QMainWindow):
         self.resize(1300, 800)
         # self.resize(1000, 800)  # for testing purposes
         self.setMinimumSize(QSize(1000, 720))
+        ic.enable()
+        ic()
 
         # Medical Bills Files configs -------------------------------------------------------------------
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
@@ -254,21 +256,24 @@ class MainApp(QMainWindow):
         self.UI.entry_spouse.clear()
         self.UI.combo_children.clear()
         self.UI.entry_cur_amount.setText('GH₵ ')
+        self.UI.entry_amount.setText('GH₵ ')
+        self.UI.entry_staff_or_dependant.clear()
 
 
     def InsertIntoMedBills(self):
-        if self.UI.entry_staff_or_dependant != '' or self.UI.entry_amount != 'GH₵ ':
-            # start = datetime.now()
+        if self.UI.entry_staff_or_dependant.text() in [names.split('|')[0] for names in self.all_names_and_dept]:
+            start = datetime.now()
             person_typed = self.UI.entry_staff_or_dependant.text()
             amount = str(self.UI.entry_amount.text()[4:])
             offset_col = self.months[self.UI.combo_months.currentText()]
-            ic.disable()
-            # ic(offset_col)
+            print('Offset col:', offset_col)
+            ic.enable()
+            ic(offset_col)
 
             if person_typed.upper() in self.staff_details.keys():  # check if permanent staff was typed
                 dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
                 print('entered staff')
-                MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, 2, 0, amount)
+                MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0, amount)
             else:  # person could be dependant or casual/guest
                 actual_staff, dependant, status = MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(),
                                                                                               self.staff_details)
@@ -297,15 +302,15 @@ class MainApp(QMainWindow):
                     MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0,
                                                              amount)
 
-            self.UI.entry_staff_or_dependant.clear()
+            # self.UI.entry_staff_or_dependant.clear()
             self.UI.entry_amount.setText('GH₵ ')
 
-            # stop = datetime.now()
-            ic.disable()
-            # ic('Time taken to insert:', stop-start)
+            stop = datetime.now()
+            ic.enable()
+            ic('Time taken to insert:', stop-start)
 
         else:
-            QMessageBox.critical(self, 'Entry Error', 'Fields cannot be empty!')
+            QMessageBox.critical(self, 'Entry Error', 'No record found!')
 
 
 

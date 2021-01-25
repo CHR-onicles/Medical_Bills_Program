@@ -54,12 +54,13 @@ class UIMainWindow(QWidget):
         self.btn_quick_search.setObjectName('btn_quick_search_and_refresh')
 
         # Entry from Receipt Widgets -----------------------------------------------------------------------
-        self.lbl_entry_from_receipt = QLabel('Entry From Receipt')
+        self.lbl_entry_from_receipt = QLabel('<u>Entry From Receipt</u>')
         self.lbl_entry_from_receipt.setAlignment(Qt.AlignHCenter)
         self.lbl_entry_from_receipt.setObjectName('lbl_titles')
 
         self.lbl_staff_or_dependant = QLabel('Staff/Dependant Name:')
         self.entry_staff_or_dependant = QLineEdit()
+        # self.entry_staff_or_dependant.setValidator(NameInputValidator())
         self.lbl_amount = QLabel('Amount:')
         self.entry_amount = QLineEdit('GH₵ ')
         self.entry_amount.setValidator(CurrencyInputValidator())
@@ -75,7 +76,7 @@ class UIMainWindow(QWidget):
 
 
         # Staff Details widgets ----------------------------------------------------------------------------
-        self.lbl_staff_details = QLabel('Staff Details')
+        self.lbl_staff_details = QLabel('<u>Staff Details</u>')
         self.lbl_staff_details.setAlignment(Qt.AlignHCenter)
         self.lbl_staff_details.setObjectName('lbl_titles')
 

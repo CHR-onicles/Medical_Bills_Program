@@ -90,7 +90,7 @@ class MBillsFunctions:
         ic.disable()
         sheet = workbook.active
 
-        start = datetime.now()
+        # start = datetime.now()
 
         def row_any(row):
             """
@@ -134,8 +134,8 @@ class MBillsFunctions:
         for row in rows:
             process_row(row)
 
-        stop = datetime.now()
-        ic('Time elapsed for extracting:', (stop - start))
+        # stop = datetime.now()
+        # ic('Time elapsed for extracting:', (stop - start))
         return staff_details
 
 
@@ -151,20 +151,20 @@ class MBillsFunctions:
 
         :return: tuple of staff with dependant(s)
         """
-        start = datetime.now()
+        # start = datetime.now()
         for staff, dependants in staff_detes.items():
             ic.disable()
             if staff == person:
-                ic('Found with key:', staff, dependants)
-                stop = datetime.now()
-                ic('Time for Search elapsed:', stop - start)
+                # ic('Found with key:', staff, dependants)
+                # stop = datetime.now()
+                # ic('Time for Search elapsed:', stop - start)
                 return staff.title(), dependants, 'k'
             else:
                 for d in dependants:
                     if d == person:
-                        ic('Found with value:', staff, dependants)
-                        stop = datetime.now()
-                        ic('Time for Search elapsed:', stop - start)
+                        # ic('Found with value:', staff, dependants)
+                        # stop = datetime.now()
+                        # ic('Time for Search elapsed:', stop - start)
                         return staff, dependants, 'v'
         return None, None, None
 
@@ -220,7 +220,7 @@ class MBillsFunctions:
         :return: Amount from cell
         """
         ic.disable()
-        s1 = datetime.now()
+        # s1 = datetime.now()
         dept = MBillsFunctions.getDepartmentFromName(person, all_people)
 
         sheet = workbook[dept]
@@ -248,7 +248,7 @@ class MBillsFunctions:
         wb = workbook
         sheet = wb[dept]
         start = datetime.now()
-        ic.enable()
+        # ic.enable()
         for row in sheet.iter_rows(min_row=4, max_row=500, min_col=1, max_col=1):
             for cell in row:
                 if cell.value == person:
@@ -257,8 +257,8 @@ class MBillsFunctions:
                         c2.value = '=' + str(amount)
                         MBillsFunctions.saveFile(wb, 'save1.xlsx')
                         stop = datetime.now()
-                        ic('Time for actual insertion:', stop - start)
-                        ic('Amount inserted:', amount)
+                        # ic('Time for actual insertion:', stop - start)
+                        # ic('Amount inserted:', amount)
                         return True
                     else:
                         c2.value = str(c2.value) + '+' + str(amount)
