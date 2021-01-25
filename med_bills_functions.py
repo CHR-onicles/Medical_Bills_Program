@@ -4,8 +4,11 @@ from datetime import datetime
 
 
 
+
+
 # Global variables
 staff_details = {}
+
 
 class MBillsFunctions:
     """
@@ -57,7 +60,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def getAllDependantNames(workbook):
+    def getAllDependantNames(workbook):  # todo: change name as it is misleading
         """
         Function to extract all spouse, and children's names from Staff List File.
 
@@ -155,15 +158,15 @@ class MBillsFunctions:
                 ic('Found with key:', staff, dependants)
                 stop = datetime.now()
                 ic('Time for Search elapsed:', stop - start)
-                return staff, dependants
+                return staff.title(), dependants, 'k'
             else:
                 for d in dependants:
                     if d == person:
                         ic('Found with value:', staff, dependants)
                         stop = datetime.now()
                         ic('Time for Search elapsed:', stop - start)
-                        return staff, dependants
-        return None, None
+                        return staff, dependants, 'v'
+        return None, None, None
 
     @staticmethod
     def searchForCasualOrGuest(people_in_med_bill, person):
@@ -181,7 +184,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def getDepartmentFromName(person, all_people_and_dept):
+    def getDepartmentFromName(person: str, all_people_and_dept: list):
         """
         Function that scans Med Bills File for a person's department.
 
@@ -193,9 +196,10 @@ class MBillsFunctions:
         """
         for names in all_people_and_dept:
             if person == names.split('|')[0]:
-                ic.enable()
+                ic.disable()
                 ic(names.split('|')[1])
                 return names.split('|')[1]
+        return None
 
 
     @staticmethod
@@ -229,18 +233,46 @@ class MBillsFunctions:
                             digits = temp.split('+')
                             temp = sum([float(x) for x in digits])
                         amt = float(temp)
-                        s2 = datetime.now()
-                        ic('Time taken to get amount:', s2 - s1)
-                        ic('Amount:', amt)
+                        # s2 = datetime.now()
+                        # ic('Time taken to get amount:', s2 - s1)
+                        # ic('Amount:', amt)
                         return f'{amt:.2f}'
                     else:
-                        s2 = datetime.now()
-                        ic('Time taken to get amount:', s2 - s1)
+                        # s2 = datetime.now()
+                        # ic('Time taken to get amount:', s2 - s1)
                         return f'{cell.offset(row=0, column=months.get(month, 0)).value:.2f}'  # returns 0
 
 
     @staticmethod
-    def saveFile(workbook, new_name):
+    def insertAmountIntoMedBills(workbook, person: str, dept: str, offset_col: int, offset_row: int, amount: str):
+        wb = workbook
+        sheet = wb[dept]
+        start = datetime.now()
+        ic.enable()
+        for row in sheet.iter_rows(min_row=4, max_row=500, min_col=1, max_col=1):
+            for cell in row:
+                if cell.value == person:
+                    c2 = cell.offset(row=offset_row, column=offset_col)
+                    if c2.value == 0:
+                        c2.value = '=' + str(amount)
+                        MBillsFunctions.saveFile(wb, 'save1.xlsx')
+                        stop = datetime.now()
+                        ic('Time for actual insertion:', stop - start)
+                        ic('Amount inserted:', amount)
+                        return True
+                    else:
+                        c2.value = str(c2.value) + '+' + str(amount)
+                        MBillsFunctions.saveFile(wb, 'save1.xlsx')
+                        # stop = datetime.now()
+                        # ic('Time for actual insertion:', stop - start)
+                        # ic('Amount inserted:', amount)
+                        return True
+
+        return False
+
+
+    @staticmethod
+    def saveFile(workbook, new_name: str):
         """
 
         :param workbook:
@@ -249,7 +281,12 @@ class MBillsFunctions:
 
         :return: Boolean whether save was successful or not
         """
-        return workbook.save(new_name)
+        try:
+            workbook.save(new_name)
+        except:
+            return False
+        else:
+            return True
 
 
 

@@ -1,9 +1,9 @@
-from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool, QRunnable, QObject)
-from PyQt5.QtGui import (QPixmap, QIcon)
+from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool, QRunnable, QObject, QAbstractTableModel)
+from PyQt5.QtGui import (QIcon)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
-                             QCompleter, QMessageBox,
-                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QStatusBar, QListView,
-                             QStyledItemDelegate)
+                             QCompleter, QMessageBox, QTableView, QStyledItemDelegate,
+                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QStatusBar, QListView)
+
 import sys
 from icecream import ic
 import openpyxl
@@ -23,10 +23,18 @@ ic.configureOutput(includeContext=True)
 
 
 
+class RecentlyEditedTableModel(QAbstractTableModel):
+
+    def __init__(self):
+        super(RecentlyEditedTableModel, self).__init__()
+
+
+
+
 
 class MainApp(QMainWindow):
     """
-    Main App
+    Main App configurations.
     """
 
     def __init__(self):
@@ -41,6 +49,8 @@ class MainApp(QMainWindow):
         self.setMinimumSize(QSize(1000, 720))
 
         # Medical Bills Files configs -------------------------------------------------------------------
+        self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
+                       'August': 9, 'September': 10, 'October': 11, 'November': 12, 'December': 13}
         self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initializeFiles('test_med_bills_20.xlsx',
                                                                                     'test_staff_list.xlsx')
         self.all_names_and_dept = MBillsFunctions.getAllMedBillsNamesAndDept(self.wkbk_med_bills)
@@ -148,8 +158,6 @@ class MainApp(QMainWindow):
         self.widgets()
 
     def widgets(self):
-        self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
-                       'August': 9, 'September': 10, 'October': 11, 'November': 12, 'December': 13}
         self.UI.combo_months.addItems(list(self.months.keys()))
 
         self.UI.entry_staff_or_dependant.setCompleter(self.completer)
@@ -159,6 +167,9 @@ class MainApp(QMainWindow):
             lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
         self.UI.btn_quick_search.clicked.connect(
             lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
+
+        self.UI.entry_staff_or_dependant.returnPressed.connect(
+            lambda: self.populateStaffDetails(self.UI.entry_staff_or_dependant.text().strip()))
 
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.status_bar = QStatusBar()
@@ -171,6 +182,8 @@ class MainApp(QMainWindow):
         self.status_bar.setFixedHeight(60)
         self.setContentsMargins(0, 0, 20, 0)
 
+        self.UI.btn_submit.clicked.connect(self.InsertIntoMedBills)
+
 
 
     def populateStaffDetails(self, person):
@@ -178,10 +191,8 @@ class MainApp(QMainWindow):
         person_status = ['Staff Name:', 'Guest Name:', 'Casual Name:']
         self.clearStaffDetails()
 
-        s_name, d_name = MBillsFunctions.searchForStaffFromStaffList(person.upper(),  # all names in staff list are uppercase
-                                                                     self.staff_details)
-        ic.enable()
-        ic(s_name, d_name)
+        s_name, d_name, _ = MBillsFunctions.searchForStaffFromStaffList(person.upper(),  # all names in staff list are uppercase
+                                                                        self.staff_details)
 
         if (s_name and d_name) is not None:
             self.UI.lbl_staff_name.setText(person_status[0])
@@ -232,8 +243,50 @@ class MainApp(QMainWindow):
         self.UI.combo_children.clear()
         self.UI.entry_cur_amount.setText('GH₵ ')
 
+    def InsertIntoMedBills(self):
+        # start = datetime.now()
+        person_typed = self.UI.entry_staff_or_dependant.text()
+        amount = str(self.UI.entry_amount.text()[4:])
+        offset_col = self.months[self.UI.combo_months.currentText()]
+        ic.disable()
+        # ic(offset_col)
 
+        if person_typed.upper() in self.staff_details.keys():  # check if permanent staff was typed
+            dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
+            print('entered staff')
+            MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, 2, 0, amount)
+        else:  # person could be dependant or casual/guest
+            actual_staff, dependant, status  = MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(),
+                                                                                           self.staff_details)
+            actual_staff = actual_staff.title()
+            dependant = [x.title() for x in dependant]
+            print(actual_staff, dependant, status)
+            # Checking for dependant
+            if status == 'v':  # found dependant
+                dept = MBillsFunctions.getDepartmentFromName(actual_staff, self.all_names_and_dept)
+                if dept is not None:
+                    # global person_typed
+                    # 2 if person is spouse of staff else 1 for child of staff
+                    if self.UI.entry_staff_or_dependant.text() not in dependant[2:]:  # cant use person_typed cuz of global scope probs
+                        offset_row = 2
+                        print('entered spouse')
+                    else:
+                        offset_row = 1
+                        print('entered child')
+                    MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, actual_staff,
+                                                             dept, offset_col, offset_row, amount)
 
+            else:  # person is guest/casual
+                print('entered guest')
+                dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
+                MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0, amount)
+
+        self.UI.entry_staff_or_dependant.clear()
+        self.UI.entry_amount.setText('GH₵ ')
+
+        # stop = datetime.now()
+        ic.disable()
+        # ic('Time taken to insert:', stop-start)
 
 
 
