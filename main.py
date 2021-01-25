@@ -26,7 +26,7 @@ ic.configureOutput(includeContext=True)
 
 class MainApp(QMainWindow):
     """
-    Main Controls of App
+    Main App
     """
 
     def __init__(self):
@@ -73,6 +73,72 @@ class MainApp(QMainWindow):
             outline: 0;
             color: #FFFFFF;
         }
+        
+        QScrollBar:vertical
+        {
+            background-color: #605F5F;
+            width: 15px;
+            margin: 15px 3px 15px 3px;
+            border: 1px transparent #2A2929;
+            border-radius: 4px;
+        }
+
+        QScrollBar::handle:vertical
+        {
+            background-color: #2A2929;
+            min-height: 5px;
+            border-radius: 4px;
+        }
+        
+        QScrollBar::sub-line:vertical
+        {
+            margin: 3px 0px 3px 0px;
+            border-image: url(:/qss_icons/up_arrow_disabled.png);
+            height: 10px;
+            width: 10px;
+            subcontrol-position: top;
+            subcontrol-origin: margin;
+        }
+        
+        QScrollBar::add-line:vertical
+        {
+            margin: 3px 0px 3px 0px;
+            border-image: url(:/qss_icons/down_arrow_disabled);
+            height: 10px;
+            width: 10px;
+            subcontrol-position: bottom;
+            subcontrol-origin: margin;
+        }
+        
+        QScrollBar::sub-line:vertical:hover,QScrollBar::sub-line:vertical:on
+        {
+            border-image: url(:/qss_icons/up_arrow.png);
+            height: 10px;
+            width: 10px;
+            subcontrol-position: top;
+            subcontrol-origin: margin;
+        }
+        
+        
+        QScrollBar::add-line:vertical:hover, QScrollBar::add-line:vertical:on
+        {
+            border-image: url(:/qss_icons/down_arrow);
+            height: 10px;
+            width: 10px;
+            subcontrol-position: bottom;
+            subcontrol-origin: margin;
+        }
+        
+        QScrollBar::down-arrow:vertical
+        {
+            background: none;
+        }
+        
+        QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
+        {
+            background: none;
+        }
+        
         """)
 
 
@@ -83,11 +149,15 @@ class MainApp(QMainWindow):
         self.widgets()
 
     def widgets(self):
+        months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
+                  'August': 9, 'September': 10, 'October': 11, 'November': 12, 'December': 13}
+        self.UI.combo_months.addItems(list(months.keys()))
+
         self.UI.entry_staff_or_dependant.setCompleter(self.completer)
 
         self.UI.entry_quick_search.setCompleter(self.completer)
         self.UI.entry_quick_search.returnPressed.connect(lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
-        self.UI.btn_quick_search.clicked.connect(lambda: self.populateStaffDetails(self.UI.entry_quick_search.text()))
+        self.UI.btn_quick_search.clicked.connect(lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
 
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.status_bar = QStatusBar()

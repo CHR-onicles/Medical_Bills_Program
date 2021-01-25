@@ -46,9 +46,6 @@ class UIMainWindow(QWidget):
         self.lbl_month = QLabel('Month:')
         self.lbl_month.setObjectName('lbl_titles')
         self.combo_months = QComboBox()
-        months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-                  'October', 'November', 'December']
-        self.combo_months.addItems(months)
         self.combo_months.setObjectName('combo_titles')
 
         self.lbl_quick_search = QLabel('Quick Search For Dependant or Staff:')
