@@ -1263,13 +1263,6 @@ QListWidget::item {
     color: black;
 }
 
-QMessageBox {
-    messagebox-critical-icon	: url(:/qss_icons/critical.png);
-    messagebox-information-icon	: url(:/qss_icons/information.png);
-    messagebox-question-icon	: url(:/qss_icons/question.png);
-    messagebox-warning-icon:    : url(:/qss_icons/warning.png);
-}
-
 ColorButton::enabled {
     border-radius: 0px;
     border: 1px solid #444444;
