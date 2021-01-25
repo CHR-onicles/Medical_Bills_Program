@@ -16,7 +16,7 @@ def main_window_style():
     }
     
     QComboBox#combo_titles {
-        font: 20pt century gothic;
+        font: 18pt century gothic;
     }
     
     QPushButton#btn_quick_search_and_refresh {

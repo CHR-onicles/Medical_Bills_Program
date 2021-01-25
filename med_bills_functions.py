@@ -228,15 +228,15 @@ class MBillsFunctions:
                         if '+' in temp:
                             digits = temp.split('+')
                             temp = sum([float(x) for x in digits])
-                        amt = round(float(temp), 2)
+                        amt = float(temp)
                         s2 = datetime.now()
                         ic('Time taken to get amount:', s2 - s1)
                         ic('Amount:', amt)
-                        return amt
+                        return f'{amt:.2f}'
                     else:
                         s2 = datetime.now()
                         ic('Time taken to get amount:', s2 - s1)
-                        return cell.offset(row=0, column=months.get(month, 0)).value
+                        return f'{cell.offset(row=0, column=months.get(month, 0)).value:.2f}'  # returns 0
 
 
     @staticmethod
@@ -244,7 +244,9 @@ class MBillsFunctions:
         """
 
         :param workbook:
+
         :param new_name:
+
         :return: Boolean whether save was successful or not
         """
         return workbook.save(new_name)
