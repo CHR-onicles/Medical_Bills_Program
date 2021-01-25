@@ -22,37 +22,12 @@ from med_bills_functions import MBillsFunctions
 ic.configureOutput(includeContext=True)
 
 
-class ExtractionRunner(QRunnable):
-
-    def __init__(self, workbook):
-        super(ExtractionRunner, self).__init__()
-        ic('In runner')
-        self.workbook = workbook
-        self.signals = RunnerSignals()
-
-    @pyqtSlot()
-    def run(self):
-        staff_details = MBillsFunctions.getDetailsOfPermanentStaff(self.workbook)
-        self.signals.signal_staff_details.emit(staff_details)
-        ic('run in Runner')
-        # ic('Size of Staff details:', len(staff_details))
-
-
-class RunnerSignals(QObject):
-    """
-    Class inheriting from QObject to create signals because QRunnables cannot create signals.
-    """
-    signal_staff_details = pyqtSignal(dict)
-
-
 
 
 class MainApp(QMainWindow):
     """
     Main Controls of App
     """
-    # signal_wkbk_staff_list = pyqtSignal(openpyxl.workbook.workbook.Workbook)
-    signal_wkbk_staff_list = pyqtSignal(object)
 
     def __init__(self):
         super().__init__()
@@ -68,9 +43,9 @@ class MainApp(QMainWindow):
         # Medical Bills Files configs -------------------------------------------------------------------
         self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initializeFiles('test_med_bills_20.xlsx',
                                                                                     'test_staff_list.xlsx')
-        self.signal_wkbk_staff_list.emit(self.wkbk_staff_list)
         self.all_names = MBillsFunctions.getAllMedBillsNames(self.wkbk_med_bills)
         self.all_names.extend(MBillsFunctions.getAllDependantNames(self.wkbk_staff_list))
+        self.staff_details = MBillsFunctions.getDetailsOfPermanentStaff(self.wkbk_staff_list)
 
         # Completer configs -----------------------------------------------------------------------------
         self.completer = QCompleter(self.all_names)
@@ -100,17 +75,6 @@ class MainApp(QMainWindow):
         }
         """)
 
-        # Threading here -----------------------------------
-        s1 = datetime.now()
-        ic('Starting thread')
-        self.threadpool = QThreadPool()
-        self.threadpool.setMaxThreadCount(5)
-        self.worker = ExtractionRunner(self.wkbk_staff_list)
-        self.worker.signals.signal_staff_details.connect(self.on_signal_details)
-        self.threadpool.start(self.worker)
-
-        s2 = datetime.now()
-        ic('Finished thread:', s2 - s1)
 
         self.UIComp()
 
@@ -122,7 +86,7 @@ class MainApp(QMainWindow):
         self.UI.entry_staff_or_dependant.setCompleter(self.completer)
 
         self.UI.entry_quick_search.setCompleter(self.completer)
-        # self.UI.entry_quick_search.returnPressed.connect(lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
+        self.UI.entry_quick_search.returnPressed.connect(lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
         self.UI.btn_quick_search.clicked.connect(lambda: self.populateStaffDetails(self.UI.entry_quick_search.text()))
 
         # STATUS BAR ---------------------------------------------------------------------------------------
@@ -137,20 +101,12 @@ class MainApp(QMainWindow):
         self.setContentsMargins(0, 0, 20, 0)
 
 
-    @pyqtSlot(dict)
-    def on_signal_details(self, det):
-        self.staff_details = det
-        ic('grab details called')
-        ic('Length of staff details:', len(self.staff_details))
 
     def populateStaffDetails(self, person):
-        ic.enable()
-        # self.clearStaffDetails()
+        self.clearStaffDetails()
 
-        # ic('Finished staff Details')
         details = MBillsFunctions.searchForPerson(person.upper(),
                                                   self.staff_details)  # all names in staff list are uppercase
-        # print('Extracted searched person\'s details')
 
         if details is not None:
             self.UI.entry_staff_name.setText(details[0].title())
@@ -159,10 +115,6 @@ class MainApp(QMainWindow):
         else:
             pass
             # todo: show message box here
-
-
-        # ic.disable()
-
 
 
 
