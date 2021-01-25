@@ -48,8 +48,6 @@ class MainApp(QMainWindow):
         self.resize(1300, 800)
         # self.resize(1000, 800)  # for testing purposes
         self.setMinimumSize(QSize(1000, 720))
-        ic.enable()
-        ic()
 
         # Medical Bills Files configs -------------------------------------------------------------------
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,

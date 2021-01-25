@@ -220,7 +220,7 @@ class MBillsFunctions:
         :return: Amount from cell
         """
         ic.disable()
-        # s1 = datetime.now()
+        s1 = datetime.now()
         dept = MBillsFunctions.getDepartmentFromName(person, all_people)
 
         sheet = workbook[dept]
@@ -233,13 +233,13 @@ class MBillsFunctions:
                             digits = temp.split('+')
                             temp = sum([float(x) for x in digits])
                         amt = float(temp)
-                        # s2 = datetime.now()
-                        # ic('Time taken to get amount:', s2 - s1)
-                        # ic('Amount:', amt)
+                        s2 = datetime.now()
+                        ic('Time taken to get amount:', s2 - s1)
+                        ic('Amount:', amt)
                         return f'{amt:.2f}'
                     else:
-                        # s2 = datetime.now()
-                        # ic('Time taken to get amount:', s2 - s1)
+                        s2 = datetime.now()
+                        ic('Time taken to get amount:', s2 - s1)
                         return f'{cell.offset(row=0, column=months.get(month, 0)).value:.2f}'  # returns 0
 
 
@@ -248,7 +248,7 @@ class MBillsFunctions:
         wb = workbook
         sheet = wb[dept]
         start = datetime.now()
-        # ic.enable()
+        ic.enable()
         for row in sheet.iter_rows(min_row=4, max_row=500, min_col=1, max_col=1):
             for cell in row:
                 if cell.value == person:
@@ -257,15 +257,15 @@ class MBillsFunctions:
                         c2.value = '=' + str(amount)
                         MBillsFunctions.saveFile(wb, 'save1.xlsx')
                         stop = datetime.now()
-                        # ic('Time for actual insertion:', stop - start)
-                        # ic('Amount inserted:', amount)
+                        ic('Time for actual insertion:', stop - start)
+                        ic('Amount inserted:', amount)
                         return True
                     else:
                         c2.value = str(c2.value) + '+' + str(amount)
                         MBillsFunctions.saveFile(wb, 'save1.xlsx')
-                        # stop = datetime.now()
-                        # ic('Time for actual insertion:', stop - start)
-                        # ic('Amount inserted:', amount)
+                        stop = datetime.now()
+                        ic('Time for actual insertion:', stop - start)
+                        ic('Amount inserted:', amount)
                         return True
 
         return False
@@ -283,8 +283,10 @@ class MBillsFunctions:
         """
         try:
             workbook.save(new_name)
+        except PermissionError:
+            raise Exception('Couldn\'t write to the file because it is probably open??')
         except:
-            return False
+            raise Exception('There was a problem saving!')
         else:
             return True
 
