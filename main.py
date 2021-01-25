@@ -111,6 +111,17 @@ class MainApp(QMainWindow):
         if details is not None:
             self.UI.entry_staff_name.setText(details[0].title())
             self.UI.entry_department.setText(details[1][0])
+            if details[1][1] is not None:  # Spouse name
+                self.UI.entry_spouse.setText(details[1][1].title())
+            else:
+                self.UI.entry_spouse.setText('None')
+
+            for child in details[1][2:]:
+                if child is None:
+                    self.UI.combo_children.addItem('None')
+                else:
+                    self.UI.combo_children.addItem(child.title())
+                    self.UI.combo_children.setCurrentText(person)
 
         else:
             pass
