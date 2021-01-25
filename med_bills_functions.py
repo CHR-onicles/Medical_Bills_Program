@@ -225,9 +225,13 @@ class MBillsFunctions:
                 if cell.value == person:
                     if '=' in str(cell.offset(row=0, column=months.get(month, 0)).value):
                         temp = str(cell.offset(row=0, column=months.get(month, 0)).value)[1:]
+                        if '+' in temp:
+                            digits = temp.split('+')
+                            temp = sum([float(x) for x in digits])
                         amt = round(float(temp), 2)
                         s2 = datetime.now()
                         ic('Time taken to get amount:', s2 - s1)
+                        ic('Amount:', amt)
                         return amt
                     else:
                         s2 = datetime.now()
@@ -235,7 +239,6 @@ class MBillsFunctions:
                         return cell.offset(row=0, column=months.get(month, 0)).value
 
                 # todo: check to evaluate expression -> '330+11.11+20'
-                # todo: exception for typing in dependants not in MED BILL file
 
 
     @staticmethod

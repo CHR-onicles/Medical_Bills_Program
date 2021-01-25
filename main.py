@@ -1,7 +1,7 @@
 from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool, QRunnable, QObject)
 from PyQt5.QtGui import (QPixmap, QIcon)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
-                             QCompleter,
+                             QCompleter, QMessageBox,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QStatusBar, QListView,
                              QStyledItemDelegate)
 import sys
@@ -183,7 +183,7 @@ class MainApp(QMainWindow):
         ic.enable()
         ic(s_name, d_name)
 
-        if s_name and d_name is not None:
+        if (s_name and d_name) is not None:
             self.UI.lbl_staff_name.setText(person_status[0])
             self.UI.entry_staff_name.setText(s_name.title())
             self.UI.entry_department.setText(d_name[0])
@@ -205,19 +205,24 @@ class MainApp(QMainWindow):
 
         else:  # means person is a guest or casual
             guest_or_casual = MBillsFunctions.searchForCasualOrGuest(self.all_names_and_dept, person)
-            amt = MBillsFunctions.getPersonAmountForMonth(self.wkbk_med_bills, person, self.all_names_and_dept,
-                                                          self.months, self.UI.combo_months.currentText())
-            if 'GUEST' in guest_or_casual.split('|')[1]:
-                self.UI.lbl_staff_name.setText(person_status[1])
-                self.UI.entry_department.setText('GUEST')
-            elif 'CASUAL' in guest_or_casual.split('|')[1]:
-                self.UI.lbl_staff_name.setText(person_status[-1])
-                self.UI.entry_department.setText('CASUAL')
+            if guest_or_casual is not None:
+                amt = MBillsFunctions.getPersonAmountForMonth(self.wkbk_med_bills, guest_or_casual.split('|')[0],
+                                                              self.all_names_and_dept, self.months,
+                                                              self.UI.combo_months.currentText())
+                if 'GUEST' in guest_or_casual.split('|')[1]:
+                    self.UI.lbl_staff_name.setText(person_status[1])
+                    self.UI.entry_department.setText('GUEST')
+                elif 'CASUAL' in guest_or_casual.split('|')[1]:
+                    self.UI.lbl_staff_name.setText(person_status[-1])
+                    self.UI.entry_department.setText('CASUAL')
 
-            self.UI.entry_staff_name.setText(person)
-            self.UI.entry_spouse.setText('None')
-            self.UI.combo_children.addItem('None')
-            self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
+                self.UI.entry_staff_name.setText(guest_or_casual.split('|')[0])
+                self.UI.entry_spouse.setText('None')
+                self.UI.combo_children.addItem('None')
+                self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
+
+            else:
+                QMessageBox.critical(self, 'Search Error', 'The Person you entered cannot be found!')
 
 
     def clearStaffDetails(self):
