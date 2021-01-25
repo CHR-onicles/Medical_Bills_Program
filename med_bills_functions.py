@@ -1,6 +1,4 @@
-import os
 import openpyxl
-from openpyxl.styles import colors, PatternFill
 from icecream import ic
 from datetime import datetime
 
@@ -162,19 +160,19 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def searchForPerson(person, staff_details):
+    def searchForPerson(person, staff_detes):
         """
         Function to search for anyone using staff list. If found, returns staff's details...if not returns none for
         those particulars in the details(For casuals and guests).
 
-        :param staff_details: dictionary of staff with details
+        :param staff_detes: dictionary of staff with details
 
         :param person: person to search for
 
         :return: tuple of staff with dependant(s)
         """
         start = datetime.now()
-        for staff, dependants in staff_details.items():
+        for staff, dependants in staff_detes.items():
             ic.disable()
             if staff == person:
                 ic('Found with key:', staff, dependants)

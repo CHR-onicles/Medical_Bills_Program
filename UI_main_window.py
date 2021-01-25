@@ -165,3 +165,4 @@ class UIMainWindow(QWidget):
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
     #   1. Set Tooltips [Optional]
+    #   2. Set entry_staff_or_dependant to have launch focus [Optional]
