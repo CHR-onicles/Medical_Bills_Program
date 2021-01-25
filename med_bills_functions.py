@@ -163,7 +163,7 @@ class MBillsFunctions:
                         stop = datetime.now()
                         ic('Time for Search elapsed:', stop - start)
                         return staff, dependants
-
+        return None, None
 
     @staticmethod
     def searchForCasualOrGuest(people_in_med_bill, person):
@@ -193,6 +193,8 @@ class MBillsFunctions:
         """
         for names in all_people_and_dept:
             if person == names.split('|')[0]:
+                ic.enable()
+                ic(names.split('|')[1])
                 return names.split('|')[1]
 
 
@@ -234,7 +236,6 @@ class MBillsFunctions:
 
                 # todo: check to evaluate expression -> '330+11.11+20'
                 # todo: exception for typing in dependants not in MED BILL file
-                # todo: exception for typing guests and casuals
 
 
     @staticmethod

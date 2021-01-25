@@ -174,31 +174,33 @@ class MainApp(QMainWindow):
 
 
     def populateStaffDetails(self, person):
+
         person_status = ['Staff Name:', 'Guest Name:', 'Casual Name:']
         self.clearStaffDetails()
 
-        details = MBillsFunctions.searchForStaffFromStaffList(person.upper(),
-                                                              self.staff_details)  # all names in staff list are uppercase
+        s_name, d_name = MBillsFunctions.searchForStaffFromStaffList(person.upper(),  # all names in staff list are uppercase
+                                                                     self.staff_details)
+        ic.enable()
+        ic(s_name, d_name)
 
-        if details is not None:
+        if s_name and d_name is not None:
             self.UI.lbl_staff_name.setText(person_status[0])
-            self.UI.entry_staff_name.setText(details[0].title())
-            self.UI.entry_department.setText(details[1][0])
-            if details[1][1] is not None:  # Spouse name
-                self.UI.entry_spouse.setText(details[1][1].title())
+            self.UI.entry_staff_name.setText(s_name.title())
+            self.UI.entry_department.setText(d_name[0])
+            if d_name[1] is not None:  # Spouse name
+                self.UI.entry_spouse.setText(d_name[1].title())
             else:
                 self.UI.entry_spouse.setText('None')
 
-            for child in details[1][2:]:
+            for child in d_name[2:]:
                 if child is None:
                     self.UI.combo_children.addItem('None')
                 else:
                     self.UI.combo_children.addItem(child.title())
                     self.UI.combo_children.setCurrentText(person)
 
-            amt = MBillsFunctions.getPersonAmountForMonth(self.wkbk_med_bills, person, self.all_names_and_dept,
+            amt = MBillsFunctions.getPersonAmountForMonth(self.wkbk_med_bills, s_name.title(), self.all_names_and_dept,
                                                           self.months, self.UI.combo_months.currentText())
-
             self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
 
         else:  # means person is a guest or casual
@@ -208,7 +210,6 @@ class MainApp(QMainWindow):
             if 'GUEST' in guest_or_casual.split('|')[1]:
                 self.UI.lbl_staff_name.setText(person_status[1])
                 self.UI.entry_department.setText('GUEST')
-
             elif 'CASUAL' in guest_or_casual.split('|')[1]:
                 self.UI.lbl_staff_name.setText(person_status[-1])
                 self.UI.entry_department.setText('CASUAL')
