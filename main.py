@@ -1,4 +1,5 @@
-from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool, QRunnable, QObject, QAbstractTableModel)
+from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool, QRunnable, QObject,
+                          QAbstractTableModel)
 from PyQt5.QtGui import (QIcon)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
                              QCompleter, QMessageBox, QTableView, QStyledItemDelegate,
@@ -158,6 +159,8 @@ class MainApp(QMainWindow):
         self.widgets()
 
     def widgets(self):
+        self.UI.btn_submit.setEnabled(False)
+
         self.UI.combo_months.addItems(list(self.months.keys()))
 
         self.UI.entry_staff_or_dependant.setCompleter(self.completer)
@@ -182,16 +185,25 @@ class MainApp(QMainWindow):
         self.status_bar.setFixedHeight(60)
         self.setContentsMargins(0, 0, 20, 0)
 
+        self.UI.entry_staff_or_dependant.textChanged.connect(self.checkEntryStaffDepState)
+        self.UI.entry_amount.textChanged.connect(self.checkEntryStaffDepState)
         self.UI.btn_submit.clicked.connect(self.InsertIntoMedBills)
 
 
+    def checkEntryStaffDepState(self):
+        if len(self.UI.entry_staff_or_dependant.text()) >= 1 and \
+                 len(self.UI.entry_amount.text()) > 4:
+            self.UI.btn_submit.setEnabled(True)
+        else:
+            self.UI.btn_submit.setEnabled(False)
 
     def populateStaffDetails(self, person):
 
         person_status = ['Staff Name:', 'Guest Name:', 'Casual Name:']
         self.clearStaffDetails()
 
-        s_name, d_name, _ = MBillsFunctions.searchForStaffFromStaffList(person.upper(),  # all names in staff list are uppercase
+        s_name, d_name, _ = MBillsFunctions.searchForStaffFromStaffList(person.upper(),
+                                                                        # all names in staff list are uppercase
                                                                         self.staff_details)
 
         if (s_name and d_name) is not None:
@@ -243,51 +255,57 @@ class MainApp(QMainWindow):
         self.UI.combo_children.clear()
         self.UI.entry_cur_amount.setText('GH₵ ')
 
+
     def InsertIntoMedBills(self):
-        # start = datetime.now()
-        person_typed = self.UI.entry_staff_or_dependant.text()
-        amount = str(self.UI.entry_amount.text()[4:])
-        offset_col = self.months[self.UI.combo_months.currentText()]
-        ic.disable()
-        # ic(offset_col)
+        if self.UI.entry_staff_or_dependant != '' or self.UI.entry_amount != 'GH₵ ':
+            # start = datetime.now()
+            person_typed = self.UI.entry_staff_or_dependant.text()
+            amount = str(self.UI.entry_amount.text()[4:])
+            offset_col = self.months[self.UI.combo_months.currentText()]
+            ic.disable()
+            # ic(offset_col)
 
-        if person_typed.upper() in self.staff_details.keys():  # check if permanent staff was typed
-            dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
-            print('entered staff')
-            MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, 2, 0, amount)
-        else:  # person could be dependant or casual/guest
-            actual_staff, dependant, status  = MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(),
-                                                                                           self.staff_details)
-            actual_staff = actual_staff.title()
-            dependant = [x.title() for x in dependant]
-            print(actual_staff, dependant, status)
-            # Checking for dependant
-            if status == 'v':  # found dependant
-                dept = MBillsFunctions.getDepartmentFromName(actual_staff, self.all_names_and_dept)
-                if dept is not None:
-                    # global person_typed
-                    # 2 if person is spouse of staff else 1 for child of staff
-                    if self.UI.entry_staff_or_dependant.text() not in dependant[2:]:  # cant use person_typed cuz of global scope probs
-                        offset_row = 2
-                        print('entered spouse')
-                    else:
-                        offset_row = 1
-                        print('entered child')
-                    MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, actual_staff,
-                                                             dept, offset_col, offset_row, amount)
-
-            else:  # person is guest/casual
-                print('entered guest')
+            if person_typed.upper() in self.staff_details.keys():  # check if permanent staff was typed
                 dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
-                MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0, amount)
+                print('entered staff')
+                MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, 2, 0, amount)
+            else:  # person could be dependant or casual/guest
+                actual_staff, dependant, status = MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(),
+                                                                                              self.staff_details)
+                actual_staff = actual_staff.title()
+                dependant = [x.title() for x in dependant]
+                print(actual_staff, dependant, status)
+                # Checking for dependant
+                if status == 'v':  # found dependant
+                    dept = MBillsFunctions.getDepartmentFromName(actual_staff, self.all_names_and_dept)
+                    if dept is not None:
+                        # global person_typed
+                        # 2 if person is spouse of staff else 1 for child of staff
+                        if self.UI.entry_staff_or_dependant.text() not in dependant[
+                                                                          2:]:  # cant use person_typed cuz of global scope probs
+                            offset_row = 2
+                            print('entered spouse')
+                        else:
+                            offset_row = 1
+                            print('entered child')
+                        MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, actual_staff,
+                                                                 dept, offset_col, offset_row, amount)
 
-        self.UI.entry_staff_or_dependant.clear()
-        self.UI.entry_amount.setText('GH₵ ')
+                else:  # person is guest/casual
+                    print('entered guest')
+                    dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
+                    MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0,
+                                                             amount)
 
-        # stop = datetime.now()
-        ic.disable()
-        # ic('Time taken to insert:', stop-start)
+            self.UI.entry_staff_or_dependant.clear()
+            self.UI.entry_amount.setText('GH₵ ')
 
+            # stop = datetime.now()
+            ic.disable()
+            # ic('Time taken to insert:', stop-start)
+
+        else:
+            QMessageBox.critical(self, 'Entry Error', 'Fields cannot be empty!')
 
 
 
