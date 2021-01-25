@@ -88,6 +88,7 @@ class UIMainWindow(QWidget):
         self.lbl_department = QLabel('Department:')
         self.entry_department = QLineEdit()
         self.entry_department.setReadOnly(True)
+        self.entry_department.setObjectName('entry_department')
         self.lbl_spouse = QLabel('Spouse:')
         self.entry_spouse = QLineEdit()
         self.entry_spouse.setReadOnly(True)
@@ -147,7 +148,7 @@ class UIMainWindow(QWidget):
         self.staff_form.addRow(self.lbl_spouse, self.entry_spouse)
         self.staff_form.addRow(self.lbl_children, self.combo_children)
         self.staff_form.addRow(self.lbl_cur_amount, self.entry_cur_amount)
-        self.staff_form.setVerticalSpacing(25)  # fixme: the children combobox might be messed up because of this so watch out
+        self.staff_form.setVerticalSpacing(25)
 
         self.tab1_main_layout.addLayout(self.tab1_quick_search_layout, 18)
         self.tab1_main_layout.addLayout(self.tab1_month_layout, 18)

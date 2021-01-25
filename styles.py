@@ -35,6 +35,10 @@ def main_window_style():
         color: #3d8ec9; /* brighter blue */
     }
     
+    QLineEdit#entry_department {
+        color: rgb(153, 80, 255); /* Dark purple*/
+    }
+    
  
     /* QDarkStyle from here on ---------------------------------------------------------------------------------- */
     
