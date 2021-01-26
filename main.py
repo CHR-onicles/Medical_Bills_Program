@@ -332,6 +332,7 @@ class MainApp(QMainWindow):
 
 
 
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainApp()
@@ -343,4 +344,3 @@ if __name__ == '__main__':
     # TODO:
     #   1. Difference between quick search and typing staff/dependant name directly???
     #   2. Let status bar show status of long processes
-    #   3. Add sound effect when inserted successfully and update status bar

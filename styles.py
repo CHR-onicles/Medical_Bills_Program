@@ -39,7 +39,15 @@ def main_window_style():
         color: rgb(153, 80, 255); /* Dark purple*/
     }
     
- 
+    QMessageBox QLabel{
+        font-size: 12pt;
+    }
+    
+    QMessageBox QPushButton{
+        font-size: 12pt; 
+        min-width: 3em;
+    }
+    
     /* QDarkStyle from here on ---------------------------------------------------------------------------------- */
     
     QProgressBar:horizontal {
