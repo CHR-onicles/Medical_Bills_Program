@@ -220,28 +220,45 @@ class MBillsFunctions:
 
         :return: Amount from cell
         """
-        ic.disable()
         s1 = datetime.now()
         dept = MBillsFunctions.getDepartmentFromName(person, all_people)
+
+        # noinspection SpellCheckingInspection
+        def processCellValue(celll):  # dont want problems with 'cell' from outer scope
+            """
+            Helper function to help in processing cell value for displaying in app.
+
+            :param celll: cell to perform operation on.
+
+            :return: string of cell value appropriate for display.
+            """
+            if '=' in str(celll.value):
+                temp = str(celll.value)[1:]
+                if '+' in temp:
+                    digits = temp.split('+')
+                    temp = sum([float(x) for x in digits])
+                amt = float(temp)
+                return f'{amt:.2f}'
+            else:
+                return f'{celll.value:.2f}'  # returns 0
 
         sheet = workbook[dept]
         for col in sheet.iter_cols(min_row=4, max_row=500, min_col=1, max_col=1):
             for cell in col:
                 if cell.value == person:
-                    if '=' in str(cell.offset(row=0, column=months.get(month, 0)).value):
-                        temp = str(cell.offset(row=0, column=months.get(month, 0)).value)[1:]
-                        if '+' in temp:
-                            digits = temp.split('+')
-                            temp = sum([float(x) for x in digits])
-                        amt = float(temp)
-                        s2 = datetime.now()
-                        ic('Time taken to get amount:', s2 - s1)
-                        ic('Amount:', amt)
-                        return f'{amt:.2f}'
-                    else:
-                        s2 = datetime.now()
-                        ic('Time taken to get amount:', s2 - s1)
-                        return f'{cell.offset(row=0, column=months.get(month, 0)).value:.2f}'  # returns 0
+                    staff_cell = cell.offset(row=0, column=months.get(month, 0))
+                    staff_amt = processCellValue(staff_cell)
+                    child_cell = cell.offset(row=1, column=months.get(month, 0))
+                    child_amt = processCellValue(child_cell)
+                    spouse_cell = cell.offset(row=2, column=months.get(month, 0))
+                    spouse_amt = processCellValue(spouse_cell)
+
+                    s2 = datetime.now()
+                    ic.enable()
+                    ic('Time taken to get amount:', s2 - s1)
+                    ic('Amounts:', staff_amt, child_amt, spouse_amt)
+                    return staff_amt, child_amt, spouse_amt
+
 
 
     @staticmethod

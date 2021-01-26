@@ -234,20 +234,24 @@ class MainApp(QMainWindow):
                 for child in d_name[2:]:
                     if child is None:
                         self.UI.combo_children.addItem('None')
+                        self.UI.combo_children.setEnabled(False)
                     else:
+                        self.UI.combo_children.setEnabled(True)
                         self.UI.combo_children.addItem(child.title())
                         self.UI.combo_children.setCurrentText(person)
 
-                amt = MBillsFunctions.getPersonAmountForMonth(self.wkbk_med_bills, s_name.title(), self.all_names_and_dept,
-                                                              self.months, self.UI.combo_months.currentText())
-                self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
+                staff_amt, child_amt, spouse_amt = MBillsFunctions.\
+                    getPersonAmountForMonth(self.wkbk_med_bills, s_name.title(), self.all_names_and_dept,
+                                            self.months, self.UI.combo_months.currentText())
+                self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(staff_amt))
 
             else:  # means person is a guest or casual
                 guest_or_casual = MBillsFunctions.searchForCasualOrGuest(self.all_names_and_dept, person)
                 if guest_or_casual is not None:
-                    amt = MBillsFunctions.getPersonAmountForMonth(self.wkbk_med_bills, guest_or_casual.split('|')[0],
-                                                                  self.all_names_and_dept, self.months,
-                                                                  self.UI.combo_months.currentText())
+                    staff_amt, child_amt, spouse_amt = MBillsFunctions.\
+                        getPersonAmountForMonth(self.wkbk_med_bills, guest_or_casual.split('|')[0],
+                                                self.all_names_and_dept, self.months,
+                                                self.UI.combo_months.currentText())
                     if 'GUEST' in guest_or_casual.split('|')[1]:
                         self.UI.lbl_staff_name.setText(person_status[1])
                         self.UI.entry_department.setText('GUEST')
@@ -258,7 +262,8 @@ class MainApp(QMainWindow):
                     self.UI.entry_staff_name.setText(guest_or_casual.split('|')[0])
                     self.UI.entry_spouse.setText('None')
                     self.UI.combo_children.addItem('None')
-                    self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(amt))
+                    self.UI.combo_children.setEnabled(False)
+                    self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(staff_amt))
 
                 else:
                     QMessageBox.critical(self, 'Search Error', 'The Person you entered <b>cannot</b> be found!')
