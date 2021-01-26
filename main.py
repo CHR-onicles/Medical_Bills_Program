@@ -165,6 +165,7 @@ class MainApp(QMainWindow):
 
     def widgets(self):
         self.UI.btn_submit.setEnabled(False)
+        self.UI.entry_staff_or_dependant.setFocus()
 
         self.UI.combo_months.addItems(list(self.months.keys()))
 
@@ -195,6 +196,7 @@ class MainApp(QMainWindow):
         self.UI.btn_submit.clicked.connect(self.insertIntoMedBills)
 
         self.UI.combo_months.currentTextChanged.connect(self.updateDetailsForMonth)
+        self.UI.entry_staff_or_dependant.returnPressed.connect(self.UI.entry_amount.setFocus)
         self.UI.entry_amount.returnPressed.connect(self.insertIntoMedBills)
 
 
@@ -321,7 +323,7 @@ class MainApp(QMainWindow):
             ic('Time taken to insert:', stop-start)
 
             self.sfx_player.play()
-            self.status_bar.showMessage('Entry saved successfully...', 4000)
+            self.status_bar.showMessage('Entry saved successfully...', 3000)
 
         else:
             QMessageBox.critical(self, 'Entry Error', 'No record found!')
