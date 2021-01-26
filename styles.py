@@ -48,9 +48,9 @@ def main_window_style():
         min-width: 3em;
     }
     
-    /* QDarkStyle from here on ---------------------------------------------------------------------------------- */
+/* QDarkStyle from here on ------------------------------------------------------------------------------------------ */
     
-    QProgressBar:horizontal {
+QProgressBar:horizontal {
     border: 1px solid #3A3939;
     text-align: center;
     padding: 1px;
