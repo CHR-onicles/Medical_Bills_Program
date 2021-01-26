@@ -44,4 +44,8 @@
   <qresource prefix="icon">
         <file alias="cat">rc/cat.ico</file>
     </qresource>
+
+  <qresource prefix="sfx">
+    <file alias="success">sfx/Success_sfx.wav</file>
+  </qresource>
 </RCC>

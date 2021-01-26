@@ -1,9 +1,10 @@
-from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool, QRunnable, QObject,
+from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool, QRunnable, QObject, QUrl,
                           QAbstractTableModel)
 from PyQt5.QtGui import (QIcon)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
                              QCompleter, QMessageBox, QTableView, QStyledItemDelegate,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QStatusBar, QListView)
+from PyQt5.QtMultimedia import (QSoundEffect)
 
 import sys
 from icecream import ic
@@ -48,6 +49,10 @@ class MainApp(QMainWindow):
         self.resize(1300, 800)
         # self.resize(1000, 800)  # for testing purposes
         self.setMinimumSize(QSize(1000, 720))
+
+        # SFX -------------------------------------------------------------------------------------------
+        self.sfx_player = QSoundEffect()
+        self.sfx_player.setSource(QUrl.fromLocalFile(':/sfx/success'))
 
         # Medical Bills Files configs -------------------------------------------------------------------
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
@@ -171,8 +176,8 @@ class MainApp(QMainWindow):
         self.UI.btn_quick_search.clicked.connect(
             lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
 
-        self.UI.entry_staff_or_dependant.returnPressed.connect(
-            lambda: self.populateStaffDetails(self.UI.entry_staff_or_dependant.text().strip()))
+        # self.UI.entry_staff_or_dependant.returnPressed.connect(
+        #     lambda: self.populateStaffDetails(self.UI.entry_staff_or_dependant.text().strip()))
 
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.status_bar = QStatusBar()
@@ -187,7 +192,15 @@ class MainApp(QMainWindow):
 
         self.UI.entry_staff_or_dependant.textChanged.connect(self.checkEntryStaffDepState)
         self.UI.entry_amount.textChanged.connect(self.checkEntryStaffDepState)
-        self.UI.btn_submit.clicked.connect(self.InsertIntoMedBills)
+        self.UI.btn_submit.clicked.connect(self.insertIntoMedBills)
+
+        self.UI.combo_months.currentTextChanged.connect(self.updateDetailsForMonth)
+        self.UI.entry_amount.returnPressed.connect(self.insertIntoMedBills)
+
+
+    def updateDetailsForMonth(self):
+        if len(self.UI.entry_quick_search.text()) > 0:
+            self.populateStaffDetails(self.UI.entry_quick_search.text())
 
 
     def checkEntryStaffDepState(self):
@@ -256,10 +269,10 @@ class MainApp(QMainWindow):
         self.UI.combo_children.clear()
         self.UI.entry_cur_amount.setText('GH₵ ')
         self.UI.entry_amount.setText('GH₵ ')
-        self.UI.entry_staff_or_dependant.clear()
+        # self.UI.entry_staff_or_dependant.clear()
 
 
-    def InsertIntoMedBills(self):
+    def insertIntoMedBills(self):
         if self.UI.entry_staff_or_dependant.text() in [names.split('|')[0] for names in self.all_names_and_dept]:
             start = datetime.now()
             person_typed = self.UI.entry_staff_or_dependant.text()
@@ -307,6 +320,9 @@ class MainApp(QMainWindow):
             ic.enable()
             ic('Time taken to insert:', stop-start)
 
+            self.sfx_player.play()
+            self.status_bar.showMessage('Entry saved successfully...', 4000)
+
         else:
             QMessageBox.critical(self, 'Entry Error', 'No record found!')
 
@@ -325,4 +341,4 @@ if __name__ == '__main__':
     # TODO:
     #   1. Difference between quick search and typing staff/dependant name directly???
     #   2. Let status bar show status of long processes
-    #   3. Update amount when months combo box changes
+    #   3. Add sound effect when inserted successfully and update status bar
