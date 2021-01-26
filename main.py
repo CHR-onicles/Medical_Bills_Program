@@ -197,6 +197,7 @@ class MainApp(QMainWindow):
         else:
             self.UI.btn_submit.setEnabled(False)
 
+
     def populateStaffDetails(self, person):
 
         person_status = ['Staff Name:', 'Guest Name:', 'Casual Name:']
@@ -274,24 +275,24 @@ class MainApp(QMainWindow):
             else:  # person could be dependant or casual/guest
                 actual_staff, dependant, status = MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(),
                                                                                               self.staff_details)
-                actual_staff = actual_staff.title()
-                dependant = [x.title() for x in dependant if x is not None]
-                ic(actual_staff, dependant, status)
-                # Checking for dependant
-                if status == 'v':  # found dependant
-                    dept = MBillsFunctions.getDepartmentFromName(actual_staff, self.all_names_and_dept)
-                    if dept is not None:
-                        # global person_typed
-                        # 2 if person is spouse of staff else 1 for child of staff
-                        if self.UI.entry_staff_or_dependant.text() not in dependant[
-                                                                          2:]:  # cant use person_typed cuz of global scope probs
-                            offset_row = 2
-                            ic('entered spouse')
-                        else:
-                            offset_row = 1
-                            ic('entered child')
-                        MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, actual_staff,
-                                                                 dept, offset_col, offset_row, amount)
+                if actual_staff is not None:  # check if person is in staff list
+                    actual_staff = actual_staff.title()
+                    dependant = [x.title() for x in dependant if x is not None]
+                    ic(actual_staff, dependant, status)
+                    # Checking for dependant
+                    if status == 'v':  # found dependant
+                        dept = MBillsFunctions.getDepartmentFromName(actual_staff, self.all_names_and_dept)
+                        if dept is not None:
+                            # global person_typed
+                            # 2 if person is spouse of staff else 1 for child of staff
+                            if self.UI.entry_staff_or_dependant.text() not in dependant[2:]:
+                                offset_row = 2
+                                ic('entered spouse')
+                            else:
+                                offset_row = 1
+                                ic('entered child')
+                            MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, actual_staff,
+                                                                     dept, offset_col, offset_row, amount)
 
                 else:  # person is guest/casual
                     ic('entered guest')
