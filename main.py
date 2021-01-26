@@ -164,7 +164,15 @@ class MainApp(QMainWindow):
         self.widgets()
 
     def widgets(self):
+        # Disable these widgets on startup
+        # self.UI.entry_staff_name.setDisabled(True)
+        # self.UI.entry_department.setDisabled(True)
+        # self.UI.entry_spouse.setDisabled(True)
+        # self.UI.combo_children.setDisabled(True)
+        # self.UI.entry_cur_amount1.setDisabled(True)
+
         self.UI.btn_submit.setEnabled(False)
+
         self.UI.entry_staff_or_dependant.setFocus()
 
         self.UI.combo_months.addItems(list(self.months.keys()))
@@ -174,6 +182,7 @@ class MainApp(QMainWindow):
         self.UI.entry_quick_search.setCompleter(self.completer)
         self.UI.entry_quick_search.returnPressed.connect(
             lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
+        # self.UI.entry_quick_search.textChanged.connect(self.awakenStaffDetailsWidgets)
         self.UI.btn_quick_search.clicked.connect(
             lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
 
@@ -203,6 +212,25 @@ class MainApp(QMainWindow):
     def updateDetailsForMonth(self):
         if len(self.UI.entry_quick_search.text()) > 0:
             self.populateStaffDetails(self.UI.entry_quick_search.text())
+
+    # def awakenStaffDetailsWidgets(self):
+    #     if len(self.UI.entry_quick_search.text()) > 0:
+    #         self.UI.entry_staff_name.setDisabled(False)
+    #         self.UI.entry_department.setDisabled(False)
+    #         self.UI.entry_spouse.setDisabled(False)
+    #         self.UI.combo_children.setDisabled(False)
+    #         self.UI.entry_cur_amount1.setDisabled(False)
+    #     else:
+    #         self.UI.entry_staff_name.clear()
+    #         self.UI.entry_department.clear()
+    #         self.UI.entry_spouse.clear()
+    #         self.UI.combo_children.clear()
+    #         self.UI.entry_cur_amount1.setText('GH₵ ')
+    #         self.UI.entry_staff_name.setDisabled(True)
+    #         self.UI.entry_department.setDisabled(True)
+    #         self.UI.entry_spouse.setDisabled(True)
+    #         self.UI.combo_children.setDisabled(True)
+    #         self.UI.entry_cur_amount1.setDisabled(True)
 
 
     def checkEntryStaffDepState(self):
@@ -243,7 +271,9 @@ class MainApp(QMainWindow):
                 staff_amt, child_amt, spouse_amt = MBillsFunctions.\
                     getPersonAmountForMonth(self.wkbk_med_bills, s_name.title(), self.all_names_and_dept,
                                             self.months, self.UI.combo_months.currentText())
-                self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(staff_amt))
+                self.UI.entry_cur_amount1.setText(str(staff_amt))
+                self.UI.entry_cur_amount3.setText(str(spouse_amt))
+                self.UI.entry_cur_amount2.setText(str(child_amt))
 
             else:  # means person is a guest or casual
                 guest_or_casual = MBillsFunctions.searchForCasualOrGuest(self.all_names_and_dept, person)
@@ -263,7 +293,9 @@ class MainApp(QMainWindow):
                     self.UI.entry_spouse.setText('None')
                     self.UI.combo_children.addItem('None')
                     self.UI.combo_children.setEnabled(False)
-                    self.UI.entry_cur_amount.setText(self.UI.entry_cur_amount.text() + str(staff_amt))
+                    self.UI.entry_cur_amount1.setText(str(staff_amt))
+                    self.UI.entry_cur_amount3.setText(str(spouse_amt))
+                    self.UI.entry_cur_amount2.setText(str(child_amt))
 
                 else:
                     QMessageBox.critical(self, 'Search Error', 'The Person you entered <b>cannot</b> be found!')
@@ -275,7 +307,9 @@ class MainApp(QMainWindow):
         self.UI.entry_department.clear()
         self.UI.entry_spouse.clear()
         self.UI.combo_children.clear()
-        self.UI.entry_cur_amount.setText('GH₵ ')
+        self.UI.entry_cur_amount1.clear()
+        self.UI.entry_cur_amount2.clear()
+        self.UI.entry_cur_amount3.clear()
         self.UI.entry_amount.setText('GH₵ ')
         # self.UI.entry_staff_or_dependant.clear()
 

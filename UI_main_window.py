@@ -76,7 +76,7 @@ class UIMainWindow(QWidget):
 
 
         # Staff Details widgets ----------------------------------------------------------------------------
-        self.lbl_staff_details = QLabel('<u>Staff Details</u>')
+        self.lbl_staff_details = QLabel('<u>Staff Details Summary</u>')
         self.lbl_staff_details.setAlignment(Qt.AlignHCenter)
         self.lbl_staff_details.setObjectName('lbl_titles')
 
@@ -92,12 +92,26 @@ class UIMainWindow(QWidget):
         self.entry_spouse.setReadOnly(True)
         self.lbl_children = QLabel('Child(ren):')
         self.combo_children = QComboBox()
-        self.lbl_cur_amount = QLabel('Current Amount\nFor Month:')
+        self.lbl_cur_amount = QLabel('Current Amount For Month(<font color=\"#3d8ec9\">GH₵</font>):')
         self.lbl_cur_amount.setWordWrap(True)
-        self.entry_cur_amount = QLineEdit('GH₵ ')
-        self.entry_cur_amount.setReadOnly(True)
-        self.entry_cur_amount.setObjectName('entry_amount')
-
+        self.lbl_staff_amt = QLabel('Staff')
+        self.lbl_staff_amt.setAlignment(Qt.AlignHCenter)
+        self.lbl_spouse_amt = QLabel('Spouse')
+        self.lbl_spouse_amt.setAlignment(Qt.AlignHCenter)
+        self.lbl_child_amt = QLabel('Child')
+        self.lbl_child_amt.setAlignment(Qt.AlignHCenter)
+        self.entry_cur_amount1 = QLineEdit()
+        self.entry_cur_amount1.setReadOnly(True)
+        self.entry_cur_amount1.setObjectName('entry_amount')
+        self.entry_cur_amount1.setAlignment(Qt.AlignHCenter)
+        self.entry_cur_amount2 = QLineEdit()
+        self.entry_cur_amount2.setReadOnly(True)
+        self.entry_cur_amount2.setObjectName('entry_amount')
+        self.entry_cur_amount2.setAlignment(Qt.AlignHCenter)
+        self.entry_cur_amount3 = QLineEdit()
+        self.entry_cur_amount3.setReadOnly(True)
+        self.entry_cur_amount3.setObjectName('entry_amount')
+        self.entry_cur_amount3.setAlignment(Qt.AlignHCenter)
 
 
     def UIlayouts(self):
@@ -116,6 +130,14 @@ class UIMainWindow(QWidget):
 
         self.staff_details_layout = QVBoxLayout()
         self.staff_form = QFormLayout()
+        self.lbl_cur_amount_layout = QHBoxLayout()
+        # self.lbl_cur_amount_layout.setContentsMargins(20, 0, 0, 0)
+        self.entry_cur_amount_layout = QHBoxLayout()
+        self.entry_cur_amount_layout.setSpacing(10)
+        self.entry_cur_amount_main_layout = QVBoxLayout()
+        self.entry_cur_amount_main_layout.addLayout(self.lbl_cur_amount_layout)
+        self.entry_cur_amount_main_layout.addLayout(self.entry_cur_amount_layout)
+
 
 
         # Adding Widgets to TAB 1 Layout -------------------------------------------------------------------
@@ -145,7 +167,15 @@ class UIMainWindow(QWidget):
         self.staff_form.addRow(self.lbl_department, self.entry_department)
         self.staff_form.addRow(self.lbl_spouse, self.entry_spouse)
         self.staff_form.addRow(self.lbl_children, self.combo_children)
-        self.staff_form.addRow(self.lbl_cur_amount, self.entry_cur_amount)
+
+        self.lbl_cur_amount_layout.addWidget(self.lbl_staff_amt)
+        self.lbl_cur_amount_layout.addWidget(self.lbl_spouse_amt)
+        self.lbl_cur_amount_layout.addWidget(self.lbl_child_amt)
+        self.entry_cur_amount_layout.addWidget(self.entry_cur_amount1)
+        self.entry_cur_amount_layout.addWidget(self.entry_cur_amount2)
+        self.entry_cur_amount_layout.addWidget(self.entry_cur_amount3)
+
+        self.staff_form.addRow(self.lbl_cur_amount, self.entry_cur_amount_main_layout)
         self.staff_form.setVerticalSpacing(25)
 
         self.tab1_main_layout.addLayout(self.tab1_quick_search_layout, 18)
