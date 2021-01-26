@@ -264,20 +264,19 @@ class MainApp(QMainWindow):
             person_typed = self.UI.entry_staff_or_dependant.text()
             amount = str(self.UI.entry_amount.text()[4:])
             offset_col = self.months[self.UI.combo_months.currentText()]
-            print('Offset col:', offset_col)
             ic.enable()
             ic(offset_col)
 
             if person_typed.upper() in self.staff_details.keys():  # check if permanent staff was typed
                 dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
-                print('entered staff')
+                ic('entered staff')
                 MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0, amount)
             else:  # person could be dependant or casual/guest
                 actual_staff, dependant, status = MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(),
                                                                                               self.staff_details)
                 actual_staff = actual_staff.title()
-                dependant = [x.title() for x in dependant]
-                print(actual_staff, dependant, status)
+                dependant = [x.title() for x in dependant if x is not None]
+                ic(actual_staff, dependant, status)
                 # Checking for dependant
                 if status == 'v':  # found dependant
                     dept = MBillsFunctions.getDepartmentFromName(actual_staff, self.all_names_and_dept)
@@ -287,15 +286,15 @@ class MainApp(QMainWindow):
                         if self.UI.entry_staff_or_dependant.text() not in dependant[
                                                                           2:]:  # cant use person_typed cuz of global scope probs
                             offset_row = 2
-                            print('entered spouse')
+                            ic('entered spouse')
                         else:
                             offset_row = 1
-                            print('entered child')
+                            ic('entered child')
                         MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, actual_staff,
                                                                  dept, offset_col, offset_row, amount)
 
                 else:  # person is guest/casual
-                    print('entered guest')
+                    ic('entered guest')
                     dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
                     MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0,
                                                              amount)

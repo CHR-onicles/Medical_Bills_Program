@@ -153,16 +153,17 @@ class MBillsFunctions:
         """
         # start = datetime.now()
         for staff, dependants in staff_detes.items():
-            ic.disable()
+            ic.enable()
+            # ic.disable()
             if staff == person:
-                # ic('Found with key:', staff, dependants)
+                ic('Found with key:', staff, dependants)
                 # stop = datetime.now()
                 # ic('Time for Search elapsed:', stop - start)
                 return staff.title(), dependants, 'k'
             else:
                 for d in dependants:
                     if d == person:
-                        # ic('Found with value:', staff, dependants)
+                        ic('Found with value:', staff, dependants)
                         # stop = datetime.now()
                         # ic('Time for Search elapsed:', stop - start)
                         return staff, dependants, 'v'
