@@ -128,8 +128,6 @@ class UIMainWindow(QWidget):
 
 
     def UIlayouts(self):
-
-
         # TAB 1 LAYOUTS ------------------------------------------------------------------------------------
         self.tab1_main_layout = QVBoxLayout()
         self.tab1_quick_search_layout = QHBoxLayout()
@@ -138,13 +136,13 @@ class UIMainWindow(QWidget):
         self.tab1_entry_and_details_main_layout = QHBoxLayout()
         self.tab1_entry_and_details_main_layout.setContentsMargins(0, 10, 0, 10)
         self.entry_from_receipt_layout = QVBoxLayout()
-        self.entry_from_receipt_layout.setContentsMargins(0, 0, 5, 0)
+        self.entry_from_receipt_layout.setContentsMargins(0, 0, 10, 0)
         self.entry_form = QFormLayout()
         self.entry_form.setVerticalSpacing(15)
 
 
         self.staff_details_layout = QVBoxLayout()
-        self.staff_details_layout.setContentsMargins(5, 0, 0, 0)
+        self.staff_details_layout.setContentsMargins(10, 0, 0, 0)
         self.staff_form = QFormLayout()
         self.staff_form.setVerticalSpacing(10)
         self.lbl_cur_amount_layout = QHBoxLayout()
