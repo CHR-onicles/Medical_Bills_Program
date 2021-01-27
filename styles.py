@@ -1,7 +1,11 @@
 def main_window_style():
     return """
     * {
-        font: 15pt century gothic;
+        font-family: century gothic;
+    }
+    
+    QLabel, QLineEdit, QLineEdit, QTabBar, QPushButton {
+        font-size: 15pt;
     }
     
     QLabel#lbl_header {
@@ -16,7 +20,7 @@ def main_window_style():
     }
     
     QComboBox#combo_titles {
-        font: 18pt century gothic;
+        font-size: 18pt;
     }
     
     QPushButton#btn_quick_search_and_refresh {

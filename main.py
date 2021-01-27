@@ -1,6 +1,6 @@
 from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool, QRunnable, QObject, QUrl,
                           QAbstractTableModel)
-from PyQt5.QtGui import (QIcon)
+from PyQt5.QtGui import (QIcon, QFont)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
                              QCompleter, QMessageBox, QTableView, QStyledItemDelegate,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QStatusBar, QListView)
@@ -193,11 +193,15 @@ class MainApp(QMainWindow):
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
-        self.status_bar.showMessage('Welcome, this is the status bar...')
+        # self.status_bar.setFont(QFont('times', 10))
+        self.statusBar().setFont(QFont('century gothic', 9))
+        # self.status_bar.showMessage('Welcome, this is the status bar...')
         self.btn_refresh = QPushButton('Refresh')
         self.btn_refresh.setObjectName('btn_quick_search_and_refresh')
         self.btn_refresh.clicked.connect(self.clearStaffDetails)
+        self.status_bar.showMessage('This is the status bar...')
         self.status_bar.addPermanentWidget(self.btn_refresh)
+
         self.status_bar.setFixedHeight(60)
         self.setContentsMargins(0, 0, 20, 0)
 
