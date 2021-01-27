@@ -8,6 +8,8 @@ from datetime import datetime
 
 # Global variables
 staff_details = {}
+MED_BILL_FILE = None
+STAFF_LIST_FILE = None
 
 
 class MBillsFunctions:
@@ -24,15 +26,20 @@ class MBillsFunctions:
         :param staff_list_file: Staff List File
         :return: Both workbooks, one of them or None if one is type: None
         """
+        global  MED_BILL_FILE, STAFF_LIST_FILE
         if med_bill_file and staff_list_file is not None:
             workbook1 = openpyxl.load_workbook(med_bill_file)
             workbook2 = openpyxl.load_workbook(staff_list_file, read_only=True)
+            MED_BILL_FILE, STAFF_LIST_FILE = med_bill_file, staff_list_file
             return workbook1, workbook2
         elif med_bill_file is None:
             workbook = openpyxl.load_workbook(staff_list_file, read_only=True)
+            STAFF_LIST_FILE = staff_list_file
             return workbook
         elif staff_list_file is None:
             workbook = openpyxl.load_workbook(med_bill_file)
+            MED_BILL_FILE = med_bill_file
+
             return workbook
         else:
             return None
@@ -273,14 +280,14 @@ class MBillsFunctions:
                     c2 = cell.offset(row=offset_row, column=offset_col)
                     if c2.value == 0:
                         c2.value = '=' + str(amount)
-                        MBillsFunctions.saveFile(wb, 'save1.xlsx')
+                        MBillsFunctions.saveFile(wb, MED_BILL_FILE)
                         stop = datetime.now()
                         ic('Time for actual insertion:', stop - start)
                         ic('Amount inserted:', amount)
                         return True
                     else:
                         c2.value = str(c2.value) + '+' + str(amount)
-                        MBillsFunctions.saveFile(wb, 'save1.xlsx')
+                        MBillsFunctions.saveFile(wb, MED_BILL_FILE)
                         stop = datetime.now()
                         ic('Time for actual insertion:', stop - start)
                         ic('Amount inserted:', amount)
@@ -313,3 +320,4 @@ class MBillsFunctions:
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
     #   1. Make documentation more comprehensible
+    #   2. Save inserts in a global list and use that for UNDO.

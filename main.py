@@ -161,21 +161,22 @@ class MainApp(QMainWindow):
 
 
     def UIComp(self):
-        self.widgets()
+        self.initUI()
 
-    def widgets(self):
+    def initUI(self):
         # Disable these widgets on startup
         # self.UI.entry_staff_name.setDisabled(True)
         # self.UI.entry_department.setDisabled(True)
         # self.UI.entry_spouse.setDisabled(True)
         # self.UI.combo_children.setDisabled(True)
         # self.UI.entry_cur_amount1.setDisabled(True)
-
         self.UI.btn_submit.setEnabled(False)
 
         self.UI.entry_staff_or_dependant.setFocus()
 
         self.UI.combo_months.addItems(list(self.months.keys()))
+        self.mon = self.UI.combo_months.currentText()[0:3]
+        self.UI.lbl_cur_amount.setText('Current Amount For <u>' + self.mon + '</u>(<font color=\"#3d8ec9\">GH₵</font>):')
 
         self.UI.entry_staff_or_dependant.setCompleter(self.completer)
 
@@ -205,9 +206,14 @@ class MainApp(QMainWindow):
         self.UI.btn_submit.clicked.connect(self.insertIntoMedBills)
 
         self.UI.combo_months.currentTextChanged.connect(self.updateDetailsForMonth)
+        self.UI.combo_months.currentTextChanged.connect(self.updateCurAmountLabel)
         self.UI.entry_staff_or_dependant.returnPressed.connect(self.UI.entry_amount.setFocus)
         self.UI.entry_amount.returnPressed.connect(self.insertIntoMedBills)
 
+
+    def updateCurAmountLabel(self):
+        self.mon = self.UI.combo_months.currentText()[0:3]
+        self.UI.lbl_cur_amount.setText('Current Amount For <u>' + self.mon + '</u>(<font color=\"#3d8ec9\">GH₵</font>):')
 
     def updateDetailsForMonth(self):
         if len(self.UI.entry_quick_search.text()) > 0:
@@ -298,7 +304,7 @@ class MainApp(QMainWindow):
                     self.UI.entry_cur_amount2.setText(str(child_amt))
 
                 else:
-                    QMessageBox.critical(self, 'Search Error', 'The Person you entered <b>cannot</b> be found!')
+                    QMessageBox.critical(self, 'Search Error', 'The Person you searched for <b>cannot</b> be found!')
         else:
             QMessageBox.critical(self, 'Search Error', 'Search box <b>cannot</b> be empty!')
 

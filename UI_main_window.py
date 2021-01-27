@@ -92,7 +92,7 @@ class UIMainWindow(QWidget):
         self.entry_spouse.setReadOnly(True)
         self.lbl_children = QLabel('Child(ren):')
         self.combo_children = QComboBox()
-        self.lbl_cur_amount = QLabel('Current Amount For Month(<font color=\"#3d8ec9\">GH₵</font>):')
+        self.lbl_cur_amount = QLabel()
         self.lbl_cur_amount.setWordWrap(True)
         self.lbl_staff_amt = QLabel('Staff')
         self.lbl_staff_amt.setAlignment(Qt.AlignHCenter)
