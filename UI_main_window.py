@@ -69,10 +69,10 @@ class UIMainWindow(QWidget):
         self.btn_submit.setObjectName('btn_submit')
 
         self.vline = QVSeparationLine()
-        self.vline.setStyleSheet('border: 1px solid gray;')
+        # self.vline.setStyleSheet('border: 1px solid gray;')
 
         self.hline = QHSeparationLine()
-        self.hline.setStyleSheet('border: 1px solid gray;')
+        # self.hline.setStyleSheet('border: 1px solid gray;')
 
 
         # Staff Details widgets ----------------------------------------------------------------------------
@@ -124,12 +124,17 @@ class UIMainWindow(QWidget):
         self.tab1_month_layout = QHBoxLayout()
 
         self.tab1_entry_and_details_main_layout = QHBoxLayout()
-        self.tab1_entry_and_details_main_layout.setContentsMargins(0, 50, 0, 0)
+        self.tab1_entry_and_details_main_layout.setContentsMargins(0, 10, 0, 10)
         self.entry_from_receipt_layout = QVBoxLayout()
+        self.entry_from_receipt_layout.setContentsMargins(0, 0, 5, 0)
         self.entry_form = QFormLayout()
+        self.entry_form.setVerticalSpacing(15)
+
 
         self.staff_details_layout = QVBoxLayout()
+        self.staff_details_layout.setContentsMargins(5, 0, 0, 0)
         self.staff_form = QFormLayout()
+        self.staff_form.setVerticalSpacing(10)
         self.lbl_cur_amount_layout = QHBoxLayout()
         # self.lbl_cur_amount_layout.setContentsMargins(20, 0, 0, 0)
         self.entry_cur_amount_layout = QHBoxLayout()
@@ -159,7 +164,6 @@ class UIMainWindow(QWidget):
         self.entry_form.addRow(self.lbl_staff_or_dependant, self.entry_staff_or_dependant)
         self.entry_form.addRow(self.lbl_amount, self.entry_amount)
         self.entry_form.addRow('', self.btn_submit)
-        self.entry_form.setVerticalSpacing(25)
 
         self.staff_details_layout.addWidget(self.lbl_staff_details, 20)
         self.staff_details_layout.addLayout(self.staff_form, 80)
@@ -176,7 +180,6 @@ class UIMainWindow(QWidget):
         self.entry_cur_amount_layout.addWidget(self.entry_cur_amount3)
 
         self.staff_form.addRow(self.lbl_cur_amount, self.entry_cur_amount_main_layout)
-        self.staff_form.setVerticalSpacing(25)
 
         self.tab1_main_layout.addLayout(self.tab1_quick_search_layout, 18)
         self.tab1_main_layout.addLayout(self.tab1_month_layout, 18)

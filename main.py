@@ -13,7 +13,7 @@ from datetime import datetime
 
 # Local imports
 import resources_rc, styles
-from UI_main_window import UIMainWindow
+from UI_main_window import UIMainWindow, QVSeparationLine, QHSeparationLine
 from med_bills_functions import MBillsFunctions
 
 
@@ -46,9 +46,9 @@ class MainApp(QMainWindow):
         self.UI = UIMainWindow()
         self.setCentralWidget(self.UI)
         self.setStyleSheet(styles.main_window_style())
-        self.resize(1300, 800)
+        self.resize(1300, 930)
         # self.resize(1000, 800)  # for testing purposes
-        self.setMinimumSize(QSize(1000, 720))
+        self.setMinimumSize(QSize(1100, 850))  # todo: based on final program edit this
 
         # SFX -------------------------------------------------------------------------------------------
         self.sfx_player = QSoundEffect()
@@ -66,6 +66,7 @@ class MainApp(QMainWindow):
         # Completer configs -----------------------------------------------------------------------------
         self.completer = QCompleter([name.split('|')[0] for name in self.all_names_and_dept])
         self.completer.setCaseSensitivity(Qt.CaseInsensitive)
+        self.completer.setFilterMode(Qt.MatchContains)
         self.com_delegate = QStyledItemDelegate(self)  # have to do this to set style cuz of some bs thingy...
         self.completer.popup().setItemDelegate(
             self.com_delegate)  # Source: (https://www.qtcentre.org/threads/39268-Styling-a-QAbstractItemView-item)
@@ -190,20 +191,6 @@ class MainApp(QMainWindow):
         # self.UI.entry_staff_or_dependant.returnPressed.connect(
         #     lambda: self.populateStaffDetails(self.UI.entry_staff_or_dependant.text().strip()))
 
-        # STATUS BAR ---------------------------------------------------------------------------------------
-        self.status_bar = QStatusBar()
-        self.setStatusBar(self.status_bar)
-        self.status_bar.setFont(QFont('century gothic', 12, 0, True))
-        self.status_bar.showMessage('Welcome, this is the status bar...', 5000)
-        # self.status_bar.
-        self.btn_refresh = QPushButton('Refresh')
-        self.btn_refresh.setObjectName('btn_quick_search_and_refresh')  # just to apply that style to this too
-        self.btn_refresh.clicked.connect(self.clearStaffDetails)
-        self.status_bar.addPermanentWidget(self.btn_refresh)
-
-        self.status_bar.setFixedHeight(60)
-        self.setContentsMargins(0, 0, 20, 0)
-
         self.UI.entry_staff_or_dependant.textChanged.connect(self.checkEntryStaffDepState)
         self.UI.entry_amount.textChanged.connect(self.checkEntryStaffDepState)
         self.UI.btn_submit.clicked.connect(self.insertIntoMedBills)
@@ -212,6 +199,31 @@ class MainApp(QMainWindow):
         self.UI.combo_months.currentTextChanged.connect(self.updateCurAmountLabel)
         self.UI.entry_staff_or_dependant.returnPressed.connect(self.UI.entry_amount.setFocus)
         self.UI.entry_amount.returnPressed.connect(self.insertIntoMedBills)
+
+        # STATUS BAR ---------------------------------------------------------------------------------------
+        self.status_bar = QStatusBar()
+        self.setStatusBar(self.status_bar)
+        self.status_bar.setFont(QFont('century gothic', 12, 0, True))
+        self.status_bar.showMessage('Welcome, this is the status bar...', 5000)
+        self.btn_refresh = QPushButton('Refresh')
+        self.btn_refresh.setObjectName('btn_quick_search_and_refresh')  # just to apply that style to this too
+        self.btn_refresh.clicked.connect(self.clearStaffDetails)
+        self.status_bar.addPermanentWidget(self.btn_refresh)
+
+        self.status_bar.setFixedHeight(60)
+        self.setContentsMargins(0, 0, 20, 0)
+        # END STATUS BAR -----------------------------------------------------------------------------------
+
+        # TABLE --------------------------------------------------------------------------------------------
+        # todo: move this to UI file
+        self.table_last_edit = QTableView()
+        self.hline1 = QHSeparationLine()
+        # self.hline1.setStyleSheet('border: 1px solid gray;')
+
+        self.lbl_table_title = QLabel('Last Edit History:')
+        self.UI.tab1_main_layout.addWidget(self.hline1)
+        self.UI.tab1_main_layout.addWidget(self.lbl_table_title)
+        self.UI.tab1_main_layout.addWidget(self.table_last_edit)
 
 
     def updateCurAmountLabel(self):
