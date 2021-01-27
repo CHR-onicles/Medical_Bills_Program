@@ -193,13 +193,12 @@ class MainApp(QMainWindow):
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
-        # self.status_bar.setFont(QFont('times', 10))
-        self.statusBar().setFont(QFont('century gothic', 9))
-        # self.status_bar.showMessage('Welcome, this is the status bar...')
+        self.status_bar.setFont(QFont('century gothic', 12, 0, True))
+        self.status_bar.showMessage('Welcome, this is the status bar...', 5000)
+        # self.status_bar.
         self.btn_refresh = QPushButton('Refresh')
-        self.btn_refresh.setObjectName('btn_quick_search_and_refresh')
+        self.btn_refresh.setObjectName('btn_quick_search_and_refresh')  # just to apply that style to this too
         self.btn_refresh.clicked.connect(self.clearStaffDetails)
-        self.status_bar.showMessage('This is the status bar...')
         self.status_bar.addPermanentWidget(self.btn_refresh)
 
         self.status_bar.setFixedHeight(60)
