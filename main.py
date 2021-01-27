@@ -216,14 +216,10 @@ class MainApp(QMainWindow):
 
         # TABLE --------------------------------------------------------------------------------------------
         # todo: move this to UI file
-        self.table_last_edit = QTableView()
-        self.hline1 = QHSeparationLine()
-        # self.hline1.setStyleSheet('border: 1px solid gray;')
-
-        self.lbl_table_title = QLabel('Last Edit History:')
-        self.UI.tab1_main_layout.addWidget(self.hline1)
-        self.UI.tab1_main_layout.addWidget(self.lbl_table_title)
-        self.UI.tab1_main_layout.addWidget(self.table_last_edit)
+        # self.lbl_table_title = QLabel('Last Edit History:')
+        # self.UI.tab1_main_layout.addWidget(self.hline1)
+        # self.UI.tab1_main_layout.addWidget(self.lbl_table_title)
+        # self.UI.tab1_main_layout.addWidget(self.table_last_edit)
 
 
     def updateCurAmountLabel(self):

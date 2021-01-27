@@ -1,7 +1,7 @@
 from PyQt5.QtCore import (QSize, Qt)
 from PyQt5.QtGui import (QPixmap, QIcon)
 from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QSizePolicy, QApplication,
-                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox)
+                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QTableView)
 import sys
 from icecream import ic
 
@@ -31,6 +31,7 @@ class UIMainWindow(QWidget):
         # self.lbl_title = QLabel('Medical Bills 2021')
         self.lbl_title.setObjectName('lbl_header')
         self.lbl_title.setAlignment(Qt.AlignHCenter)
+        # END BIG TITLE ------------------------------------------------------------------------------------
 
 
         # TABS ---------------------------------------------------------------------------------------------
@@ -73,6 +74,7 @@ class UIMainWindow(QWidget):
 
         self.hline = QHSeparationLine()
         # self.hline.setStyleSheet('border: 1px solid gray;')
+        # END Entry from Receipt Widgets -------------------------------------------------------------------
 
 
         # Staff Details widgets ----------------------------------------------------------------------------
@@ -112,11 +114,21 @@ class UIMainWindow(QWidget):
         self.entry_cur_amount3.setReadOnly(True)
         self.entry_cur_amount3.setObjectName('entry_amount')
         self.entry_cur_amount3.setAlignment(Qt.AlignHCenter)
+        # END Staff Details widgets -----------------------------------------------------------------------
+
+
+        # TABLE -------------------------------------------------------------------------------------------
+        self.table_last_edit = QTableView()
+        self.hline1 = QHSeparationLine()
+        # self.hline1.setStyleSheet('border: 1px solid gray;')
+
+        self.lbl_table_title = QLabel('Last Edit History:')
+        # END TABLE ----------------------------------------------------------------------------------------
+
 
 
     def UIlayouts(self):
-        # MAIN WINDOW LAYOUT (CENTRAL WIDGET) --------------------------------------------------------------
-        self.central_layout = QVBoxLayout()
+
 
         # TAB 1 LAYOUTS ------------------------------------------------------------------------------------
         self.tab1_main_layout = QVBoxLayout()
@@ -185,12 +197,21 @@ class UIMainWindow(QWidget):
         self.tab1_main_layout.addLayout(self.tab1_month_layout, 18)
         self.tab1_main_layout.addWidget(self.hline, 4)
         self.tab1_main_layout.addLayout(self.tab1_entry_and_details_main_layout, 60)
+        self.tab1_main_layout.addWidget(self.hline1)
+        self.tab1_main_layout.addWidget(self.lbl_table_title)
+        self.tab1_main_layout.addWidget(self.table_last_edit)
         self.tab_1.setLayout(self.tab1_main_layout)
+        #   END TAB 1 LAYOUTS ------------------------------------------------------------------------------
 
+
+        # MAIN WINDOW LAYOUT (CENTRAL WIDGET) --------------------------------------------------------------
+        self.central_layout = QVBoxLayout()
         self.central_layout.setContentsMargins(0, 10, 0, 0)
         self.central_layout.addWidget(self.lbl_title)
         self.central_layout.addWidget(self.tabs)
         self.setLayout(self.central_layout)
+        # END MAIN WINDOW LAYOUT (CENTRAL WIDGET) ----------------------------------------------------------
+
 
 
     # ---------------------------------------- TODO --------------------------------------------------------
