@@ -8,8 +8,8 @@ from datetime import datetime
 
 # Global variables
 staff_details = {}
-MED_BILL_FILE = None
-STAFF_LIST_FILE = None
+MED_BILL_FILE = ''
+STAFF_LIST_FILE = ''
 
 
 class MBillsFunctions:
@@ -321,3 +321,4 @@ class MBillsFunctions:
     # TODO:
     #   1. Make documentation more comprehensible
     #   2. Save inserts in a global list and use that for UNDO.
+    #   3. Implement 'recently edited' table then implement UNDO option

@@ -278,8 +278,8 @@ class MainApp(QMainWindow):
                     getPersonAmountForMonth(self.wkbk_med_bills, s_name.title(), self.all_names_and_dept,
                                             self.months, self.UI.combo_months.currentText())
                 self.UI.entry_cur_amount1.setText(str(staff_amt))
-                self.UI.entry_cur_amount3.setText(str(spouse_amt))
-                self.UI.entry_cur_amount2.setText(str(child_amt))
+                self.UI.entry_cur_amount2.setText(str(spouse_amt))
+                self.UI.entry_cur_amount3.setText(str(child_amt))
 
             else:  # means person is a guest or casual
                 guest_or_casual = MBillsFunctions.searchForCasualOrGuest(self.all_names_and_dept, person)
@@ -300,8 +300,8 @@ class MainApp(QMainWindow):
                     self.UI.combo_children.addItem('None')
                     self.UI.combo_children.setEnabled(False)
                     self.UI.entry_cur_amount1.setText(str(staff_amt))
-                    self.UI.entry_cur_amount3.setText(str(spouse_amt))
-                    self.UI.entry_cur_amount2.setText(str(child_amt))
+                    self.UI.entry_cur_amount2.setText(str(spouse_amt))
+                    self.UI.entry_cur_amount3.setText(str(child_amt))
 
                 else:
                     QMessageBox.critical(self, 'Search Error', 'The Person you searched for <b>cannot</b> be found!')
