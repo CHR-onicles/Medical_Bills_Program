@@ -52,6 +52,11 @@ def main_window_style():
         min-width: 3em;
     }
     
+    QTableWidget QLabel {
+        font-size: 12pt;
+        /* font: 75 12pt "century gothic"; # Doesn't work */
+    }
+    
 /* QDarkStyle from here on ------------------------------------------------------------------------------------------ */
     
 QProgressBar:horizontal {

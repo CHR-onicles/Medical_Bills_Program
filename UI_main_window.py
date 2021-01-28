@@ -1,7 +1,7 @@
 from PyQt5.QtCore import (QSize, Qt)
 from PyQt5.QtGui import (QPixmap, QIcon)
 from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QSizePolicy, QApplication,
-                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QTableView)
+                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QTableWidget)
 import sys
 from icecream import ic
 
@@ -118,11 +118,36 @@ class UIMainWindow(QWidget):
 
 
         # TABLE -------------------------------------------------------------------------------------------
-        self.table_last_edit = QTableView()
         self.hline1 = QHSeparationLine()
         # self.hline1.setStyleSheet('border: 1px solid gray;')
-
         self.lbl_table_title = QLabel('Last Edit History:')
+
+        self.table_last_edit = QTableWidget()
+        self.table_last_edit.setRowCount(2)
+        self.table_last_edit.setColumnCount(9)
+        self.table_last_edit.setSpan(0, 3, 1, 4)
+        self.table_last_edit.setSpan(0, 7, 1, 2)
+        table_lbl1 = QLabel('<b>Staff</b>')
+        table_lbl1.setAlignment(Qt.AlignHCenter)
+        table_lbl2 = QLabel('<b>Dept.</b>')
+        table_lbl2.setAlignment(Qt.AlignHCenter)
+        table_lbl3 = QLabel('<b>Spouse</b>')
+        table_lbl3.setAlignment(Qt.AlignHCenter)
+        table_lbl4 = QLabel('Child(ren)')
+        table_lbl4.setAlignment(Qt.AlignHCenter)
+        table_lbl5 = QLabel('New Amount For Month in <font color=\"#3d8ec9\">(GH₵)</font>')
+        table_lbl5.setAlignment(Qt.AlignHCenter)
+        table_lbl5.setWordWrap(True)
+
+        self.table_last_edit.setCellWidget(0, 0, table_lbl1)
+        self.table_last_edit.setCellWidget(0, 1, table_lbl2)
+        self.table_last_edit.setCellWidget(0, 2, table_lbl3)
+        self.table_last_edit.setCellWidget(0, 3, table_lbl4)
+        self.table_last_edit.setCellWidget(0, 7, table_lbl5)
+        self.table_last_edit.setRowHeight(0, 60)
+
+
+
         # END TABLE ----------------------------------------------------------------------------------------
 
 

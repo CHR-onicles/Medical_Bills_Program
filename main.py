@@ -2,10 +2,9 @@ from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool,
                           QAbstractTableModel)
 from PyQt5.QtGui import (QIcon, QFont, QStandardItemModel)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
-                             QCompleter, QMessageBox, QTableView, QStyledItemDelegate,
-                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QStatusBar, QListView)
+                             QCompleter, QMessageBox, QTableWidgetItem, QTableWidget, QStyledItemDelegate,
+                             QAbstractItemView, QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QStatusBar, QListView)
 from PyQt5.QtMultimedia import (QSoundEffect)
-
 import sys
 from icecream import ic
 import openpyxl
@@ -215,11 +214,10 @@ class MainApp(QMainWindow):
         # END STATUS BAR -----------------------------------------------------------------------------------
 
         # TABLE --------------------------------------------------------------------------------------------
-        self.table_model = QStandardItemModel()
-        self.table_model.setHorizontalHeaderLabels(['Header 1', 'Header 2', 'Header 3', 'Header 4', 'Header 5'])
+        self.UI.table_last_edit.horizontalHeader().setVisible(False)
+        self.UI.table_last_edit.verticalHeader().setVisible(False)
 
-
-        self.UI.table_last_edit.setModel(self.table_model)
+        self.UI.table_last_edit.setEditTriggers(QAbstractItemView.NoEditTriggers)
         # self.UI.table_last_edit.setSortingEnabled(True)  # dont need to sort for now
         # END TABLE ----------------------------------------------------------------------------------------
 
