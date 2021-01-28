@@ -272,8 +272,8 @@ class MBillsFunctions:
     def insertAmountIntoMedBills(workbook, person: str, dept: str, offset_col: int, offset_row: int, amount: str):
         wb = workbook
         sheet = wb[dept]
-        start = datetime.now()
-        ic.enable()
+        # start = datetime.now()
+        # ic.enable()
         for row in sheet.iter_rows(min_row=4, max_row=500, min_col=1, max_col=1):
             for cell in row:
                 if cell.value == person:
@@ -282,15 +282,15 @@ class MBillsFunctions:
                         c2.value = '=' + str(amount)
                         MBillsFunctions.saveFile(wb, MED_BILL_FILE)
                         stop = datetime.now()
-                        ic('Time for actual insertion:', stop - start)
-                        ic('Amount inserted:', amount)
+                        # ic('Time for actual insertion:', stop - start)
+                        # ic('Amount inserted:', amount)
                         return True
                     else:
                         c2.value = str(c2.value) + '+' + str(amount)
                         MBillsFunctions.saveFile(wb, MED_BILL_FILE)
-                        stop = datetime.now()
-                        ic('Time for actual insertion:', stop - start)
-                        ic('Amount inserted:', amount)
+                        # stop = datetime.now()
+                        # ic('Time for actual insertion:', stop - start)
+                        # ic('Amount inserted:', amount)
                         return True
 
         return False

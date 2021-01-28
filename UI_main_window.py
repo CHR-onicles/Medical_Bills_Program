@@ -140,6 +140,7 @@ class UIMainWindow(QWidget):
         table_lbl5.setAlignment(Qt.AlignHCenter)
         table_lbl5.setWordWrap(True)
 
+        # just using this to set column header resize
         self.table_last_edit.setHorizontalHeaderLabels(['Staff Name', 'Department', 'Spouse Name', 'Children', 'New Amount for Month'])
         self.table_last_edit.setCellWidget(0, 0, table_lbl1)
         self.table_last_edit.setCellWidget(0, 1, table_lbl2)

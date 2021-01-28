@@ -208,6 +208,7 @@ class MainApp(QMainWindow):
         self.btn_refresh.setObjectName('btn_quick_search_and_refresh')  # just to apply that style to this too
         self.btn_refresh.clicked.connect(self.clearStaffDetails)
         self.status_bar.addPermanentWidget(self.btn_refresh)
+        # self.status_bar.addPermanentWidget(QPushButton('Undo'))
 
         self.status_bar.setFixedHeight(60)
         self.setContentsMargins(0, 0, 20, 0)
@@ -218,6 +219,7 @@ class MainApp(QMainWindow):
         self.UI.table_last_edit.verticalHeader().setVisible(False)
 
         self.UI.table_last_edit.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        # self.UI.table_last_edit.insertRow(self.UI.table_last_edit.rowCount())  # add row at location of last row
         # self.UI.table_last_edit.setSortingEnabled(True)  # dont need to sort for now
         # END TABLE ----------------------------------------------------------------------------------------
 
@@ -334,16 +336,16 @@ class MainApp(QMainWindow):
 
     def insertIntoMedBills(self):
         if self.UI.entry_staff_or_dependant.text() in [names.split('|')[0] for names in self.all_names_and_dept]:
-            start = datetime.now()
+            # start = datetime.now()
             person_typed = self.UI.entry_staff_or_dependant.text()
             amount = str(self.UI.entry_amount.text()[4:])
             offset_col = self.months[self.UI.combo_months.currentText()]
-            ic.enable()
-            ic(offset_col)
+            # ic.disable()
+            # ic(offset_col)
 
             if person_typed.upper() in self.staff_details.keys():  # check if permanent staff was typed
                 dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
-                ic('entered staff')
+                # ic('entered staff')
                 MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0, amount)
             else:  # person could be dependant or casual/guest
                 actual_staff, dependant, status = MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(),
@@ -351,7 +353,7 @@ class MainApp(QMainWindow):
                 if actual_staff is not None:  # check if person is in staff list
                     actual_staff = actual_staff.title()
                     dependant = [x.title() for x in dependant if x is not None]
-                    ic(actual_staff, dependant, status)
+                    # ic(actual_staff, dependant, status)
                     # Checking for dependant
                     if status == 'v':  # found dependant
                         dept = MBillsFunctions.getDepartmentFromName(actual_staff, self.all_names_and_dept)
@@ -360,15 +362,15 @@ class MainApp(QMainWindow):
                             # 2 if person is spouse of staff else 1 for child of staff
                             if self.UI.entry_staff_or_dependant.text() not in dependant[2:]:
                                 offset_row = 2
-                                ic('entered spouse')
+                                # ic('entered spouse')
                             else:
                                 offset_row = 1
-                                ic('entered child')
+                                # ic('entered child')
                             MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, actual_staff,
                                                                      dept, offset_col, offset_row, amount)
 
                 else:  # person is guest/casual
-                    ic('entered guest')
+                    # ic('entered guest')
                     dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
                     MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0,
                                                              amount)
@@ -376,9 +378,8 @@ class MainApp(QMainWindow):
             # self.UI.entry_staff_or_dependant.clear()
             self.UI.entry_amount.setText('GH₵ ')
 
-            stop = datetime.now()
-            ic.enable()
-            ic('Time taken to insert:', stop-start)
+            # stop = datetime.now()
+            # ic('Time taken to insert:', stop-start)
 
             self.sfx_player.play()
             self.status_bar.showMessage('Entry saved successfully...', 3000)
