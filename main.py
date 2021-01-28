@@ -7,13 +7,13 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QCo
 from PyQt5.QtMultimedia import (QSoundEffect)
 import sys
 from icecream import ic
-import openpyxl
 from datetime import datetime
 
 # Local imports
 import resources_rc, styles
 from UI_main_window import UIMainWindow, QVSeparationLine, QHSeparationLine
 from med_bills_functions import MBillsFunctions
+# import med_bills_functions
 
 
 

@@ -147,21 +147,20 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def searchForStaffFromStaffList(person, staff_detes):
+    def searchForStaffFromStaffList(person, staff_deets):
         """
         Function to search for anyone using staff list. If found, returns staff's details...if not returns none for
         those particulars in the details(For casuals and guests).
 
-        :param staff_detes: dictionary of staff with details
+        :param staff_deets: dictionary of staff with details
 
         :param person: person to search for
 
         :return: tuple of staff with dependant(s)
         """
         # start = datetime.now()
-        for staff, dependants in staff_detes.items():
-            ic.enable()
-            # ic.disable()
+        for staff, dependants in staff_deets.items():
+            # ic.enable()
             if staff == person:
                 ic('Found with key:', staff, dependants)
                 # stop = datetime.now()
@@ -227,7 +226,7 @@ class MBillsFunctions:
 
         :return: Amount from cell
         """
-        s1 = datetime.now()
+        # s1 = datetime.now()
         dept = MBillsFunctions.getDepartmentFromName(person, all_people)
 
         # noinspection SpellCheckingInspection
@@ -260,10 +259,10 @@ class MBillsFunctions:
                     spouse_cell = cell.offset(row=2, column=months.get(month, 0))
                     spouse_amt = processCellValue(spouse_cell)
 
-                    s2 = datetime.now()
-                    ic.enable()
-                    ic('Time taken to get amount:', s2 - s1)
-                    ic('Amounts:', staff_amt, child_amt, spouse_amt)
+                    # s2 = datetime.now()
+                    # ic.enable()
+                    # ic('Time taken to get amount:', s2 - s1)
+                    # ic('Amounts:', staff_amt, child_amt, spouse_amt)
                     return staff_amt, child_amt, spouse_amt
 
 

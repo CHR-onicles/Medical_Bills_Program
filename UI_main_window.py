@@ -136,7 +136,7 @@ class UIMainWindow(QWidget):
         table_lbl3.setAlignment(Qt.AlignHCenter)
         table_lbl4 = QLabel('<i>Child(ren)</i>')
         table_lbl4.setAlignment(Qt.AlignHCenter)
-        table_lbl5 = QLabel('<i>New Amount in </i><font color=\"#3d8ec9\">(GH₵)</font> <i>for</i>:')  # todo: get better name for this
+        table_lbl5 = QLabel('<i>Amount added </i><font color=\"#3d8ec9\">(GH₵)</font> <i>for</i>:')  # todo: get better name for this
         table_lbl5.setAlignment(Qt.AlignHCenter)
         table_lbl5.setWordWrap(True)
 
@@ -179,7 +179,7 @@ class UIMainWindow(QWidget):
         self.lbl_cur_amount_layout = QHBoxLayout()
         # self.lbl_cur_amount_layout.setContentsMargins(20, 0, 0, 0)
         self.entry_cur_amount_layout = QHBoxLayout()
-        self.entry_cur_amount_layout.setSpacing(10)
+        self.entry_cur_amount_layout.setSpacing(15)
         self.entry_cur_amount_main_layout = QVBoxLayout()
         self.entry_cur_amount_main_layout.addLayout(self.lbl_cur_amount_layout)
         self.entry_cur_amount_main_layout.addLayout(self.entry_cur_amount_layout)
