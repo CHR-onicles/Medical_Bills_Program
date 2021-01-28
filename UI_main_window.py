@@ -1,7 +1,8 @@
 from PyQt5.QtCore import (QSize, Qt)
 from PyQt5.QtGui import (QPixmap, QIcon)
 from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QSizePolicy, QApplication,
-                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QTableWidget)
+                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QTableWidget,
+                             QHeaderView)
 import sys
 from icecream import ic
 
@@ -124,9 +125,9 @@ class UIMainWindow(QWidget):
 
         self.table_last_edit = QTableWidget()
         self.table_last_edit.setRowCount(2)
-        self.table_last_edit.setColumnCount(9)
-        self.table_last_edit.setSpan(0, 3, 1, 4)
-        self.table_last_edit.setSpan(0, 7, 1, 2)
+        self.table_last_edit.setColumnCount(6)
+        # self.table_last_edit.setSpan(0, 3, 1, 4)
+        self.table_last_edit.setSpan(0, 4, 1, 2)
         table_lbl1 = QLabel('<i>Staff</i>')
         table_lbl1.setAlignment(Qt.AlignHCenter)
         table_lbl2 = QLabel('<i>Dept.</i>')
@@ -139,13 +140,17 @@ class UIMainWindow(QWidget):
         table_lbl5.setAlignment(Qt.AlignHCenter)
         table_lbl5.setWordWrap(True)
 
+        self.table_last_edit.setHorizontalHeaderLabels(['Staff Name', 'Department', 'Spouse Name', 'Children', 'New Amount for Month'])
         self.table_last_edit.setCellWidget(0, 0, table_lbl1)
         self.table_last_edit.setCellWidget(0, 1, table_lbl2)
         self.table_last_edit.setCellWidget(0, 2, table_lbl3)
         self.table_last_edit.setCellWidget(0, 3, table_lbl4)
-        self.table_last_edit.setCellWidget(0, 7, table_lbl5)
+        self.table_last_edit.setCellWidget(0, 4, table_lbl5)
+        self.table_last_edit.setCellWidget(1, 3, QComboBox())
+        self.table_last_edit.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.table_last_edit.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
+        self.table_last_edit.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
         self.table_last_edit.setRowHeight(0, 60)
-
 
 
         # END TABLE ----------------------------------------------------------------------------------------
@@ -240,4 +245,3 @@ class UIMainWindow(QWidget):
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
     #   1. Set Tooltips [Optional]
-    #   2. Set entry_staff_or_dependant to have launch focus [Optional]
