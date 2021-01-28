@@ -53,7 +53,7 @@ def main_window_style():
     }
     
     QTableWidget QLabel {
-        font-size: 12pt;
+        font-size: 13pt;
         /* font: 75 12pt "century gothic"; # Doesn't work */
     }
     
