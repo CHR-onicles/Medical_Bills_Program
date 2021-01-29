@@ -331,7 +331,7 @@ class MainApp(QMainWindow):
 
     def insertIntoMedBills(self):
         if self.UI.entry_staff_or_dependant.text() in [names.split('|')[0] for names in self.all_names_and_dept]:
-            # start = datetime.now()
+            start = datetime.now()
             person_typed = self.UI.entry_staff_or_dependant.text()
             amount = str(self.UI.entry_amount.text()[4:])
             offset_col = self.months[self.UI.combo_months.currentText()]
@@ -343,9 +343,9 @@ class MainApp(QMainWindow):
                 # ic('entered staff')
                 MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0, amount)
                 self.myrow_data.append([person_typed, self.staff_details[person_typed.upper()][0],
-                                        self.staff_details[person_typed.upper()][1].title(),
-                                        [x.title() for x in self.staff_details[person_typed.upper()][2:]],
-                                        'STAFF', amount
+                                        self.staff_details[person_typed.upper()][1].title() if self.staff_details[person_typed.upper()][1] is not None else 'None',
+                                        [x.title() if x is not None else 'None' for x in self.staff_details[person_typed.upper()][2:]],
+                                        'STAFF', f'{float(amount):.2f}'
                                         ])
 
                 self.updateTable()
@@ -380,8 +380,8 @@ class MainApp(QMainWindow):
             # self.UI.entry_staff_or_dependant.clear()
             self.UI.entry_amount.setText('GH₵ ')
 
-            # stop = datetime.now()
-            # ic('Time taken to insert:', stop-start)
+            stop = datetime.now()
+            print('Time taken to insert:', stop-start)
 
             self.sfx_player.play()
             self.status_bar.showMessage('Entry saved successfully...', 3000)
@@ -390,13 +390,14 @@ class MainApp(QMainWindow):
             QMessageBox.critical(self, 'Entry Error', 'No record found!')
 
     def updateTable(self):
+        start = datetime.now()
         if self.myrow_data:  # check if row data is not empty
             self.UI.table_last_edit.insertRow(self.UI.table_last_edit.rowCount())  # add row at location of last row
             row = self.UI.table_last_edit.rowCount()-1
             for col, data in enumerate(self.myrow_data[0]):
                 if col == 3:
                     combo_temp = QComboBox()
-                    if not self.myrow_data[0][3]:
+                    if 'None' in self.myrow_data[0][3]:
                         combo_temp.addItem('None')
                     else:
                         combo_temp.addItems(self.myrow_data[0][3])
@@ -406,7 +407,11 @@ class MainApp(QMainWindow):
             self.UI.table_last_edit.item(row, 4).setFont(QFont('century gothic', 11))
             self.UI.table_last_edit.item(row, 4).setTextAlignment(Qt.AlignTop)
             # todo: maybe add month for more clarity on first glance
+            # todo: maybe add time of input
         self.myrow_data.clear()
+        stop = datetime.now()
+        print('Time taken to update table:', stop-start)
+
 
 
 
