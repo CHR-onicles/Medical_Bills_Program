@@ -1,10 +1,9 @@
-from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool, QRunnable, QObject, QUrl,
+from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QObject, QUrl,
                           )
 from PyQt5.QtGui import (QIcon, QFont)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
                              QCompleter, QMessageBox, QTableWidgetItem, QTableWidget, QStyledItemDelegate,
-                             QAbstractItemView, QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QStatusBar, QListView)
-from PyQt5.QtMultimedia import (QSoundEffect)
+                             QAbstractItemView, QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QStatusBar)
 import sys
 from icecream import ic
 from datetime import datetime
@@ -13,10 +12,12 @@ from datetime import datetime
 import resources_rc, styles
 from UI_main_window import UIMainWindow, QVSeparationLine, QHSeparationLine
 from med_bills_functions import MBillsFunctions
+
+
+
+
+
 # import med_bills_functions
-
-
-
 
 
 # icecream debugging configs
@@ -37,8 +38,6 @@ ic.configureOutput(includeContext=True)
 #         self.sfx_player.play()
 
 
-
-
 class MainApp(QMainWindow):
     """
     Main App configurations.
@@ -54,8 +53,6 @@ class MainApp(QMainWindow):
         self.resize(1300, 930)
         # self.resize(1000, 800)  # for testing purposes
         self.setMinimumSize(QSize(1100, 850))  # todo: based on final program edit this
-
-
 
         # Medical Bills Files configs -------------------------------------------------------------------
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
@@ -161,6 +158,7 @@ class MainApp(QMainWindow):
         
         """)
 
+        # Table info
         self.myrow_data = []
 
         self.UIComp()
@@ -178,11 +176,12 @@ class MainApp(QMainWindow):
         # self.UI.entry_cur_amount1.setDisabled(True)
         self.UI.btn_submit.setEnabled(False)
 
-        self.UI.entry_staff_or_dependant.setFocus()
+
 
         self.UI.combo_months.addItems(list(self.months.keys()))
         self.mon = self.UI.combo_months.currentText()[0:3]
-        self.UI.lbl_cur_amount.setText('Current Amount For <u>' + self.mon + '</u>(<font color=\"#3d8ec9\">GH₵</font>):')
+        self.UI.lbl_cur_amount.setText(
+            'Current Amount For <u>' + self.mon + '</u>(<font color=\"#3d8ec9\">GH₵</font>):')
 
         self.UI.entry_staff_or_dependant.setCompleter(self.completer)
 
@@ -233,7 +232,8 @@ class MainApp(QMainWindow):
 
     def updateCurAmountLabel(self):
         self.mon = self.UI.combo_months.currentText()[0:3]
-        self.UI.lbl_cur_amount.setText('Current Amount For <u>' + self.mon + '</u>(<font color=\"#3d8ec9\">GH₵</font>):')
+        self.UI.lbl_cur_amount.setText(
+            'Current Amount For <u>' + self.mon + '</u>(<font color=\"#3d8ec9\">GH₵</font>):')
 
     def updateDetailsForMonth(self):
         if len(self.UI.entry_quick_search.text()) > 0:
@@ -261,7 +261,7 @@ class MainApp(QMainWindow):
 
     def checkEntryStaffDepState(self):
         if len(self.UI.entry_staff_or_dependant.text()) >= 1 and \
-                 len(self.UI.entry_amount.text()) > 4:
+                len(self.UI.entry_amount.text()) > 4:
             self.UI.btn_submit.setEnabled(True)
         else:
             self.UI.btn_submit.setEnabled(False)
@@ -294,7 +294,7 @@ class MainApp(QMainWindow):
                         self.UI.combo_children.addItem(child.title())
                         self.UI.combo_children.setCurrentText(person)
 
-                staff_amt, child_amt, spouse_amt = MBillsFunctions.\
+                staff_amt, child_amt, spouse_amt = MBillsFunctions. \
                     getPersonAmountForMonth(self.wkbk_med_bills, s_name.title(), self.all_names_and_dept,
                                             self.months, self.UI.combo_months.currentText())
                 self.UI.entry_cur_amount1.setText(str(staff_amt))
@@ -304,7 +304,7 @@ class MainApp(QMainWindow):
             else:  # means person is a guest or casual
                 guest_or_casual = MBillsFunctions.searchForCasualOrGuest(self.all_names_and_dept, person)
                 if guest_or_casual is not None:
-                    staff_amt, child_amt, spouse_amt = MBillsFunctions.\
+                    staff_amt, child_amt, spouse_amt = MBillsFunctions. \
                         getPersonAmountForMonth(self.wkbk_med_bills, guest_or_casual.split('|')[0],
                                                 self.all_names_and_dept, self.months,
                                                 self.UI.combo_months.currentText())
@@ -354,8 +354,10 @@ class MainApp(QMainWindow):
                 # ic('entered staff')
                 MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0, amount)
                 self.myrow_data.append([person_typed, self.staff_details[person_typed.upper()][0],
-                                        self.staff_details[person_typed.upper()][1].title() if self.staff_details[person_typed.upper()][1] is not None else 'None',
-                                        [x.title() if x is not None else 'None' for x in self.staff_details[person_typed.upper()][2:]],
+                                        self.staff_details[person_typed.upper()][1].title() if
+                                        self.staff_details[person_typed.upper()][1] is not None else 'None',
+                                        [x.title() if x is not None else 'None' for x in
+                                         self.staff_details[person_typed.upper()][2:]],
                                         'STAFF', f'{float(amount):.2f}'
                                         ])
                 self.updateTable()
@@ -380,6 +382,14 @@ class MainApp(QMainWindow):
                                 # ic('entered child')
                             MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, actual_staff,
                                                                      dept, offset_col, offset_row, amount)
+                            self.myrow_data.append([actual_staff, self.staff_details[actual_staff.upper()][0],
+                                                    self.staff_details[actual_staff.upper()][1].title() if
+                                                    self.staff_details[actual_staff.upper()][1] is not None else 'None',
+                                                    [x.title() if x is not None else 'None' for x in
+                                                     self.staff_details[actual_staff.upper()][2:]],
+                                                    'CHILD' if offset_row == 1 else 'SPOUSE', f'{float(amount):.2f}'
+                                                    ])
+                            self.updateTable()
 
                 else:  # person is guest/casual
                     # ic('entered guest')
@@ -404,18 +414,23 @@ class MainApp(QMainWindow):
         else:
             QMessageBox.critical(self, 'Entry Error', 'No record found!')
 
-
     def updateTable(self):
         start = datetime.now()
         if self.myrow_data:  # check if row data is not empty
             self.UI.table_last_edit.insertRow(self.UI.table_last_edit.rowCount())  # add row at location of last row
-            row = self.UI.table_last_edit.rowCount()-1
+            row = self.UI.table_last_edit.rowCount() - 1
             for col, data in enumerate(self.myrow_data[0]):
                 if col == 3:
                     combo_temp = QComboBox()
                     if 'None' in self.myrow_data[0][3]:
                         combo_temp.addItem('None')
                     else:
+                        if 'CHILD' in self.myrow_data[0]:
+                            temp_index = self.myrow_data[0][3].index(self.UI.entry_staff_or_dependant.text())
+                            print(temp_index)
+                            self.myrow_data[0][3][0], self.myrow_data[0][3][temp_index]\
+                                = self.myrow_data[0][3][temp_index], self.myrow_data[0][3][0]
+
                         combo_temp.addItems(self.myrow_data[0][3])
                     self.UI.table_last_edit.setCellWidget(row, 3, combo_temp)
                 else:
@@ -426,7 +441,7 @@ class MainApp(QMainWindow):
             # todo: maybe add time of input
         self.myrow_data.clear()
         stop = datetime.now()
-        print('Time taken to update table:', stop-start)
+        print('Time taken to update table:', stop - start)
 
 
 

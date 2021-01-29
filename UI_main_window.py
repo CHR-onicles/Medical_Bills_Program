@@ -52,6 +52,7 @@ class UIMainWindow(QWidget):
 
         self.lbl_quick_search = QLabel('Quick Search For Dependant or Staff:')
         self.entry_quick_search = QLineEdit()
+        self.entry_quick_search.setClearButtonEnabled(True)
         self.btn_quick_search = QPushButton('Search')
         self.btn_quick_search.setObjectName('btn_quick_search_and_refresh')
 
@@ -62,6 +63,8 @@ class UIMainWindow(QWidget):
 
         self.lbl_staff_or_dependant = QLabel('Staff/Dependant Name:')
         self.entry_staff_or_dependant = QLineEdit()
+        self.entry_staff_or_dependant.setFocus()
+        self.entry_staff_or_dependant.setClearButtonEnabled(True)
         # self.entry_staff_or_dependant.setValidator(NameInputValidator())
         self.lbl_amount = QLabel('Amount:')
         self.entry_amount = QLineEdit('GH₵ ')
