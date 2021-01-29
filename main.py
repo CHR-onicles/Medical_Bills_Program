@@ -177,7 +177,6 @@ class MainApp(QMainWindow):
         self.UI.btn_submit.setEnabled(False)
         self.UI.entry_staff_or_dependant.setFocus()
 
-
         self.UI.combo_months.addItems(list(self.months.keys()))
         self.mon = self.UI.combo_months.currentText()[0:3]
         self.UI.lbl_cur_amount.setText(
@@ -327,6 +326,7 @@ class MainApp(QMainWindow):
         else:
             QMessageBox.critical(self, 'Search Error', 'Search box <b>cannot</b> be empty!')
 
+
     def clearStaffDetails(self):
         self.UI.entry_staff_name.clear()
         self.UI.entry_department.clear()
@@ -357,7 +357,7 @@ class MainApp(QMainWindow):
                                         self.staff_details[person_typed.upper()][1] is not None else 'None',
                                         [x.title() if x is not None else 'None' for x in
                                          self.staff_details[person_typed.upper()][2:]],
-                                        'STAFF', f'{float(amount):.2f}'
+                                        self.UI.combo_months.currentText()[0:3].upper(), 'STAFF', f'{float(amount):.2f}'
                                         ])
                 self.updateTable()
             else:  # person could be dependant or casual/guest
@@ -386,7 +386,9 @@ class MainApp(QMainWindow):
                                                     self.staff_details[actual_staff.upper()][1] is not None else 'None',
                                                     [x.title() if x is not None else 'None' for x in
                                                      self.staff_details[actual_staff.upper()][2:]],
-                                                    'CHILD' if offset_row == 1 else 'SPOUSE', f'{float(amount):.2f}'
+                                                    self.UI.combo_months.currentText()[0:3].upper(),
+                                                    'CHILD' if offset_row == 1 else 'SPOUSE',
+                                                    f'{float(amount):.2f}'
                                                     ])
                             self.updateTable()
 
@@ -395,6 +397,11 @@ class MainApp(QMainWindow):
                     dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
                     MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0,
                                                              amount)
+                    self.myrow_data.append([person_typed, 'GUEST' if 'GUEST' in dept else 'CAUSAL',
+                                            'None', 'None', self.UI.combo_months.currentText()[0:3].upper(),
+                                            'GUEST' if 'GUEST' in dept else 'CAUSAL',  f'{float(amount):.2f}'
+                                            ])
+                    self.updateTable()
 
             # self.UI.entry_staff_or_dependant.clear()
             self.UI.entry_amount.setText('GH₵ ')
@@ -427,7 +434,7 @@ class MainApp(QMainWindow):
                         if 'CHILD' in self.myrow_data[0]:
                             temp_index = self.myrow_data[0][3].index(self.UI.entry_staff_or_dependant.text())
                             print(temp_index)
-                            self.myrow_data[0][3][0], self.myrow_data[0][3][temp_index]\
+                            self.myrow_data[0][3][0], self.myrow_data[0][3][temp_index] \
                                 = self.myrow_data[0][3][temp_index], self.myrow_data[0][3][0]
 
                         combo_temp.addItems(self.myrow_data[0][3])
@@ -436,7 +443,8 @@ class MainApp(QMainWindow):
                     self.UI.table_last_edit.setItem(row, col, QTableWidgetItem(data))
             self.UI.table_last_edit.item(row, 4).setFont(QFont('century gothic', 11))
             self.UI.table_last_edit.item(row, 4).setTextAlignment(Qt.AlignTop)
-            # todo: maybe add month for more clarity on first glance
+            self.UI.table_last_edit.item(row, 5).setFont(QFont('century gothic', 11))
+            self.UI.table_last_edit.item(row, 5).setTextAlignment(Qt.AlignTop)
             # todo: maybe add time of input
         self.myrow_data.clear()
         stop = datetime.now()
@@ -460,5 +468,4 @@ if __name__ == '__main__':
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
     #   1. Difference between quick search and typing staff/dependant name directly???
-    #   2. Let status bar show status of long processes
-    #   3. Change pink titles to groupboxes [optional]
+    #   2. Change pink titles to groupboxes [optional]

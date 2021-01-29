@@ -127,9 +127,9 @@ class UIMainWindow(QWidget):
 
         self.table_last_edit = QTableWidget()
         self.table_last_edit.setRowCount(1)
-        self.table_last_edit.setColumnCount(6)
+        self.table_last_edit.setColumnCount(7)
         # self.table_last_edit.setSpan(0, 3, 1, 4)
-        self.table_last_edit.setSpan(0, 4, 1, 2)
+        self.table_last_edit.setSpan(0, 4, 1, 3)
         table_lbl1 = QLabel('<i>Staff Name</i>')
         table_lbl1.setAlignment(Qt.AlignHCenter)
         table_lbl2 = QLabel('<i>Dept.</i>')
@@ -138,7 +138,7 @@ class UIMainWindow(QWidget):
         table_lbl3.setAlignment(Qt.AlignHCenter)
         table_lbl4 = QLabel('<i>Child(ren)</i>')
         table_lbl4.setAlignment(Qt.AlignHCenter)
-        table_lbl5 = QLabel('<i>New Amount added for</i>(<font color=\"#3d8ec9\">GH₵</font>):')  # todo: get better name for this
+        table_lbl5 = QLabel('<i>New Amount</i>(<font color=\"#3d8ec9\">GH₵</font>) <i>added for</i>:')  # todo: get better name for this
         table_lbl5.setAlignment(Qt.AlignHCenter)
         table_lbl5.setWordWrap(True)
 
