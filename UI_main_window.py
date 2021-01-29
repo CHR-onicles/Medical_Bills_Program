@@ -63,7 +63,6 @@ class UIMainWindow(QWidget):
 
         self.lbl_staff_or_dependant = QLabel('Staff/Dependant Name:')
         self.entry_staff_or_dependant = QLineEdit()
-        self.entry_staff_or_dependant.setFocus()
         self.entry_staff_or_dependant.setClearButtonEnabled(True)
         # self.entry_staff_or_dependant.setValidator(NameInputValidator())
         self.lbl_amount = QLabel('Amount:')

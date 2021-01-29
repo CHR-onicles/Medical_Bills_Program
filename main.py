@@ -175,7 +175,7 @@ class MainApp(QMainWindow):
         # self.UI.combo_children.setDisabled(True)
         # self.UI.entry_cur_amount1.setDisabled(True)
         self.UI.btn_submit.setEnabled(False)
-
+        self.UI.entry_staff_or_dependant.setFocus()
 
 
         self.UI.combo_months.addItems(list(self.months.keys()))
@@ -227,7 +227,6 @@ class MainApp(QMainWindow):
         # self.UI.table_last_edit.insertRow(self.UI.table_last_edit.rowCount())  # add row at location of last row
         # self.UI.table_last_edit.setSortingEnabled(True)  # dont need to sort for now
         # END TABLE ----------------------------------------------------------------------------------------
-
 
 
     def updateCurAmountLabel(self):
