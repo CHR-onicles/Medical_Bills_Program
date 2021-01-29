@@ -320,4 +320,4 @@ class MBillsFunctions:
     # TODO:
     #   1. Make documentation more comprehensible
     #   2. Save inserts in a global list and use that for UNDO.
-    #   3. Implement 'recently edited' table then implement UNDO option
+    #   3. Implement UNDO option

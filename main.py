@@ -24,13 +24,6 @@ ic.configureOutput(includeContext=True)
 
 
 
-class RecentlyEditedTableModel(QAbstractTableModel):
-
-    def __init__(self):
-        super(RecentlyEditedTableModel, self).__init__()
-
-
-
 
 
 class MainApp(QMainWindow):
@@ -156,6 +149,8 @@ class MainApp(QMainWindow):
         }
         
         """)
+
+        self.myrow_data = []
 
         self.UIComp()
 
@@ -347,6 +342,13 @@ class MainApp(QMainWindow):
                 dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
                 # ic('entered staff')
                 MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0, amount)
+                self.myrow_data.append([person_typed, self.staff_details[person_typed.upper()][0],
+                                        self.staff_details[person_typed.upper()][1].title(),
+                                        [x.title() for x in self.staff_details[person_typed.upper()][2:]],
+                                        'STAFF', amount
+                                        ])
+
+                self.updateTable()
             else:  # person could be dependant or casual/guest
                 actual_staff, dependant, status = MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(),
                                                                                               self.staff_details)
@@ -386,6 +388,27 @@ class MainApp(QMainWindow):
 
         else:
             QMessageBox.critical(self, 'Entry Error', 'No record found!')
+
+    def updateTable(self):
+        if self.myrow_data:  # check if row data is not empty
+            self.UI.table_last_edit.insertRow(self.UI.table_last_edit.rowCount())  # add row at location of last row
+            row = self.UI.table_last_edit.rowCount()-1
+            for col, data in enumerate(self.myrow_data[0]):
+                if col == 3:
+                    combo_temp = QComboBox()
+                    if not self.myrow_data[0][3]:
+                        combo_temp.addItem('None')
+                    else:
+                        combo_temp.addItems(self.myrow_data[0][3])
+                    self.UI.table_last_edit.setCellWidget(row, 3, combo_temp)
+                else:
+                    self.UI.table_last_edit.setItem(row, col, QTableWidgetItem(data))
+            self.UI.table_last_edit.item(row, 4).setFont(QFont('century gothic', 11))
+            self.UI.table_last_edit.item(row, 4).setTextAlignment(Qt.AlignTop)
+            # todo: maybe add month for more clarity on first glance
+        self.myrow_data.clear()
+
+
 
 
 

@@ -56,6 +56,10 @@ def main_window_style():
         font-size: 13pt;
         /* font: 75 12pt "century gothic"; # Doesn't work */
     }
+    QTableWidget, QTableWidget QComboBox {
+        font-size: 12pt;
+        /*text-align: center; # doesnt work */
+    }
     
 /* QDarkStyle from here on ------------------------------------------------------------------------------------------ */
     

@@ -124,7 +124,7 @@ class UIMainWindow(QWidget):
         self.lbl_table_title = QLabel('Last Edit History:')
 
         self.table_last_edit = QTableWidget()
-        self.table_last_edit.setRowCount(2)
+        self.table_last_edit.setRowCount(1)
         self.table_last_edit.setColumnCount(6)
         # self.table_last_edit.setSpan(0, 3, 1, 4)
         self.table_last_edit.setSpan(0, 4, 1, 2)
