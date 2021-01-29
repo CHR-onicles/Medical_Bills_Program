@@ -178,7 +178,7 @@ class UIMainWindow(QWidget):
         self.staff_details_layout = QVBoxLayout()
         self.staff_details_layout.setContentsMargins(10, 0, 0, 0)
         self.staff_form = QFormLayout()
-        self.staff_form.setVerticalSpacing(10)
+        self.staff_form.setVerticalSpacing(8)
         self.lbl_cur_amount_layout = QHBoxLayout()
         # self.lbl_cur_amount_layout.setContentsMargins(20, 0, 0, 0)
         self.entry_cur_amount_layout = QHBoxLayout()
@@ -225,13 +225,13 @@ class UIMainWindow(QWidget):
 
         self.staff_form.addRow(self.lbl_cur_amount, self.entry_cur_amount_main_layout)
 
-        self.tab1_main_layout.addLayout(self.tab1_quick_search_layout, 18)
-        self.tab1_main_layout.addLayout(self.tab1_month_layout, 18)
-        self.tab1_main_layout.addWidget(self.hline, 4)
-        self.tab1_main_layout.addLayout(self.tab1_entry_and_details_main_layout, 60)
+        self.tab1_main_layout.addLayout(self.tab1_quick_search_layout)
+        self.tab1_main_layout.addLayout(self.tab1_month_layout)
+        self.tab1_main_layout.addWidget(self.hline)
+        self.tab1_main_layout.addLayout(self.tab1_entry_and_details_main_layout, 50)
         self.tab1_main_layout.addWidget(self.hline1)
         self.tab1_main_layout.addWidget(self.lbl_table_title)
-        self.tab1_main_layout.addWidget(self.table_last_edit)
+        self.tab1_main_layout.addWidget(self.table_last_edit, 40)
         self.tab_1.setLayout(self.tab1_main_layout)
         #   END TAB 1 LAYOUTS ------------------------------------------------------------------------------
 

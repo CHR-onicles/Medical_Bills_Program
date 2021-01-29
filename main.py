@@ -50,9 +50,9 @@ class MainApp(QMainWindow):
         self.UI = UIMainWindow()
         self.setCentralWidget(self.UI)
         self.setStyleSheet(styles.main_window_style())
-        self.resize(1300, 930)
+        self.resize(1310, 1000)
         # self.resize(1000, 800)  # for testing purposes
-        self.setMinimumSize(QSize(1100, 850))  # todo: based on final program edit this
+        self.setMinimumSize(QSize(1100, 900))  # todo: based on final program edit this
 
         # Medical Bills Files configs -------------------------------------------------------------------
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
@@ -462,3 +462,4 @@ if __name__ == '__main__':
     # TODO:
     #   1. Difference between quick search and typing staff/dependant name directly???
     #   2. Let status bar show status of long processes
+    #   3. Change pink titles to groupboxes [optional]
