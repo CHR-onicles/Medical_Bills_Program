@@ -1,6 +1,6 @@
 from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QThread, QThreadPool, QRunnable, QObject, QUrl,
-                          QAbstractTableModel)
-from PyQt5.QtGui import (QIcon, QFont, QStandardItemModel)
+                          )
+from PyQt5.QtGui import (QIcon, QFont)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
                              QCompleter, QMessageBox, QTableWidgetItem, QTableWidget, QStyledItemDelegate,
                              QAbstractItemView, QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QStatusBar, QListView)
@@ -24,6 +24,19 @@ ic.configureOutput(includeContext=True)
 
 
 
+# class SfxPlayerThread(QObject):
+#
+#     def __init__(self):
+#         super(SfxPlayerThread, self).__init__()
+#         # SFX -------------------------------------------------------------------------------------------
+#         self.sfx_player = QSoundEffect()
+#         self.sfx_player.setSource(QUrl.fromLocalFile(':/sfx/success'))
+#
+#     @pyqtSlot()
+#     def play(self):
+#         self.sfx_player.play()
+
+
 
 
 class MainApp(QMainWindow):
@@ -42,9 +55,7 @@ class MainApp(QMainWindow):
         # self.resize(1000, 800)  # for testing purposes
         self.setMinimumSize(QSize(1100, 850))  # todo: based on final program edit this
 
-        # SFX -------------------------------------------------------------------------------------------
-        self.sfx_player = QSoundEffect()
-        self.sfx_player.setSource(QUrl.fromLocalFile(':/sfx/success'))
+
 
         # Medical Bills Files configs -------------------------------------------------------------------
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
@@ -347,7 +358,6 @@ class MainApp(QMainWindow):
                                         [x.title() if x is not None else 'None' for x in self.staff_details[person_typed.upper()][2:]],
                                         'STAFF', f'{float(amount):.2f}'
                                         ])
-
                 self.updateTable()
             else:  # person could be dependant or casual/guest
                 actual_staff, dependant, status = MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(),
@@ -380,14 +390,20 @@ class MainApp(QMainWindow):
             # self.UI.entry_staff_or_dependant.clear()
             self.UI.entry_amount.setText('GH₵ ')
 
-            stop = datetime.now()
-            print('Time taken to insert:', stop-start)
+            # Threading for SFX here -------------------------------
+            # self.worker = SfxPlayerThread()
+            # self.worker.moveToThread(self.worker_thread)
+            # self.worker_thread.start()
+            # self.signal_insert_finished.connect(self.worker.play)
+            # END Threading for SFX here ----------------------------
 
-            self.sfx_player.play()
             self.status_bar.showMessage('Entry saved successfully...', 3000)
+            stop = datetime.now()
+            print('Time taken to insert:', stop - start)
 
         else:
             QMessageBox.critical(self, 'Entry Error', 'No record found!')
+
 
     def updateTable(self):
         start = datetime.now()
