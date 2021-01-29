@@ -1,3 +1,7 @@
+"""
+Author = CHR-onicles
+Date: 20/01/21
+"""
 from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QObject, QUrl,
                           )
 from PyQt5.QtGui import (QIcon, QFont)
@@ -425,26 +429,27 @@ class MainApp(QMainWindow):
         if self.myrow_data:  # check if row data is not empty
             self.UI.table_last_edit.insertRow(self.UI.table_last_edit.rowCount())  # add row at location of last row
             row = self.UI.table_last_edit.rowCount() - 1
+            self.myrow_data[0].insert(0, str(start.strftime('%H:%M:%S')))
             for col, data in enumerate(self.myrow_data[0]):
-                if col == 3:
+                if col == 4:
                     combo_temp = QComboBox()
-                    if 'None' in self.myrow_data[0][3]:
+                    if 'None' in self.myrow_data[0][4]:
                         combo_temp.addItem('None')
                     else:
                         if 'CHILD' in self.myrow_data[0]:
-                            temp_index = self.myrow_data[0][3].index(self.UI.entry_staff_or_dependant.text())
+                            temp_index = self.myrow_data[0][4].index(self.UI.entry_staff_or_dependant.text())
                             print(temp_index)
-                            self.myrow_data[0][3][0], self.myrow_data[0][3][temp_index] \
-                                = self.myrow_data[0][3][temp_index], self.myrow_data[0][3][0]
+                            self.myrow_data[0][4][0], self.myrow_data[0][4][temp_index] \
+                                = self.myrow_data[0][4][temp_index], self.myrow_data[0][4][0]
 
-                        combo_temp.addItems(self.myrow_data[0][3])
-                    self.UI.table_last_edit.setCellWidget(row, 3, combo_temp)
+                        combo_temp.addItems(self.myrow_data[0][4])
+                    self.UI.table_last_edit.setCellWidget(row, 4, combo_temp)
                 else:
                     self.UI.table_last_edit.setItem(row, col, QTableWidgetItem(data))
-            self.UI.table_last_edit.item(row, 4).setFont(QFont('century gothic', 11))
-            self.UI.table_last_edit.item(row, 4).setTextAlignment(Qt.AlignTop)
             self.UI.table_last_edit.item(row, 5).setFont(QFont('century gothic', 11))
             self.UI.table_last_edit.item(row, 5).setTextAlignment(Qt.AlignTop)
+            self.UI.table_last_edit.item(row, 6).setFont(QFont('century gothic', 11))
+            self.UI.table_last_edit.item(row, 6).setTextAlignment(Qt.AlignTop)
             # todo: maybe add time of input
         self.myrow_data.clear()
         stop = datetime.now()

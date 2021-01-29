@@ -1,3 +1,7 @@
+"""
+Author = 'CHR-onicles'
+Date: 20/01/21
+"""
 import openpyxl
 from icecream import ic
 from datetime import datetime

@@ -1,3 +1,7 @@
+"""
+Author = 'CHR-onicles'
+Date: 20/01/21
+"""
 from PyQt5.QtCore import (QSize, Qt)
 from PyQt5.QtGui import (QPixmap, QIcon)
 from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QSizePolicy, QApplication,
@@ -127,9 +131,11 @@ class UIMainWindow(QWidget):
 
         self.table_last_edit = QTableWidget()
         self.table_last_edit.setRowCount(1)
-        self.table_last_edit.setColumnCount(7)
+        self.table_last_edit.setColumnCount(8)
         # self.table_last_edit.setSpan(0, 3, 1, 4)
-        self.table_last_edit.setSpan(0, 4, 1, 3)
+        self.table_last_edit.setSpan(0, 5, 1, 3)
+        table_lbl0 = QLabel('<i>Time</i>')
+        table_lbl0.setAlignment(Qt.AlignHCenter)
         table_lbl1 = QLabel('<i>Staff Name</i>')
         table_lbl1.setAlignment(Qt.AlignHCenter)
         table_lbl2 = QLabel('<i>Dept.</i>')
@@ -143,16 +149,21 @@ class UIMainWindow(QWidget):
         table_lbl5.setWordWrap(True)
 
         # just using this to set column header resize
-        self.table_last_edit.setHorizontalHeaderLabels(['Staff Name', 'Department', 'Spouse Name', 'Children', 'New Amount for Month'])
-        self.table_last_edit.setCellWidget(0, 0, table_lbl1)
-        self.table_last_edit.setCellWidget(0, 1, table_lbl2)
-        self.table_last_edit.setCellWidget(0, 2, table_lbl3)
-        self.table_last_edit.setCellWidget(0, 3, table_lbl4)
-        self.table_last_edit.setCellWidget(0, 4, table_lbl5)
-        self.table_last_edit.setCellWidget(1, 3, QComboBox())
-        self.table_last_edit.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
-        self.table_last_edit.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
+        self.table_last_edit.setHorizontalHeaderLabels(['Time', 'Staff Name', 'Department', 'Spouse Name', 'Children   ', 'New Amount for Month'])
+        self.table_last_edit.setCellWidget(0, 0, table_lbl0)
+        self.table_last_edit.setColumnWidth(0, 100)  # For time
+        self.table_last_edit.setColumnWidth(5, 75)  # For Spanned amount columns
+        self.table_last_edit.setColumnWidth(6, 100)  # For Spanned amount columns
+        # self.table_last_edit.setColumnWidth(7, 90)  # For Spanned amount columns
+        self.table_last_edit.setCellWidget(0, 1, table_lbl1)
+        self.table_last_edit.setCellWidget(0, 2, table_lbl2)
+        self.table_last_edit.setCellWidget(0, 3, table_lbl3)
+        self.table_last_edit.setCellWidget(0, 4, table_lbl4)
+        self.table_last_edit.setCellWidget(0, 5, table_lbl5)
+        self.table_last_edit.setCellWidget(1, 4, QComboBox())
+        self.table_last_edit.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
         self.table_last_edit.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
+        self.table_last_edit.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)
         self.table_last_edit.setRowHeight(0, 60)
 
 

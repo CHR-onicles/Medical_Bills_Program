@@ -1,16 +1,7 @@
-# ------------------------------------------------------------------------------
-#
-# AUTHOR: CHR-onicles (GitHub)
-# PROJECT MADE WITH: PyQt5
-#
-# This project can be used freely for all uses, as long as they maintain the
-# respective credits only in the Python scripts.
-#
-# There are limitations on Qt licenses if you want to use your products
-# commercially, I recommend reading them on the official website:
-# https://doc.qt.io/qtforpython/licenses.html
-#
-# ------------------------------------------------------------------------------
+"""
+Author = CHR-onicles
+Date: 20/01/21
+"""
 
 from PyQt5.QtGui import QValidator
 from PyQt5.QtWidgets import QFrame, QSizePolicy, QWidget
