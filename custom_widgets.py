@@ -105,4 +105,4 @@ class CurrencyInputValidator(QValidator):
 #             state = QValidator.Acceptable
 #
 #         return state, v_string, index
-     # don't think I need a validator for names
+     # don't think a validator is needed for names

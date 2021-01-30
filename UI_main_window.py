@@ -61,7 +61,7 @@ class UIMainWindow(QWidget):
         self.btn_quick_search.setObjectName('btn_quick_search_and_refresh')
 
         # Entry from Receipt Widgets -----------------------------------------------------------------------
-        self.lbl_entry_from_receipt = QLabel('<u>Entry From Receipt</u>')
+        self.lbl_entry_from_receipt = QLabel('<u>Entry For Bills/Claims</u>')
         self.lbl_entry_from_receipt.setAlignment(Qt.AlignHCenter)
         self.lbl_entry_from_receipt.setObjectName('lbl_titles')
 
