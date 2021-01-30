@@ -1,5 +1,5 @@
 """
-Author = CHR-onicles
+Author: CHR-onicles
 Date: 20/01/21
 """
 from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QObject, QUrl,
@@ -62,7 +62,7 @@ class MainApp(QMainWindow):
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
                        'August': 9, 'September': 10, 'October': 11, 'November': 12, 'December': 13}
         # todo: Automatically check for the right files later [optional]
-        self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initializeFiles('test med bills 2021.xlsx',
+        self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initializeFiles('MEDICAL BILLS 2021.xlsx',
                                                                                     'STAFF DEPENDANT LIST 2020.xlsx')
         self.all_names_and_dept = MBillsFunctions.getAllMedBillsNamesAndDept(self.wkbk_med_bills)
         self.all_names_and_dept.extend(MBillsFunctions.getAllDependantNames(self.wkbk_staff_list))
@@ -346,7 +346,7 @@ class MainApp(QMainWindow):
 
     def insertIntoMedBills(self):
         if self.UI.entry_staff_or_dependant.text() in [names.split('|')[0] for names in self.all_names_and_dept]:
-            start = datetime.now()
+            # start = datetime.now()
             person_typed = self.UI.entry_staff_or_dependant.text()
             amount = str(self.UI.entry_amount.text()[4:])
             offset_col = self.months[self.UI.combo_months.currentText()]
@@ -408,8 +408,9 @@ class MainApp(QMainWindow):
                                             ])
                     self.updateTable()
 
-            # self.UI.entry_staff_or_dependant.clear()
+            self.UI.entry_staff_or_dependant.clear()
             self.UI.entry_amount.setText('GH₵ ')
+            self.UI.entry_staff_or_dependant.setFocus()
 
             # Threading for SFX here -------------------------------
             # self.worker = SfxPlayerThread()
@@ -419,14 +420,14 @@ class MainApp(QMainWindow):
             # END Threading for SFX here ----------------------------
 
             self.status_bar.showMessage('Entry saved successfully...', 3000)
-            stop = datetime.now()
-            print('Time taken to insert:', stop - start)
+            # stop = datetime.now()
+            # print('Time taken to insert:', stop - start)
 
         else:
             QMessageBox.critical(self, 'Entry Error', 'No record found!')
 
     def updateTable(self):
-        start = datetime.now()
+        start = datetime.now()  # DONT COMMENT OUT
         if self.myrow_data:  # check if row data is not empty
             self.UI.table_last_edit.insertRow(self.UI.table_last_edit.rowCount())  # add row at location of last row
             row = self.UI.table_last_edit.rowCount() - 1
@@ -451,10 +452,9 @@ class MainApp(QMainWindow):
             self.UI.table_last_edit.item(row, 5).setTextAlignment(Qt.AlignTop)
             self.UI.table_last_edit.item(row, 6).setFont(QFont('century gothic', 11))
             self.UI.table_last_edit.item(row, 6).setTextAlignment(Qt.AlignTop)
-            # todo: maybe add time of input
         self.myrow_data.clear()
-        stop = datetime.now()
-        print('Time taken to update table:', stop - start)
+        # stop = datetime.now()
+        # print('Time taken to update table:', stop - start)
 
 
 
@@ -473,5 +473,5 @@ if __name__ == '__main__':
 
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
-    #   1. Difference between quick search and typing staff/dependant name directly???
-    #   2. Change pink titles to groupboxes [optional]
+    #   1. Change pink titles to groupboxes [optional]
+    #   2. Implement UNDO button and functionality [HIGH PRIORITY]

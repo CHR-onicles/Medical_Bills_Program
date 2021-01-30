@@ -1,5 +1,5 @@
 """
-Author = CHR-onicles
+Author: CHR-onicles
 Date: 20/01/21
 """
 
