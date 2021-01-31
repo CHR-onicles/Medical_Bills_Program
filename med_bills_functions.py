@@ -302,10 +302,11 @@ class MBillsFunctions:
     @staticmethod
     def saveFile(workbook, new_name: str):
         """
+        Save the workbook.
 
-        :param workbook:
+        :param workbook: Medical Bills file
 
-        :param new_name:
+        :param new_name: Either the same medical bills file or a new one
 
         :return: Boolean whether save was successful or not
         """

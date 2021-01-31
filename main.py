@@ -213,11 +213,16 @@ class MainApp(QMainWindow):
         self.setStatusBar(self.status_bar)
         self.status_bar.setFont(QFont('century gothic', 12, 0, True))
         self.status_bar.showMessage('Welcome, this is the status bar...', 5000)
+        self.btn_undo = QPushButton('Undo')
+        self.btn_undo.setObjectName('btn_quick_search_and_refresh')  # to apply that style to this too
+        self.status_bar.addPermanentWidget(self.btn_undo)
         self.btn_refresh = QPushButton('Refresh')
         self.btn_refresh.setObjectName('btn_quick_search_and_refresh')  # just to apply that style to this too
         self.btn_refresh.clicked.connect(self.clearStaffDetails)
+        self.vline = QVSeparationLine()
+        self.status_bar.addPermanentWidget(QLabel('   '))
         self.status_bar.addPermanentWidget(self.btn_refresh)
-        # self.status_bar.addPermanentWidget(QPushButton('Undo'))
+
 
         self.status_bar.setFixedHeight(60)
         self.setContentsMargins(0, 0, 20, 0)
