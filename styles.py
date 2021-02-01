@@ -1252,7 +1252,7 @@ QToolBox::tab {
  }
 
 QStatusBar::item {
-    border: 1px solid #3A3939;
+    /*border: 1px solid #3A3939; # commented this out to remove border from invisible label*/
     border-radius: 2px;
  }
 

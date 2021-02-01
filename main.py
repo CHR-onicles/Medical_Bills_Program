@@ -172,6 +172,7 @@ class MainApp(QMainWindow):
     def UIComp(self):
         self.initUI()
 
+
     def initUI(self):
         # Disable these widgets on startup
         # self.UI.entry_staff_name.setDisabled(True)
@@ -222,7 +223,6 @@ class MainApp(QMainWindow):
         self.btn_refresh.setObjectName('btn_quick_search_and_refresh')  # just to apply that style to this too
         self.btn_refresh.clicked.connect(self.clearStaffDetails)
         lbl_fake = QLabel('   ')
-        lbl_fake.setStyleSheet('border: none; background-color: #302F2F')
         self.status_bar.addPermanentWidget(lbl_fake)
         self.status_bar.addPermanentWidget(self.btn_refresh)
 
@@ -235,8 +235,6 @@ class MainApp(QMainWindow):
         self.UI.table_last_edit.verticalHeader().setVisible(False)
 
         self.UI.table_last_edit.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        # self.UI.table_last_edit.insertRow(self.UI.table_last_edit.rowCount())  # add row at location of last row
-        # self.UI.table_last_edit.setSortingEnabled(True)  # dont need to sort for now
         # END TABLE ----------------------------------------------------------------------------------------
 
 
