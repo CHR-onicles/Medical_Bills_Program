@@ -79,10 +79,10 @@ class UIMainWindow(QWidget):
         self.btn_submit = QPushButton('Submit')
         self.btn_submit.setObjectName('btn_submit')
 
-        self.vline = QVSeparationLine()
+        # self.vline = QVSeparationLine()
         # self.vline.setStyleSheet('border: 1px solid gray;')
 
-        self.hline = QHSeparationLine()
+        # self.hline = QHSeparationLine()
         # self.hline.setStyleSheet('border: 1px solid gray;')
         # END Entry from Receipt Widgets -------------------------------------------------------------------
 
@@ -213,7 +213,7 @@ class UIMainWindow(QWidget):
         self.tab1_month_layout.addStretch()
 
         self.tab1_entry_and_details_main_layout.addLayout(self.entry_from_receipt_layout, 48)
-        self.tab1_entry_and_details_main_layout.addWidget(self.vline, 4)
+        self.tab1_entry_and_details_main_layout.addWidget(QVSeparationLine(), 4)
         self.tab1_entry_and_details_main_layout.addLayout(self.staff_details_layout, 48)
 
         self.entry_from_receipt_layout.addWidget(self.lbl_entry_from_receipt, 20)
@@ -238,14 +238,14 @@ class UIMainWindow(QWidget):
 
         self.staff_form.addRow(self.lbl_cur_amount, self.entry_cur_amount_main_layout)
 
-        self.tab1_main_layout.addLayout(self.tab1_quick_search_layout)
-        self.tab1_main_layout.addWidget(QHSeparationLine())
-        self.tab1_main_layout.addLayout(self.tab1_month_layout)
-        self.tab1_main_layout.addWidget(self.hline)
+        self.tab1_main_layout.addLayout(self.tab1_quick_search_layout, 2)
+        self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
+        self.tab1_main_layout.addLayout(self.tab1_month_layout, 5)
+        self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
         self.tab1_main_layout.addLayout(self.tab1_entry_and_details_main_layout, 50)
-        self.tab1_main_layout.addWidget(self.hline1)
-        self.tab1_main_layout.addWidget(self.lbl_table_title)
-        self.tab1_main_layout.addWidget(self.table_last_edit, 40)
+        self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
+        self.tab1_main_layout.addWidget(self.lbl_table_title, 5)
+        self.tab1_main_layout.addWidget(self.table_last_edit, 35)
         self.tab_1.setLayout(self.tab1_main_layout)
         #   END TAB 1 LAYOUTS ------------------------------------------------------------------------------
 

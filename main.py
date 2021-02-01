@@ -56,7 +56,7 @@ class MainApp(QMainWindow):
         self.setStyleSheet(styles.main_window_style())
         self.resize(1310, 1000)
         # self.resize(1000, 800)  # for testing purposes
-        self.setMinimumSize(QSize(1100, 900))  # todo: based on final program edit this
+        self.setMinimumSize(QSize(1100, 950))  # todo: based on final program edit this
 
         # Medical Bills Files configs -------------------------------------------------------------------
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
@@ -214,26 +214,27 @@ class MainApp(QMainWindow):
         self.setStatusBar(self.status_bar)
         self.status_bar.setFont(QFont('century gothic', 12, 0, True))
         self.status_bar.showMessage('Welcome, this is the status bar...', 10000)  # todo: change later
-        self.btn_undo = QPushButton('Undo')
-        self.btn_undo.setToolTip('Revert last entry that was made')
-        self.btn_undo.setObjectName('btn_quick_search_and_refresh')  # to apply that style to this too
-        # self.status_bar.addPermanentWidget(self.btn_undo)
-        self.btn_refresh = QPushButton('Refresh')
-        self.btn_refresh.setToolTip('Clear Staff details Summary')
-        self.btn_refresh.setObjectName('btn_quick_search_and_refresh')  # just to apply that style to this too
-        self.btn_refresh.clicked.connect(self.clearStaffDetails)
+
+        self.btn_undo = QPushButton()
+        self.btn_undo.setIcon(QIcon(':/icon/undo'))
+        self.btn_undo.setToolTip('Undo last entry')
+        self.btn_redo = QPushButton()
+        self.btn_redo.setIcon(QIcon(':/icon/redo'))
+        self.btn_redo.setToolTip('Redo recently undone entry')
+        self.btn_clear = QPushButton()
+        self.btn_clear.setToolTip('Clear Staff details Summary')
+        self.btn_clear.setIcon(QIcon(':/icon/clear'))
+        self.btn_clear.clicked.connect(self.clearStaffDetails)
 
         self.UI.tab1_quick_search_layout.insertWidget(0, self.btn_undo, 0)
-        self.UI.tab1_quick_search_layout.insertWidget(1, self.btn_refresh, 0)
-        self.UI.tab1_quick_search_layout.insertWidget(2, QLabel('  '), 1)
+        self.UI.tab1_quick_search_layout.insertWidget(1, self.btn_redo, 0)
+        self.UI.tab1_quick_search_layout.insertWidget(2, self.btn_clear, 0)
+        self.UI.tab1_quick_search_layout.insertWidget(3, QLabel(' '), 1)
 
 
-        lbl_fake = QLabel('   ')  # to create space between buttons on the status bar
+        # lbl_fake = QLabel('   ')  # to create space between buttons on the status bar
         # self.status_bar.addPermanentWidget(lbl_fake)
-        # self.status_bar.addPermanentWidget(self.btn_refresh)
-
-        self.status_bar.setFixedHeight(40)
-        self.setContentsMargins(0, 0, 20, 0)
+        # self.status_bar.addPermanentWidget(self.btn_clear)
         # END STATUS BAR -----------------------------------------------------------------------------------
 
         # TABLE --------------------------------------------------------------------------------------------
