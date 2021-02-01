@@ -214,15 +214,17 @@ class MainApp(QMainWindow):
         self.status_bar.setFont(QFont('century gothic', 12, 0, True))
         self.status_bar.showMessage('Welcome, this is the status bar...', 5000)
         self.btn_undo = QPushButton('Undo')
+        self.btn_undo.setToolTip('Revert last entry that was made')
         self.btn_undo.setObjectName('btn_quick_search_and_refresh')  # to apply that style to this too
         self.status_bar.addPermanentWidget(self.btn_undo)
         self.btn_refresh = QPushButton('Refresh')
+        self.btn_refresh.setToolTip('Clear Staff details Summary')
         self.btn_refresh.setObjectName('btn_quick_search_and_refresh')  # just to apply that style to this too
         self.btn_refresh.clicked.connect(self.clearStaffDetails)
-        self.vline = QVSeparationLine()
-        self.status_bar.addPermanentWidget(QLabel('   '))
+        lbl_fake = QLabel('   ')
+        lbl_fake.setStyleSheet('border: none; background-color: #302F2F')
+        self.status_bar.addPermanentWidget(lbl_fake)
         self.status_bar.addPermanentWidget(self.btn_refresh)
-
 
         self.status_bar.setFixedHeight(60)
         self.setContentsMargins(0, 0, 20, 0)
@@ -242,6 +244,7 @@ class MainApp(QMainWindow):
         self.mon = self.UI.combo_months.currentText()[0:3]
         self.UI.lbl_cur_amount.setText(
             'Current Amount For <u>' + self.mon + '</u>(<font color=\"#3d8ec9\">GH₵</font>):')
+
 
     def updateDetailsForMonth(self):
         if len(self.UI.entry_quick_search.text()) > 0:
@@ -430,6 +433,7 @@ class MainApp(QMainWindow):
 
         else:
             QMessageBox.critical(self, 'Entry Error', 'No record found!')
+
 
     def updateTable(self):
         start = datetime.now()  # DONT COMMENT OUT
