@@ -43,9 +43,6 @@
 
   <qresource prefix="icon">
         <file alias="cat">rc/cat.ico</file>
+        <file alias="search">rc/magnifying-glass.png</file>
     </qresource>
-
-  <qresource prefix="sfx">
-    <file alias="success">sfx/Success_sfx.wav</file>
-  </qresource>
 </RCC>

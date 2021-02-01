@@ -213,20 +213,26 @@ class MainApp(QMainWindow):
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
         self.status_bar.setFont(QFont('century gothic', 12, 0, True))
-        self.status_bar.showMessage('Welcome, this is the status bar...', 5000)
+        self.status_bar.showMessage('Welcome, this is the status bar...', 10000)  # todo: change later
         self.btn_undo = QPushButton('Undo')
         self.btn_undo.setToolTip('Revert last entry that was made')
         self.btn_undo.setObjectName('btn_quick_search_and_refresh')  # to apply that style to this too
-        self.status_bar.addPermanentWidget(self.btn_undo)
+        # self.status_bar.addPermanentWidget(self.btn_undo)
         self.btn_refresh = QPushButton('Refresh')
         self.btn_refresh.setToolTip('Clear Staff details Summary')
         self.btn_refresh.setObjectName('btn_quick_search_and_refresh')  # just to apply that style to this too
         self.btn_refresh.clicked.connect(self.clearStaffDetails)
-        lbl_fake = QLabel('   ')
-        self.status_bar.addPermanentWidget(lbl_fake)
-        self.status_bar.addPermanentWidget(self.btn_refresh)
 
-        self.status_bar.setFixedHeight(60)
+        self.UI.tab1_quick_search_layout.insertWidget(0, self.btn_undo, 0)
+        self.UI.tab1_quick_search_layout.insertWidget(1, self.btn_refresh, 0)
+        self.UI.tab1_quick_search_layout.insertWidget(2, QLabel('  '), 1)
+
+
+        lbl_fake = QLabel('   ')  # to create space between buttons on the status bar
+        # self.status_bar.addPermanentWidget(lbl_fake)
+        # self.status_bar.addPermanentWidget(self.btn_refresh)
+
+        self.status_bar.setFixedHeight(40)
         self.setContentsMargins(0, 0, 20, 0)
         # END STATUS BAR -----------------------------------------------------------------------------------
 

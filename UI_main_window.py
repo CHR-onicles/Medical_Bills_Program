@@ -54,9 +54,12 @@ class UIMainWindow(QWidget):
         self.combo_months = QComboBox()
         self.combo_months.setObjectName('combo_titles')
 
-        self.lbl_quick_search = QLabel('Quick Search For Dependant or Staff:')
         self.entry_quick_search = QLineEdit()
+        self.entry_quick_search.setPlaceholderText('Quick Search For Dependant/Staff')
+        self.entry_quick_search.setFixedWidth(500)
         self.entry_quick_search.setClearButtonEnabled(True)
+        search_icon = QIcon(':/icon/search')
+        self.entry_quick_search.addAction(search_icon, QLineEdit.LeadingPosition)
         self.btn_quick_search = QPushButton('Search')
         self.btn_quick_search.setObjectName('btn_quick_search_and_refresh')
 
@@ -200,7 +203,7 @@ class UIMainWindow(QWidget):
 
 
         # Adding Widgets to TAB 1 Layout -------------------------------------------------------------------
-        self.tab1_quick_search_layout.addWidget(self.lbl_quick_search)
+        # self.tab1_quick_search_layout.addWidget(self.lbl_quick_search)
         self.tab1_quick_search_layout.addWidget(self.entry_quick_search)
         self.tab1_quick_search_layout.addWidget(self.btn_quick_search)
 
@@ -236,6 +239,7 @@ class UIMainWindow(QWidget):
         self.staff_form.addRow(self.lbl_cur_amount, self.entry_cur_amount_main_layout)
 
         self.tab1_main_layout.addLayout(self.tab1_quick_search_layout)
+        self.tab1_main_layout.addWidget(QHSeparationLine())
         self.tab1_main_layout.addLayout(self.tab1_month_layout)
         self.tab1_main_layout.addWidget(self.hline)
         self.tab1_main_layout.addLayout(self.tab1_entry_and_details_main_layout, 50)
