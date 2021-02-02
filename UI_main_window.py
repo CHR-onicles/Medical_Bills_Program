@@ -63,6 +63,7 @@ class UIMainWindow(QWidget):
         self.btn_quick_search = QPushButton()
         self.btn_quick_search.setIcon(QIcon(':/icon/search'))
         self.btn_quick_search.setObjectName('menu_button')
+        self.btn_quick_search.setToolTip('<b>Search</b> (Enter)')
 
         # Menu buttons ------------------------------------------------------------------------------------
         self.btn_undo = QPushButton()

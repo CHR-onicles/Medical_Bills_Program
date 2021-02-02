@@ -92,7 +92,7 @@ QToolTip
     /* background-color: rgb(90, 102, 117); original colour...not nice*/
     background-color: #444;
     color: white;
-    padding: 1px;
+    padding: 3px;
     opacity: 200; /* the frick does this do? cuz I don't see anything*/
 }
 
