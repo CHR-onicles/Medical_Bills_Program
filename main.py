@@ -197,9 +197,6 @@ class MainApp(QMainWindow):
         self.UI.btn_quick_search.clicked.connect(
             lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
 
-        # self.UI.entry_staff_or_dependant.returnPressed.connect(
-        #     lambda: self.populateStaffDetails(self.UI.entry_staff_or_dependant.text().strip()))
-
         self.UI.entry_staff_or_dependant.textChanged.connect(self.checkEntryStaffDepState)
         self.UI.entry_amount.textChanged.connect(self.checkEntryStaffDepState)
         self.UI.btn_submit.clicked.connect(self.insertIntoMedBills)

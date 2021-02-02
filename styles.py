@@ -80,17 +80,20 @@ QProgressBar:horizontal {
     padding: 1px;
     background: #201F1F;
 }
+
 QProgressBar::chunk:horizontal {
     background-color: qlineargradient(spread:reflect, x1:1, y1:0.545, x2:1, y2:0, stop:0 rgba(28, 66, 111, 255), stop:1 rgba(37, 87, 146, 255));
 }
 
 QToolTip
-{
+{   
+    font: 9pt segoe UI;
     border: 1px solid #3A3939;
-    background-color: rgb(90, 102, 117);;
+    /* background-color: rgb(90, 102, 117); original colour...not nice*/
+    background-color: #444;
     color: white;
     padding: 1px;
-    opacity: 200;
+    opacity: 200; /* the frick does this do? cuz I don't see anything*/
 }
 
 QWidget

@@ -60,20 +60,21 @@ class UIMainWindow(QWidget):
         self.entry_quick_search.setClearButtonEnabled(True)
         search_icon = QIcon(':/icon/search')
         self.entry_quick_search.addAction(search_icon, QLineEdit.LeadingPosition)
-        self.btn_quick_search = QPushButton('Search')
-        self.btn_quick_search.setObjectName('btn_quick_search_and_refresh')
+        self.btn_quick_search = QPushButton()
+        self.btn_quick_search.setIcon(QIcon(':/icon/search'))
+        self.btn_quick_search.setObjectName('menu_button')
 
         # Menu buttons ------------------------------------------------------------------------------------
         self.btn_undo = QPushButton()
         self.btn_undo.setIcon(QIcon(':/icon/undo'))
-        self.btn_undo.setToolTip('Undo last entry')
+        self.btn_undo.setToolTip('<b>Undo</b> last entry (Ctrl+Z)')
         self.btn_undo.setObjectName('menu_button')
         self.btn_redo = QPushButton()
         self.btn_redo.setIcon(QIcon(':/icon/redo'))
-        self.btn_redo.setToolTip('Redo recently undone entry')
+        self.btn_redo.setToolTip('<b>Redo</b> entry (Ctrl+Y)')
         self.btn_redo.setObjectName('menu_button')
         self.btn_clear = QPushButton()
-        self.btn_clear.setToolTip('Clear Staff details Summary')
+        self.btn_clear.setToolTip('<b>Clear</b> Staff details Summary')
         self.btn_clear.setIcon(QIcon(':/icon/clear'))
         self.btn_clear.setObjectName('menu_button')
         # END Menu buttons ---------------------------------------------------------------------------------
@@ -253,11 +254,12 @@ class UIMainWindow(QWidget):
 
         self.staff_form.addRow(self.lbl_cur_amount, self.entry_cur_amount_main_layout)
 
-        self.tab1_main_layout.addLayout(self.tab1_quick_search_layout, 2)
-        self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
         self.tab1_main_layout.addLayout(self.tab1_month_layout, 5)
         self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
+        self.tab1_main_layout.addLayout(self.tab1_quick_search_layout, 2)
+        self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
         self.tab1_main_layout.addLayout(self.tab1_entry_and_details_main_layout, 50)
+
         self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
         self.tab1_main_layout.addWidget(self.lbl_table_title, 5)
         self.tab1_main_layout.addWidget(self.table_last_edit, 35)
