@@ -215,26 +215,8 @@ class MainApp(QMainWindow):
         self.status_bar.setFont(QFont('century gothic', 12, 0, True))
         self.status_bar.showMessage('Welcome, this is the status bar...', 10000)  # todo: change later
 
-        self.btn_undo = QPushButton()
-        self.btn_undo.setIcon(QIcon(':/icon/undo'))
-        self.btn_undo.setToolTip('Undo last entry')
-        self.btn_redo = QPushButton()
-        self.btn_redo.setIcon(QIcon(':/icon/redo'))
-        self.btn_redo.setToolTip('Redo recently undone entry')
-        self.btn_clear = QPushButton()
-        self.btn_clear.setToolTip('Clear Staff details Summary')
-        self.btn_clear.setIcon(QIcon(':/icon/clear'))
-        self.btn_clear.clicked.connect(self.clearStaffDetails)
+        self.UI.btn_clear.clicked.connect(self.clearStaffDetails)
 
-        self.UI.tab1_quick_search_layout.insertWidget(0, self.btn_undo, 0)
-        self.UI.tab1_quick_search_layout.insertWidget(1, self.btn_redo, 0)
-        self.UI.tab1_quick_search_layout.insertWidget(2, self.btn_clear, 0)
-        self.UI.tab1_quick_search_layout.insertWidget(3, QLabel(' '), 1)
-
-
-        # lbl_fake = QLabel('   ')  # to create space between buttons on the status bar
-        # self.status_bar.addPermanentWidget(lbl_fake)
-        # self.status_bar.addPermanentWidget(self.btn_clear)
         # END STATUS BAR -----------------------------------------------------------------------------------
 
         # TABLE --------------------------------------------------------------------------------------------

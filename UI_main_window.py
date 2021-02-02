@@ -63,6 +63,22 @@ class UIMainWindow(QWidget):
         self.btn_quick_search = QPushButton('Search')
         self.btn_quick_search.setObjectName('btn_quick_search_and_refresh')
 
+        # Menu buttons ------------------------------------------------------------------------------------
+        self.btn_undo = QPushButton()
+        self.btn_undo.setIcon(QIcon(':/icon/undo'))
+        self.btn_undo.setToolTip('Undo last entry')
+        self.btn_undo.setObjectName('menu_button')
+        self.btn_redo = QPushButton()
+        self.btn_redo.setIcon(QIcon(':/icon/redo'))
+        self.btn_redo.setToolTip('Redo recently undone entry')
+        self.btn_redo.setObjectName('menu_button')
+        self.btn_clear = QPushButton()
+        self.btn_clear.setToolTip('Clear Staff details Summary')
+        self.btn_clear.setIcon(QIcon(':/icon/clear'))
+        self.btn_clear.setObjectName('menu_button')
+        # END Menu buttons ---------------------------------------------------------------------------------
+
+
         # Entry from Receipt Widgets -----------------------------------------------------------------------
         self.lbl_entry_from_receipt = QLabel('<u>Entry For Bills/Claims</u>')
         self.lbl_entry_from_receipt.setAlignment(Qt.AlignHCenter)
@@ -79,11 +95,6 @@ class UIMainWindow(QWidget):
         self.btn_submit = QPushButton('Submit')
         self.btn_submit.setObjectName('btn_submit')
 
-        # self.vline = QVSeparationLine()
-        # self.vline.setStyleSheet('border: 1px solid gray;')
-
-        # self.hline = QHSeparationLine()
-        # self.hline.setStyleSheet('border: 1px solid gray;')
         # END Entry from Receipt Widgets -------------------------------------------------------------------
 
 
@@ -178,6 +189,7 @@ class UIMainWindow(QWidget):
         # TAB 1 LAYOUTS ------------------------------------------------------------------------------------
         self.tab1_main_layout = QVBoxLayout()
         self.tab1_quick_search_layout = QHBoxLayout()
+        self.tab1_quick_search_layout.setContentsMargins(0, 0, 0, 6)
         self.tab1_month_layout = QHBoxLayout()
 
         self.tab1_entry_and_details_main_layout = QHBoxLayout()
@@ -203,9 +215,12 @@ class UIMainWindow(QWidget):
 
 
         # Adding Widgets to TAB 1 Layout -------------------------------------------------------------------
-        # self.tab1_quick_search_layout.addWidget(self.lbl_quick_search)
+        self.tab1_quick_search_layout.addWidget(self.btn_undo)
+        self.tab1_quick_search_layout.addWidget(self.btn_redo)
+        self.tab1_quick_search_layout.addWidget(QLabel(' '), 1)
         self.tab1_quick_search_layout.addWidget(self.entry_quick_search)
         self.tab1_quick_search_layout.addWidget(self.btn_quick_search)
+        self.tab1_quick_search_layout.addWidget(self.btn_clear)
 
         self.tab1_month_layout.addStretch()
         self.tab1_month_layout.addWidget(self.lbl_month)
