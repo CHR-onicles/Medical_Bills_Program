@@ -14,6 +14,8 @@ from datetime import datetime
 staff_details = {}
 MED_BILL_FILE = ''
 STAFF_LIST_FILE = ''
+UNDO_ENTRY_HISTORY = []
+REDO_ENTRY_HISTORY = []
 
 
 class MBillsFunctions:
@@ -179,6 +181,7 @@ class MBillsFunctions:
                         return staff, dependants, 'v'
         return None, None, None
 
+
     @staticmethod
     def searchForCasualOrGuest(people_in_med_bill, person):
         """
@@ -270,21 +273,42 @@ class MBillsFunctions:
                     return staff_amt, child_amt, spouse_amt
 
 
-
     @staticmethod
     def insertAmountIntoMedBills(workbook, person: str, dept: str, offset_col: int, offset_row: int, amount: str):
-        wb = workbook
-        sheet = wb[dept]
+        """
+        Function to insert amount into specific month of staff
+
+        :param workbook: Medical Bills file
+
+        :param person: Staff/Guest/Casual
+
+        :param dept: Department of Staff
+
+        :param offset_col: Offset for month of entry
+
+        :param offset_row: Offset for staff/spouse/child
+
+        :param amount: Amount to be entered
+
+        :return: Boolean on whether operation was successful or not
+        """
         # start = datetime.now()
         # ic.enable()
+        global UNDO_ENTRY_HISTORY
+        wb = workbook
+        sheet = wb[dept]
+
+
         for row in sheet.iter_rows(min_row=4, max_row=500, min_col=1, max_col=1):
             for cell in row:
                 if cell.value == person:
                     c2 = cell.offset(row=offset_row, column=offset_col)
+                    UNDO_ENTRY_HISTORY.append([wb, sheet, c2])
+                    # print('undo list: ', UNDO_ENTRY_HISTORY)
                     if c2.value == 0:
                         c2.value = '=' + str(amount)
                         MBillsFunctions.saveFile(wb, MED_BILL_FILE)
-                        stop = datetime.now()
+                        # stop = datetime.now()
                         # ic('Time for actual insertion:', stop - start)
                         # ic('Amount inserted:', amount)
                         return True
@@ -298,6 +322,54 @@ class MBillsFunctions:
 
         return False
 
+
+    @staticmethod
+    def undoEntry():
+        """
+        Function to undo an entry.
+
+        :return: Boolean indicating whether operation was successful
+        """
+        # start = datetime.now()
+        # ic.enable()
+        last_row_data = UNDO_ENTRY_HISTORY.pop()  # last set of values removed
+        wb = last_row_data[0]
+        sheet = last_row_data[1]
+        cell = last_row_data[-1]
+
+        a_cell = sheet.cell(row=cell.row, column=cell.column)
+
+        if a_cell.value == 0:
+            raise Exception('Cell is already at default value!')
+        elif ('=' and '+') in a_cell.value:  # multiple amounts entered
+            total_amount = a_cell.value.split('+')
+            last_amount = total_amount.pop()
+            # print('Last amount:', last_amount)
+            rest_of_amount = '+'.join(total_amount)
+            a_cell.value = rest_of_amount
+            # print('Rest of amount:', rest_of_amount)
+            # stop = datetime.now()
+            # ic('Time taken for undo:', stop-start)
+            MBillsFunctions.saveFile(wb, MED_BILL_FILE)
+            return True
+        elif '=' in a_cell.value:  # just one amount entered
+            a_cell.value = 0
+            # stop = datetime.now()
+            # ic('Time taken for undo:', stop - start)
+            MBillsFunctions.saveFile(wb, MED_BILL_FILE)
+            return True
+
+        return False
+
+
+    @staticmethod
+    def redoEntry():
+        """
+        Function to redo a previously undone entry
+
+        :return: Boolean value indication success status
+        """
+        pass
 
     @staticmethod
     def saveFile(workbook, new_name: str):

@@ -67,16 +67,27 @@ class UIMainWindow(QWidget):
 
         # Menu buttons ------------------------------------------------------------------------------------
         self.btn_undo = QPushButton()
-        self.btn_undo.setIcon(QIcon(':/icon/undo'))
+        undo_icon = QIcon()
+        undo_icon.addPixmap(QPixmap(':/icon/undo'), QIcon.Normal)
+        undo_icon.addPixmap(QPixmap(':/icon/undo-disabled'), QIcon.Disabled)
+        self.btn_undo.setIcon(undo_icon)
         self.btn_undo.setToolTip('<b>Undo</b> last entry (Ctrl+Z)')
         self.btn_undo.setObjectName('menu_button')
+
         self.btn_redo = QPushButton()
-        self.btn_redo.setIcon(QIcon(':/icon/redo'))
+        redo_icon = QIcon()
+        redo_icon.addPixmap(QPixmap(':/icon/redo'), QIcon.Normal)
+        redo_icon.addPixmap(QPixmap(':/icon/redo-disabled'), QIcon.Disabled)
+        self.btn_redo.setIcon(QIcon(redo_icon))
         self.btn_redo.setToolTip('<b>Redo</b> entry (Ctrl+Y)')
         self.btn_redo.setObjectName('menu_button')
+
         self.btn_clear = QPushButton()
+        clear_icon = QIcon()
+        clear_icon.addPixmap(QPixmap(':/icon/clear'), QIcon.Normal)
+        clear_icon.addPixmap(QPixmap(':/icon/clear-disabled'), QIcon.Disabled)
+        self.btn_clear.setIcon(clear_icon)
         self.btn_clear.setToolTip('<b>Clear</b> Staff details Summary')
-        self.btn_clear.setIcon(QIcon(':/icon/clear'))
         self.btn_clear.setObjectName('menu_button')
         # END Menu buttons ---------------------------------------------------------------------------------
 

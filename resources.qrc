@@ -45,7 +45,10 @@
         <file alias="cat">rc/cat.ico</file>
         <file alias="search">rc/magnifying-glass.png</file>
         <file alias="undo">rc/undo.png</file>
+        <file alias="undo-disabled">rc/undo-disabled.png</file>
         <file alias="redo">rc/redo.png</file>
-        <file alias="clear">rc/clear-16.png</file>
+        <file alias="redo-disabled">rc/redo-disabled.png</file>
+        <file alias="clear">rc/clear.png</file>
+        <file alias="clear-disabled">rc/clear-disabled.png</file>
     </qresource>
 </RCC>

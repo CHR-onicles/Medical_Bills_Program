@@ -16,6 +16,7 @@ from datetime import datetime
 import resources_rc, styles
 from UI_main_window import UIMainWindow, QVSeparationLine, QHSeparationLine
 from med_bills_functions import MBillsFunctions
+import med_bills_functions  # to access global variables here
 
 
 
@@ -181,6 +182,9 @@ class MainApp(QMainWindow):
         # self.UI.combo_children.setDisabled(True)
         # self.UI.entry_cur_amount1.setDisabled(True)
         self.UI.btn_submit.setEnabled(False)
+        self.UI.btn_undo.setEnabled(False)
+        self.UI.btn_redo.setEnabled(False)
+        self.UI.btn_clear.setEnabled(False)
         self.UI.entry_staff_or_dependant.setFocus()
 
         self.UI.combo_months.addItems(list(self.months.keys()))
@@ -206,14 +210,15 @@ class MainApp(QMainWindow):
         self.UI.entry_staff_or_dependant.returnPressed.connect(self.UI.entry_amount.setFocus)
         self.UI.entry_amount.returnPressed.connect(self.insertIntoMedBills)
 
+        self.UI.btn_clear.clicked.connect(self.clearStaffDetails)
+        self.UI.btn_undo.clicked.connect(self.undo)
+
+
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
         self.status_bar.setFont(QFont('century gothic', 12, 0, True))
         self.status_bar.showMessage('Welcome, this is the status bar...', 10000)  # todo: change later
-
-        self.UI.btn_clear.clicked.connect(self.clearStaffDetails)
-
         # END STATUS BAR -----------------------------------------------------------------------------------
 
         # TABLE --------------------------------------------------------------------------------------------
@@ -320,6 +325,7 @@ class MainApp(QMainWindow):
 
                 else:
                     QMessageBox.critical(self, 'Search Error', 'The Person you searched for <b>cannot</b> be found!')
+            self.UI.btn_clear.setEnabled(True)
         else:
             QMessageBox.critical(self, 'Search Error', 'Search box <b>cannot</b> be empty!')
 
@@ -334,6 +340,7 @@ class MainApp(QMainWindow):
         self.UI.entry_cur_amount3.clear()
         self.UI.entry_amount.setText('GH₵ ')
         # self.UI.entry_staff_or_dependant.clear()
+        self.UI.btn_clear.setEnabled(False)
 
 
     def insertIntoMedBills(self):
@@ -402,6 +409,7 @@ class MainApp(QMainWindow):
 
             self.UI.entry_staff_or_dependant.clear()
             self.UI.entry_amount.setText('GH₵ ')
+            self.UI.btn_undo.setEnabled(True)
             self.UI.entry_staff_or_dependant.setFocus()
 
             # Threading for SFX here -------------------------------
@@ -417,6 +425,17 @@ class MainApp(QMainWindow):
 
         else:
             QMessageBox.critical(self, 'Entry Error', 'No record found!')
+
+
+    def undo(self):
+        MBillsFunctions.undoEntry()
+        self.UI.table_last_edit.removeRow(self.UI.table_last_edit.rowCount()-1)
+        if len(med_bills_functions.UNDO_ENTRY_HISTORY) == 0:
+            self.UI.btn_undo.setEnabled(False)
+
+
+    def redo(self):
+        pass
 
 
     def updateTable(self):
