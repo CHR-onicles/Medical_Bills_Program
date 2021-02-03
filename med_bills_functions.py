@@ -347,13 +347,17 @@ class MBillsFunctions:
             # print('Last amount:', last_amount)
             rest_of_amount = '+'.join(total_amount)
             a_cell.value = rest_of_amount
+            REDO_ENTRY_HISTORY.append([wb, sheet, a_cell, last_amount])
             # print('Rest of amount:', rest_of_amount)
             # stop = datetime.now()
             # ic('Time taken for undo:', stop-start)
             MBillsFunctions.saveFile(wb, MED_BILL_FILE)
             return True
         elif '=' in a_cell.value:  # just one amount entered
+            cur_amount = a_cell.value
+            print('Cur amount:', cur_amount)
             a_cell.value = 0
+            REDO_ENTRY_HISTORY.append([wb, sheet, a_cell, cur_amount])
             # stop = datetime.now()
             # ic('Time taken for undo:', stop - start)
             MBillsFunctions.saveFile(wb, MED_BILL_FILE)
@@ -370,6 +374,7 @@ class MBillsFunctions:
         :return: Boolean value indication success status
         """
         pass
+
 
     @staticmethod
     def saveFile(workbook, new_name: str):

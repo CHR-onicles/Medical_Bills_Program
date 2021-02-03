@@ -432,6 +432,7 @@ class MainApp(QMainWindow):
         self.UI.table_last_edit.removeRow(self.UI.table_last_edit.rowCount()-1)
         if len(med_bills_functions.UNDO_ENTRY_HISTORY) == 0:
             self.UI.btn_undo.setEnabled(False)
+        self.status_bar.showMessage('Last entry has been undone...', 4000)
 
 
     def redo(self):
@@ -486,4 +487,5 @@ if __name__ == '__main__':
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
     #   1. Change pink titles to groupboxes [optional]
-    #   2. Implement UNDO button and functionality [HIGH PRIORITY]
+    #   2. Add feature to check search box if staff/dependant name is there...to update the populated summary[optional]
+    #   2. Add clock to status bar [optional]
