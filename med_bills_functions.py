@@ -354,7 +354,7 @@ class MBillsFunctions:
             return True
         elif '=' in a_cell.value:  # just one amount entered
             cur_amount = a_cell.value
-            print('Cur amount:', cur_amount)
+            # print('Cur amount:', cur_amount)
             a_cell.value = 0
             REDO_ENTRY_HISTORY.append(cur_amount)
             # stop = datetime.now()

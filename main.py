@@ -166,6 +166,8 @@ class MainApp(QMainWindow):
 
         # Table info
         self.myrow_data = []
+        self.myrow_count = 0
+        self.undo_clicked_already = 0
 
         self.UIComp()
 
@@ -429,23 +431,36 @@ class MainApp(QMainWindow):
 
     def undo(self):
         if MBillsFunctions.undoEntry():
-            self.UI.table_last_edit.removeRow(self.UI.table_last_edit.rowCount()-1)
+            self.hidden_row = self.myrow_count
+            if self.undo_clicked_already > 0:
+                self.hidden_row -= 1
+                self.UI.table_last_edit.hideRow(self.hidden_row)
+            else:
+                self.UI.table_last_edit.hideRow(self.hidden_row)
+                print('hidden row:', self.hidden_row)
             if len(med_bills_functions.UNDO_ENTRY_HISTORY) == 0:
                 self.UI.btn_undo.setEnabled(False)
             self.status_bar.showMessage('Last entry has been undone...', 4000)
             self.UI.btn_redo.setEnabled(True)
+            self.undo_clicked_already += 1
+            # todo create function to remove hidden rows once they are no longer needed and readjust self.myrow_count accordingly
+
 
 
     def redo(self):
         if MBillsFunctions.redoEntry():
+            self.UI.table_last_edit.showRow(self.hidden_row)
             self.status_bar.showMessage('Entry redone successfully...', 4000)
             self.UI.btn_redo.setEnabled(False)
+            self.undo_clicked_already = 0
             # self.UI.btn_undo.setEnabled(False)
+            # self.UI.table_last_edit.removeRow(00)
 
 
     def updateTable(self):
         start = datetime.now()  # DONT COMMENT OUT
         if self.myrow_data:  # check if row data is not empty
+            self.myrow_count += 1
             self.UI.table_last_edit.insertRow(self.UI.table_last_edit.rowCount())  # add row at location of last row
             row = self.UI.table_last_edit.rowCount() - 1
             self.myrow_data[0].insert(0, str(start.strftime('%H:%M:%S')))
