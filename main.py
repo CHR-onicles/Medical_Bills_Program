@@ -212,6 +212,7 @@ class MainApp(QMainWindow):
 
         self.UI.btn_clear.clicked.connect(self.clearStaffDetails)
         self.UI.btn_undo.clicked.connect(self.undo)
+        self.UI.btn_redo.clicked.connect(self.redo)
 
 
         # STATUS BAR ---------------------------------------------------------------------------------------
@@ -224,7 +225,6 @@ class MainApp(QMainWindow):
         # TABLE --------------------------------------------------------------------------------------------
         self.UI.table_last_edit.horizontalHeader().setVisible(False)
         self.UI.table_last_edit.verticalHeader().setVisible(False)
-
         self.UI.table_last_edit.setEditTriggers(QAbstractItemView.NoEditTriggers)
         # END TABLE ----------------------------------------------------------------------------------------
 
@@ -428,15 +428,19 @@ class MainApp(QMainWindow):
 
 
     def undo(self):
-        MBillsFunctions.undoEntry()
-        self.UI.table_last_edit.removeRow(self.UI.table_last_edit.rowCount()-1)
-        if len(med_bills_functions.UNDO_ENTRY_HISTORY) == 0:
-            self.UI.btn_undo.setEnabled(False)
-        self.status_bar.showMessage('Last entry has been undone...', 4000)
+        if MBillsFunctions.undoEntry():
+            self.UI.table_last_edit.removeRow(self.UI.table_last_edit.rowCount()-1)
+            if len(med_bills_functions.UNDO_ENTRY_HISTORY) == 0:
+                self.UI.btn_undo.setEnabled(False)
+            self.status_bar.showMessage('Last entry has been undone...', 4000)
+            self.UI.btn_redo.setEnabled(True)
 
 
     def redo(self):
-        pass
+        if MBillsFunctions.redoEntry():
+            self.status_bar.showMessage('Entry redone successfully...', 4000)
+            self.UI.btn_redo.setEnabled(False)
+            # self.UI.btn_undo.setEnabled(False)
 
 
     def updateTable(self):

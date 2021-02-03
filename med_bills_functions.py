@@ -298,7 +298,6 @@ class MBillsFunctions:
         wb = workbook
         sheet = wb[dept]
 
-
         for row in sheet.iter_rows(min_row=4, max_row=500, min_col=1, max_col=1):
             for cell in row:
                 if cell.value == person:
@@ -330,13 +329,13 @@ class MBillsFunctions:
 
         :return: Boolean indicating whether operation was successful
         """
+        global UNDO_ENTRY_HISTORY, REDO_ENTRY_HISTORY
         # start = datetime.now()
         # ic.enable()
         last_row_data = UNDO_ENTRY_HISTORY.pop()  # last set of values removed
-        wb = last_row_data[0]
-        sheet = last_row_data[1]
-        cell = last_row_data[-1]
-
+        # REDO_ENTRY_HISTORY.clear()  # always clear to make sure only one value is stored
+        REDO_ENTRY_HISTORY = last_row_data
+        wb, sheet, cell = last_row_data[0], last_row_data[1], last_row_data[-1]
         a_cell = sheet.cell(row=cell.row, column=cell.column)
 
         if a_cell.value == 0:
@@ -347,7 +346,7 @@ class MBillsFunctions:
             # print('Last amount:', last_amount)
             rest_of_amount = '+'.join(total_amount)
             a_cell.value = rest_of_amount
-            REDO_ENTRY_HISTORY.append([wb, sheet, a_cell, last_amount])
+            REDO_ENTRY_HISTORY.append(last_amount)
             # print('Rest of amount:', rest_of_amount)
             # stop = datetime.now()
             # ic('Time taken for undo:', stop-start)
@@ -357,7 +356,7 @@ class MBillsFunctions:
             cur_amount = a_cell.value
             print('Cur amount:', cur_amount)
             a_cell.value = 0
-            REDO_ENTRY_HISTORY.append([wb, sheet, a_cell, cur_amount])
+            REDO_ENTRY_HISTORY.append(cur_amount)
             # stop = datetime.now()
             # ic('Time taken for undo:', stop - start)
             MBillsFunctions.saveFile(wb, MED_BILL_FILE)
@@ -373,7 +372,23 @@ class MBillsFunctions:
 
         :return: Boolean value indication success status
         """
-        pass
+        global REDO_ENTRY_HISTORY
+        last_undo_row = REDO_ENTRY_HISTORY  # will get overwritten so no need to pop but whatever
+        wb, sheet, cell, amount = last_undo_row[0], last_undo_row[1], last_undo_row[2], last_undo_row[-1]
+        a_cell = sheet.cell(row=cell.row, column=cell.column)
+
+        if a_cell.value == 0:
+            a_cell.value = amount
+            MBillsFunctions.saveFile(wb, MED_BILL_FILE)
+            return True
+        elif '=' in a_cell.value:
+            a_cell.value = a_cell.value + '+' + amount
+            MBillsFunctions.saveFile(wb, MED_BILL_FILE)
+            return True
+
+        return False
+
+
 
 
     @staticmethod
