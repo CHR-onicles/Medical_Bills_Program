@@ -2,12 +2,11 @@
 Author: CHR-onicles
 Date: 20/01/21
 """
-from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QObject, QUrl,
-                          )
+from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QObject, QUrl)
 from PyQt5.QtGui import (QIcon, QFont)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
                              QCompleter, QMessageBox, QTableWidgetItem, QTableWidget, QStyledItemDelegate,
-                             QAbstractItemView, QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QStatusBar)
+                             QAbstractItemView, QLineEdit, QStatusBar)
 import sys
 from icecream import ic
 from datetime import datetime
@@ -55,8 +54,8 @@ class MainApp(QMainWindow):
         self.UI = UIMainWindow()
         self.setCentralWidget(self.UI)
         self.setStyleSheet(styles.main_window_style())
-        # self.resize(1310, 1000)
-        self.resize(1000, 800)  # for testing purposes
+        self.resize(1310, 1000)
+        # self.resize(1000, 800)  # for testing purposes
         self.setMinimumSize(QSize(1100, 950))  # todo: based on final program edit this
 
         # Medical Bills Files configs -------------------------------------------------------------------
@@ -168,7 +167,6 @@ class MainApp(QMainWindow):
         self.myrow_data = []
         self.myrow_count = 0
         self.undo_clicked_already = 0
-        self.hidden_row_list = []
 
         self.UIComp()
 
@@ -216,21 +214,25 @@ class MainApp(QMainWindow):
         self.UI.btn_clear.clicked.connect(self.clearStaffDetails)
         self.UI.btn_undo.clicked.connect(self.undo)
         self.UI.btn_redo.clicked.connect(self.redo)
+        self.UI.btn_save.clicked.connect(self.saveWorkbook)
 
 
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
         self.status_bar.setFont(QFont('century gothic', 12, 0, True))
-        self.status_bar.showMessage('Welcome, this is the status bar...', 10000)  # todo: change later
+        self.status_bar.showMessage('Welcome, this is the status bar...', 5000)  # todo: insert more appropriate message here
         # END STATUS BAR -----------------------------------------------------------------------------------
 
         # TABLE --------------------------------------------------------------------------------------------
         self.UI.table_last_edit.horizontalHeader().setVisible(False)
-        # self.UI.table_last_edit.verticalHeader().setVisible(False)
+        self.UI.table_last_edit.verticalHeader().setVisible(False)
         self.UI.table_last_edit.setEditTriggers(QAbstractItemView.NoEditTriggers)
         # END TABLE ----------------------------------------------------------------------------------------
 
+    def saveWorkbook(self):
+        if MBillsFunctions.saveFile(self.wkbk_med_bills):
+            self.status_bar.showMessage('File saved successfully!', 3000)
 
     def updateCurAmountLabel(self):
         self.mon = self.UI.combo_months.currentText()[0:3]
@@ -349,6 +351,7 @@ class MainApp(QMainWindow):
     def insertIntoMedBills(self):
         if self.UI.entry_staff_or_dependant.text() in [names.split('|')[0] for names in self.all_names_and_dept]:
             # start = datetime.now()
+            med_bills_functions.UNDO_ENTRY_HISTORY.clear()
             person_typed = self.UI.entry_staff_or_dependant.text()
             amount = str(self.UI.entry_amount.text()[4:])
             offset_col = self.months[self.UI.combo_months.currentText()]
@@ -426,7 +429,8 @@ class MainApp(QMainWindow):
             # self.signal_insert_finished.connect(self.worker.play)
             # END Threading for SFX here ----------------------------
 
-            self.status_bar.showMessage('Entry saved successfully...', 3000)
+            self.status_bar.showMessage('Entry entered successfully...', 2000)
+
             # stop = datetime.now()
             # print('Time taken to insert:', stop - start)
 
@@ -440,34 +444,24 @@ class MainApp(QMainWindow):
             if self.undo_clicked_already > 0:
                 self.hidden_row -= self.undo_clicked_already
                 self.UI.table_last_edit.hideRow(self.hidden_row)
-                # self.hidden_row_list.append(self.hidden_row)
-                # print(self.hidden_row_list)
             else:
                 self.UI.table_last_edit.hideRow(self.hidden_row)
-                # self.hidden_row_list.append(self.hidden_row)
-                # print(self.hidden_row_list)
             if len(med_bills_functions.UNDO_ENTRY_HISTORY) == 0:
                 self.UI.btn_undo.setEnabled(False)
-            self.status_bar.showMessage('Last entry has been undone...', 4000)
+            self.status_bar.showMessage('Last entry has been undone...', 3000)
             self.UI.btn_redo.setEnabled(True)
             self.undo_clicked_already += 1
-            # todo: create list of hidden rows and clear them in redo function to help keep self.myrow_count on track
 
 
     def redo(self):
         if MBillsFunctions.redoEntry():
             self.UI.table_last_edit.showRow(self.hidden_row)
-            self.status_bar.showMessage('Entry redone successfully...', 4000)
+            self.status_bar.showMessage('Entry redone successfully...', 3000)
             self.UI.btn_redo.setEnabled(False)
             self.UI.btn_undo.setEnabled(False)
             med_bills_functions.UNDO_ENTRY_HISTORY.clear()
             self.myrow_count = self.UI.table_last_edit.rowCount() - 1
             self.undo_clicked_already = 0
-
-            # for x in self.hidden_row_list:
-            #     self.UI.table_last_edit.removeRow(x)
-            #     print(f'Hidden row {x} removed')
-            # self.hidden_row_list.clear()
 
 
     def updateTable(self):
@@ -516,10 +510,12 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
 
 
-    # ---------------------------------------- TODO --------------------------------------------------------
+    # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   1. Change pink titles to groupboxes [optional]
-    #   2. Add feature to check search box if staff/dependant name is there...to update the populated summary [optional]
-    #   3. Add clock to status bar [optional]
+    #   1. Ask to save upon exit... or automatically save before exit
+    #   2. Add autosave feature to save after an amount of time like jupyter notebook [medium priority]
+    #   3. Add feature to check search box if staff/dependant name is there...to update the populated summary [optional]
     #   4. Populate staff details after entry and decouple search box text from the populate staff details function
-    #   5. Ask to save upon exit
+    #   5. Add clock to status bar [optional]
+    #   6. Properly evaluate boolean return value from functions [optional]
+    #   7. Change pink titles to groupboxes [optional]

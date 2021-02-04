@@ -32,7 +32,7 @@ class MBillsFunctions:
         :param staff_list_file: Staff List File
         :return: Both workbooks, one of them or None if one is type: None
         """
-        global  MED_BILL_FILE, STAFF_LIST_FILE
+        global MED_BILL_FILE, STAFF_LIST_FILE
         if med_bill_file and staff_list_file is not None:
             workbook1 = openpyxl.load_workbook(med_bill_file)
             workbook2 = openpyxl.load_workbook(staff_list_file, read_only=True)
@@ -306,14 +306,12 @@ class MBillsFunctions:
                     # print('undo list: ', UNDO_ENTRY_HISTORY)
                     if c2.value == 0:
                         c2.value = '=' + str(amount)
-                        # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
                         # stop = datetime.now()
                         # ic('Time for actual insertion:', stop - start)
                         # ic('Amount inserted:', amount)
                         return True
                     else:
                         c2.value = str(c2.value) + '+' + str(amount)
-                        # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
                         # stop = datetime.now()
                         # ic('Time for actual insertion:', stop - start)
                         # ic('Amount inserted:', amount)
@@ -350,7 +348,6 @@ class MBillsFunctions:
             # print('Rest of amount:', rest_of_amount)
             # stop = datetime.now()
             # ic('Time taken for undo:', stop-start)
-            # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
             return True
         elif '=' in a_cell.value:  # just one amount entered
             cur_amount = a_cell.value
@@ -359,7 +356,6 @@ class MBillsFunctions:
             REDO_ENTRY_HISTORY.append(cur_amount)
             # stop = datetime.now()
             # ic('Time taken for undo:', stop - start)
-            # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
             return True
 
         return False
@@ -379,11 +375,9 @@ class MBillsFunctions:
 
         if a_cell.value == 0:
             a_cell.value = amount
-            # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
             return True
         elif '=' in a_cell.value:
             a_cell.value = a_cell.value + '+' + amount
-            # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
             return True
 
         return False
@@ -392,27 +386,25 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def saveFile(workbook, new_name: str):
+    def saveFile(workbook):
         """
         Save the workbook.
 
         :param workbook: Medical Bills file
 
-        :param new_name: Either the same medical bills file or a new one
-
         :return: Boolean whether save was successful or not
         """
-        start = datetime.now()
+        # start = datetime.now()
         try:
-            workbook.save(new_name)
+            workbook.save(MED_BILL_FILE)
         except PermissionError:
             raise Exception('Couldn\'t write to the file because it is probably open??')
         except:
             raise Exception('There was a problem saving!')
         else:
-            stop = datetime.now()
-            ic.enable()
-            ic('Time taken to save:', stop-start)
+            # stop = datetime.now()
+            # ic.enable()
+            # ic('Time taken to save:', stop-start)
             return True
 
 
@@ -420,5 +412,3 @@ class MBillsFunctions:
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
     #   1. Make documentation more comprehensible
-    #   2. Save inserts in a global list and use that for UNDO.
-    #   3. Implement UNDO option
