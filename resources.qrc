@@ -50,5 +50,7 @@
         <file alias="redo-disabled">rc/redo-disabled.png</file>
         <file alias="clear">rc/clear.png</file>
         <file alias="clear-disabled">rc/clear-disabled.png</file>
+        <file alias="save">rc/save.png</file>
+        <file alias="save-disabled">rc/save-disabled.png</file>
     </qresource>
 </RCC>

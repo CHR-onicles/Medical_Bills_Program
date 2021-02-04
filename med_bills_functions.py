@@ -306,14 +306,14 @@ class MBillsFunctions:
                     # print('undo list: ', UNDO_ENTRY_HISTORY)
                     if c2.value == 0:
                         c2.value = '=' + str(amount)
-                        MBillsFunctions.saveFile(wb, MED_BILL_FILE)
+                        # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
                         # stop = datetime.now()
                         # ic('Time for actual insertion:', stop - start)
                         # ic('Amount inserted:', amount)
                         return True
                     else:
                         c2.value = str(c2.value) + '+' + str(amount)
-                        MBillsFunctions.saveFile(wb, MED_BILL_FILE)
+                        # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
                         # stop = datetime.now()
                         # ic('Time for actual insertion:', stop - start)
                         # ic('Amount inserted:', amount)
@@ -350,7 +350,7 @@ class MBillsFunctions:
             # print('Rest of amount:', rest_of_amount)
             # stop = datetime.now()
             # ic('Time taken for undo:', stop-start)
-            MBillsFunctions.saveFile(wb, MED_BILL_FILE)
+            # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
             return True
         elif '=' in a_cell.value:  # just one amount entered
             cur_amount = a_cell.value
@@ -359,7 +359,7 @@ class MBillsFunctions:
             REDO_ENTRY_HISTORY.append(cur_amount)
             # stop = datetime.now()
             # ic('Time taken for undo:', stop - start)
-            MBillsFunctions.saveFile(wb, MED_BILL_FILE)
+            # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
             return True
 
         return False
@@ -379,11 +379,11 @@ class MBillsFunctions:
 
         if a_cell.value == 0:
             a_cell.value = amount
-            MBillsFunctions.saveFile(wb, MED_BILL_FILE)
+            # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
             return True
         elif '=' in a_cell.value:
             a_cell.value = a_cell.value + '+' + amount
-            MBillsFunctions.saveFile(wb, MED_BILL_FILE)
+            # MBillsFunctions.saveFile(wb, MED_BILL_FILE)
             return True
 
         return False
@@ -402,6 +402,7 @@ class MBillsFunctions:
 
         :return: Boolean whether save was successful or not
         """
+        start = datetime.now()
         try:
             workbook.save(new_name)
         except PermissionError:
@@ -409,6 +410,9 @@ class MBillsFunctions:
         except:
             raise Exception('There was a problem saving!')
         else:
+            stop = datetime.now()
+            ic.enable()
+            ic('Time taken to save:', stop-start)
             return True
 
 

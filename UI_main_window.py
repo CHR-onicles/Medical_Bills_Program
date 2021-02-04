@@ -91,6 +91,15 @@ class UIMainWindow(QWidget):
         self.btn_clear.setIcon(clear_icon)
         self.btn_clear.setToolTip('<b>Clear</b> Staff details Summary')
         self.btn_clear.setObjectName('menu_button')
+
+        self.btn_save = QPushButton()
+        save_icon = QIcon()
+        save_icon.addPixmap(QPixmap(':/icon/save'), QIcon.Normal)
+        save_icon.addPixmap(QPixmap(':/icon/save-disabled'), QIcon.Disabled)
+        self.btn_save.setIcon(save_icon)
+        self.btn_save.setToolTip('<b>Save</b> (Ctrl+S)')
+        self.btn_save.setShortcut('Ctrl+S')
+        self.btn_save.setObjectName('menu_button')
         # END Menu buttons ---------------------------------------------------------------------------------
 
 
@@ -232,6 +241,7 @@ class UIMainWindow(QWidget):
         # Adding Widgets to TAB 1 Layout -------------------------------------------------------------------
         self.tab1_quick_search_layout.addWidget(self.btn_undo)
         self.tab1_quick_search_layout.addWidget(self.btn_redo)
+        self.tab1_quick_search_layout.addWidget(self.btn_save)
         self.tab1_quick_search_layout.addWidget(QLabel(' '), 1)
         self.tab1_quick_search_layout.addWidget(self.entry_quick_search)
         self.tab1_quick_search_layout.addWidget(self.btn_quick_search)

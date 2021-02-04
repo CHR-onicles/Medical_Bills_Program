@@ -168,6 +168,7 @@ class MainApp(QMainWindow):
         self.myrow_data = []
         self.myrow_count = 0
         self.undo_clicked_already = 0
+        self.hidden_row_list = []
 
         self.UIComp()
 
@@ -226,7 +227,7 @@ class MainApp(QMainWindow):
 
         # TABLE --------------------------------------------------------------------------------------------
         self.UI.table_last_edit.horizontalHeader().setVisible(False)
-        self.UI.table_last_edit.verticalHeader().setVisible(False)
+        # self.UI.table_last_edit.verticalHeader().setVisible(False)
         self.UI.table_last_edit.setEditTriggers(QAbstractItemView.NoEditTriggers)
         # END TABLE ----------------------------------------------------------------------------------------
 
@@ -439,9 +440,12 @@ class MainApp(QMainWindow):
             if self.undo_clicked_already > 0:
                 self.hidden_row -= self.undo_clicked_already
                 self.UI.table_last_edit.hideRow(self.hidden_row)
+                # self.hidden_row_list.append(self.hidden_row)
+                # print(self.hidden_row_list)
             else:
                 self.UI.table_last_edit.hideRow(self.hidden_row)
-                # print('hidden row:', self.hidden_row)
+                # self.hidden_row_list.append(self.hidden_row)
+                # print(self.hidden_row_list)
             if len(med_bills_functions.UNDO_ENTRY_HISTORY) == 0:
                 self.UI.btn_undo.setEnabled(False)
             self.status_bar.showMessage('Last entry has been undone...', 4000)
@@ -459,7 +463,11 @@ class MainApp(QMainWindow):
             med_bills_functions.UNDO_ENTRY_HISTORY.clear()
             self.myrow_count = self.UI.table_last_edit.rowCount() - 1
             self.undo_clicked_already = 0
-            # self.UI.table_last_edit.removeRow(00)
+
+            # for x in self.hidden_row_list:
+            #     self.UI.table_last_edit.removeRow(x)
+            #     print(f'Hidden row {x} removed')
+            # self.hidden_row_list.clear()
 
 
     def updateTable(self):
@@ -514,3 +522,4 @@ if __name__ == '__main__':
     #   2. Add feature to check search box if staff/dependant name is there...to update the populated summary [optional]
     #   3. Add clock to status bar [optional]
     #   4. Populate staff details after entry and decouple search box text from the populate staff details function
+    #   5. Ask to save upon exit
