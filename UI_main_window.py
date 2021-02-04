@@ -73,6 +73,7 @@ class UIMainWindow(QWidget):
         self.btn_undo.setIcon(undo_icon)
         self.btn_undo.setToolTip('<b>Undo</b> last entry (Ctrl+Z)')
         self.btn_undo.setObjectName('menu_button')
+        self.btn_undo.setShortcut('Ctrl+Z')
 
         self.btn_redo = QPushButton()
         redo_icon = QIcon()
@@ -81,6 +82,7 @@ class UIMainWindow(QWidget):
         self.btn_redo.setIcon(QIcon(redo_icon))
         self.btn_redo.setToolTip('<b>Redo</b> entry (Ctrl+Y)')
         self.btn_redo.setObjectName('menu_button')
+        self.btn_redo.setShortcut('Ctrl+Y')
 
         self.btn_clear = QPushButton()
         clear_icon = QIcon()

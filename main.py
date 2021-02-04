@@ -55,8 +55,8 @@ class MainApp(QMainWindow):
         self.UI = UIMainWindow()
         self.setCentralWidget(self.UI)
         self.setStyleSheet(styles.main_window_style())
-        self.resize(1310, 1000)
-        # self.resize(1000, 800)  # for testing purposes
+        # self.resize(1310, 1000)
+        self.resize(1000, 800)  # for testing purposes
         self.setMinimumSize(QSize(1100, 950))  # todo: based on final program edit this
 
         # Medical Bills Files configs -------------------------------------------------------------------
@@ -409,9 +409,13 @@ class MainApp(QMainWindow):
                                             ])
                     self.updateTable()
 
+            if self.UI.entry_staff_name.text() == self.UI.entry_staff_or_dependant.text():
+                self.populateStaffDetails(self.UI.entry_staff_or_dependant.text())
             self.UI.entry_staff_or_dependant.clear()
             self.UI.entry_amount.setText('GH₵ ')
             self.UI.btn_undo.setEnabled(True)
+            self.UI.btn_redo.setEnabled(False)
+            self.undo_clicked_already = 0
             self.UI.entry_staff_or_dependant.setFocus()
 
             # Threading for SFX here -------------------------------
@@ -433,18 +437,17 @@ class MainApp(QMainWindow):
         if MBillsFunctions.undoEntry():
             self.hidden_row = self.myrow_count
             if self.undo_clicked_already > 0:
-                self.hidden_row -= 1
+                self.hidden_row -= self.undo_clicked_already
                 self.UI.table_last_edit.hideRow(self.hidden_row)
             else:
                 self.UI.table_last_edit.hideRow(self.hidden_row)
-                print('hidden row:', self.hidden_row)
+                # print('hidden row:', self.hidden_row)
             if len(med_bills_functions.UNDO_ENTRY_HISTORY) == 0:
                 self.UI.btn_undo.setEnabled(False)
             self.status_bar.showMessage('Last entry has been undone...', 4000)
             self.UI.btn_redo.setEnabled(True)
             self.undo_clicked_already += 1
-            # todo create function to remove hidden rows once they are no longer needed and readjust self.myrow_count accordingly
-
+            # todo: create list of hidden rows and clear them in redo function to help keep self.myrow_count on track
 
 
     def redo(self):
@@ -452,8 +455,10 @@ class MainApp(QMainWindow):
             self.UI.table_last_edit.showRow(self.hidden_row)
             self.status_bar.showMessage('Entry redone successfully...', 4000)
             self.UI.btn_redo.setEnabled(False)
+            self.UI.btn_undo.setEnabled(False)
+            med_bills_functions.UNDO_ENTRY_HISTORY.clear()
+            self.myrow_count = self.UI.table_last_edit.rowCount() - 1
             self.undo_clicked_already = 0
-            # self.UI.btn_undo.setEnabled(False)
             # self.UI.table_last_edit.removeRow(00)
 
 
@@ -506,5 +511,6 @@ if __name__ == '__main__':
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
     #   1. Change pink titles to groupboxes [optional]
-    #   2. Add feature to check search box if staff/dependant name is there...to update the populated summary[optional]
-    #   2. Add clock to status bar [optional]
+    #   2. Add feature to check search box if staff/dependant name is there...to update the populated summary [optional]
+    #   3. Add clock to status bar [optional]
+    #   4. Populate staff details after entry and decouple search box text from the populate staff details function
