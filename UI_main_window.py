@@ -17,8 +17,6 @@ class UIMainWindow(QWidget):
 
     def __init__(self):
         super().__init__()
-        # self.setStyleSheet(styles.main_window_style())  # Not needed here anymore
-
 
         self.UIComponents()
         # self.show()
