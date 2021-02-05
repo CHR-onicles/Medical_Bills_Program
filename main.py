@@ -1,21 +1,21 @@
-"""
-Author: CHR-onicles
-Date: 20/01/21
-"""
+# Standard library imports
+import sys
+from datetime import datetime
+
+# 3rd Party imports
+from icecream import ic
 from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QObject, QUrl)
-from PyQt5.QtGui import (QIcon, QFont)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
                              QCompleter, QMessageBox, QTableWidgetItem, QTableWidget, QStyledItemDelegate,
                              QAbstractItemView, QLineEdit, QStatusBar)
-import sys
-from icecream import ic
-from datetime import datetime
+from PyQt5.QtGui import (QIcon, QFont)
 
 # Local imports
-import resources_rc, styles
-from UI_main_window import UIMainWindow, QVSeparationLine, QHSeparationLine
+import med_bills_functions  # to access the global variables
 from med_bills_functions import MBillsFunctions
-import med_bills_functions  # to access global variables here
+import resources_rc  # its used... just not in the code
+import styles
+from UI_main_window import UIMainWindow, QVSeparationLine, QHSeparationLine
 
 
 
@@ -180,7 +180,6 @@ class MainApp(QMainWindow):
 
         self.UI.entry_quick_search.setCompleter(self.completer)
 
-        # todo: alter search connections here
         self.UI.entry_quick_search.returnPressed.connect(
             lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
         # self.UI.entry_quick_search.textChanged.connect(self.awakenStaffDetailsWidgets)
@@ -433,7 +432,6 @@ class MainApp(QMainWindow):
             med_bills_functions.UNDO_ENTRY_HISTORY.clear()  # todo: delete later
             self.myrow_count = self.UI.table_last_edit.rowCount() - 1
             self.populateStaffDetails(self.myrow_data_for_undo_redo[1], input_call='Entry')
-
 
 
     def updateTable(self):

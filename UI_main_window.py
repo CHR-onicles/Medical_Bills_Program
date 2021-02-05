@@ -1,7 +1,4 @@
-"""
-Author: CHR-onicles
-Date: 20/01/21
-"""
+
 from PyQt5.QtCore import (QSize, Qt)
 from PyQt5.QtGui import (QPixmap, QIcon)
 from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QSizePolicy, QApplication,
