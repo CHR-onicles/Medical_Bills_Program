@@ -497,7 +497,11 @@ class MainApp(QMainWindow):
         if MBillsFunctions.saveFile(self.wkbk_med_bills):
             self.status_bar.showMessage('✅File saved successfully!', 3000)
 
-
+    def closeEvent(self, event):
+        self.hide()  # to prevent user from noticing delay in saving file before app closes.
+        self.saveWorkbook()
+        print('Saved workbook.')
+        event.accept()
 
 
 
@@ -511,7 +515,6 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   1. Ask to save upon exit... or automatically save before exit
     #   2. Add autosave feature to save after an amount of time like jupyter notebook [medium priority]
     #   3. Add feature to check search box if staff/dependant name is there...to update the populated summary [optional]
     #   4. Populate staff details after entry and decouple search box text from the populate staff details function

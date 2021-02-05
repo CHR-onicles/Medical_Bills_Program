@@ -28,9 +28,11 @@ class MBillsFunctions:
         """
         Loads med bills file and staff list file.
 
-        :param med_bill_file: Medical Bills File
-        :param staff_list_file: Staff List File
-        :return: Both workbooks, one of them or None if one is type: None
+        :param med_bill_file: Medical Bills File.
+
+        :param staff_list_file: Staff List File.
+
+        :return: Both workbooks, one of them or None if one is type: None.
         """
         global MED_BILL_FILE, STAFF_LIST_FILE
         if med_bill_file and staff_list_file is not None:
@@ -54,10 +56,11 @@ class MBillsFunctions:
     @staticmethod
     def getAllMedBillsNamesAndDept(workbook):
         """
-        Function to get all names from Med Bills File
+        Function to get all names from Med Bills File.
 
-        :param workbook: Medical Bills workbook
-        :return: list of all people in the medical bills workbook
+        :param workbook: Medical Bills workbook.
+
+        :return: list of all people in the medical bills workbook.
         """
         people = []
 
@@ -77,8 +80,9 @@ class MBillsFunctions:
         """
         Function to extract all spouse, and children's names from Staff List File.
 
-        :param workbook: Staff List Workbook
-        :return: list of all dependants from Staff list workbook
+        :param workbook: Staff List Workbook.
+
+        :return: list of all dependants from Staff list workbook.
         """
 
         d_names = []
@@ -96,7 +100,7 @@ class MBillsFunctions:
         """
         Optimized function to extract details of staff members from the staff list file.
 
-        :param workbook: Staff list workbook
+        :param workbook: Staff list workbook.
 
         :return: dictionary of staff names, their spouse and children.
         """
@@ -122,9 +126,9 @@ class MBillsFunctions:
             """
             Function to process rows and create dictionary of staff details.
 
-            :param _row: rows from staff list sheet
+            :param _row: rows from staff list sheet.
 
-            :return: dictionary containing all permanent staff details
+            :return: dictionary containing all permanent staff details.
             """
             global helper_staff_name, staff_details
             if _row[0].value is not None:
@@ -158,11 +162,11 @@ class MBillsFunctions:
         Function to search for anyone using staff list. If found, returns staff's details...if not returns none for
         those particulars in the details(For casuals and guests).
 
-        :param staff_deets: dictionary of staff with details
+        :param staff_deets: dictionary of staff with details.
 
-        :param person: person to search for
+        :param person: person to search for.
 
-        :return: tuple of staff with dependant(s)
+        :return: tuple of staff with dependant(s).
         """
         # start = datetime.now()
         for staff, dependants in staff_deets.items():
@@ -187,11 +191,11 @@ class MBillsFunctions:
         """
         Function to search specifically for a guest or casual since they are not in the staff list.
 
-        :param people_in_med_bill: List of all people in med bills file with departments
+        :param people_in_med_bill: List of all people in med bills file with departments.
 
-        :param person: Person to be searched for
+        :param person: Person to be searched for.
 
-        :return:
+        :return: Name of casual or guest being searched for.
         """
         temp = [p for p in people_in_med_bill if p.split('|')[0] == person]
         return temp[0] if temp != [] else None
@@ -202,11 +206,11 @@ class MBillsFunctions:
         """
         Function that scans Med Bills File for a person's department.
 
-        :param all_people_and_dept: List of all people in Med Bills File
+        :param all_people_and_dept: List of all people in Med Bills File.
 
-        :param person: Person to be searched for
+        :param person: Person to be searched for.
 
-        :return: Returns Department of the person passed in
+        :return: Returns Department of the person passed in.
         """
         for names in all_people_and_dept:
             if person == names.split('|')[0]:
@@ -221,17 +225,17 @@ class MBillsFunctions:
         """
         Function to get the current amount of a person in med bills for the month
 
-        :param all_people:
+        :param all_people: List of everyone in medical bills file.
 
-        :param workbook: Med Bills file
+        :param workbook: Med Bills file.
 
-        :param month: Specific month to extract amount from (key from months dict)
+        :param month: Specific month to extract amount from (key from months dict).
 
-        :param months: Dictionary with months as keys
+        :param months: Dictionary with months as keys.
 
-        :param person: Name of Person in Med Bill file
+        :param person: Name of Person in Med Bill file.
 
-        :return: Amount from cell
+        :return: Amount from cell.
         """
         # s1 = datetime.now()
         dept = MBillsFunctions.getDepartmentFromName(person, all_people)
@@ -276,21 +280,21 @@ class MBillsFunctions:
     @staticmethod
     def insertAmountIntoMedBills(workbook, person: str, dept: str, offset_col: int, offset_row: int, amount: str):
         """
-        Function to insert amount into specific month of staff
+        Function to insert amount into specific month of staff.
 
-        :param workbook: Medical Bills file
+        :param workbook: Medical Bills file.
 
-        :param person: Staff/Guest/Casual
+        :param person: Staff/Guest/Casual.
 
-        :param dept: Department of Staff
+        :param dept: Department of Staff.
 
-        :param offset_col: Offset for month of entry
+        :param offset_col: Offset for month of entry.
 
-        :param offset_row: Offset for staff/spouse/child
+        :param offset_row: Offset for staff/spouse/child.
 
-        :param amount: Amount to be entered
+        :param amount: Amount to be entered.
 
-        :return: Boolean on whether operation was successful or not
+        :return: Boolean on whether operation was successful or not.
         """
         # start = datetime.now()
         # ic.enable()
@@ -325,7 +329,7 @@ class MBillsFunctions:
         """
         Function to undo an entry.
 
-        :return: Boolean indicating whether operation was successful
+        :return: Boolean indicating whether operation was successful.
         """
         global UNDO_ENTRY_HISTORY, REDO_ENTRY_HISTORY
         # start = datetime.now()
@@ -364,9 +368,9 @@ class MBillsFunctions:
     @staticmethod
     def redoEntry():
         """
-        Function to redo a previously undone entry
+        Function to redo a previously undone entry.
 
-        :return: Boolean value indication success status
+        :return: Boolean value indication success status.
         """
         global REDO_ENTRY_HISTORY
         last_undo_row = REDO_ENTRY_HISTORY  # will get overwritten so no need to pop but whatever
@@ -390,9 +394,9 @@ class MBillsFunctions:
         """
         Save the workbook.
 
-        :param workbook: Medical Bills file
+        :param workbook: Medical Bills file.
 
-        :return: Boolean whether save was successful or not
+        :return: Boolean whether save was successful or not.
         """
         # start = datetime.now()
         try:
