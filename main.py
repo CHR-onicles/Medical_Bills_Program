@@ -19,27 +19,11 @@ import med_bills_functions  # to access global variables here
 
 
 
-
-
-# import med_bills_functions
-
-
 # icecream debugging configs
 ic.configureOutput(includeContext=True)
 
 
 
-# class SfxPlayerThread(QObject):
-#
-#     def __init__(self):
-#         super(SfxPlayerThread, self).__init__()
-#         # SFX -------------------------------------------------------------------------------------------
-#         self.sfx_player = QSoundEffect()
-#         self.sfx_player.setSource(QUrl.fromLocalFile(':/sfx/success'))
-#
-#     @pyqtSlot()
-#     def play(self):
-#         self.sfx_player.play()
 
 
 class MainApp(QMainWindow):
@@ -166,7 +150,6 @@ class MainApp(QMainWindow):
         # Table info
         self.myrow_data = []
         self.myrow_count = 0
-        self.undo_clicked_already = 0
 
         self.UIComp()
 
@@ -273,7 +256,6 @@ class MainApp(QMainWindow):
         if self.UI.entry_quick_search.text() != '':
             person_status = ['Staff Name:', 'Guest Name:', 'Casual Name:']
             self.clearStaffDetails()
-
             s_name, d_name, _ = MBillsFunctions.searchForStaffFromStaffList(person.upper(),
                                                                             # all names in staff list are uppercase
                                                                             self.staff_details)
@@ -419,13 +401,6 @@ class MainApp(QMainWindow):
             self.undo_clicked_already = 0
             self.UI.entry_staff_or_dependant.setFocus()
 
-            # Threading for SFX here -------------------------------
-            # self.worker = SfxPlayerThread()
-            # self.worker.moveToThread(self.worker_thread)
-            # self.worker_thread.start()
-            # self.signal_insert_finished.connect(self.worker.play)
-            # END Threading for SFX here ----------------------------
-
             self.status_bar.showMessage('Entry entered successfully...', 2000)
 
             # stop = datetime.now()
@@ -438,16 +413,11 @@ class MainApp(QMainWindow):
     def undo(self):
         if MBillsFunctions.undoEntry():
             self.hidden_row = self.myrow_count
-            if self.undo_clicked_already > 0:
-                self.hidden_row -= self.undo_clicked_already
-                self.UI.table_last_edit.hideRow(self.hidden_row)
-            else:
-                self.UI.table_last_edit.hideRow(self.hidden_row)
+            self.UI.table_last_edit.hideRow(self.hidden_row)
             if len(med_bills_functions.UNDO_ENTRY_HISTORY) == 0:
                 self.UI.btn_undo.setEnabled(False)
             self.status_bar.showMessage('Last entry has been undone...', 3000)
             self.UI.btn_redo.setEnabled(True)
-            self.undo_clicked_already += 1
 
 
     def redo(self):
@@ -458,7 +428,6 @@ class MainApp(QMainWindow):
             self.UI.btn_undo.setEnabled(False)
             med_bills_functions.UNDO_ENTRY_HISTORY.clear()
             self.myrow_count = self.UI.table_last_edit.rowCount() - 1
-            self.undo_clicked_already = 0
 
 
     def updateTable(self):
@@ -495,7 +464,7 @@ class MainApp(QMainWindow):
 
     def saveWorkbook(self):
         if MBillsFunctions.saveFile(self.wkbk_med_bills):
-            self.status_bar.showMessage('✅File saved successfully!', 3000)
+            self.status_bar.showMessage('✅File saved successfully!', 3000)  # emoji unnecessary?
 
     def closeEvent(self, event):
         self.hide()  # to prevent user from noticing delay in saving file before app closes.
@@ -515,9 +484,8 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   2. Add autosave feature to save after an amount of time like jupyter notebook [medium priority]
-    #   3. Add feature to check search box if staff/dependant name is there...to update the populated summary [optional]
-    #   4. Populate staff details after entry and decouple search box text from the populate staff details function
-    #   5. Add clock to status bar [optional]
-    #   6. Properly evaluate boolean return value from functions [optional]
-    #   7. Change pink titles to groupboxes [optional]
+    #   1. Add autosave feature to save after an amount of time like jupyter notebook [medium priority]
+    #   2. Add feature to check search box if staff/dependant name is there...to update the populated summary [optional]
+    #   3. Populate staff details after entry and decouple search box text from the populate staff details function
+    #   4. Properly evaluate boolean return value from functions [optional]
+    #   5. Change pink titles to groupboxes [optional]
