@@ -225,6 +225,8 @@ class MainApp(QMainWindow):
     def updateDetailsForMonth(self):
         if self.UI.entry_quick_search.text() != '':
             self.populateStaffDetails(self.UI.entry_quick_search.text())
+        elif self.UI.entry_quick_search.text() == '' and self.UI.entry_staff_or_dependant.text() == '':
+            return
         else:
             self.populateStaffDetails(self.UI.entry_staff_name.text(), input_call='Entry')
 
@@ -419,6 +421,7 @@ class MainApp(QMainWindow):
                 self.UI.btn_undo.setEnabled(False)
             self.status_bar.showMessage('Last entry has been undone...', 3000)
             self.UI.btn_redo.setEnabled(True)
+            self.populateStaffDetails(self.myrow_data_for_undo_redo[1], 'Entry')
 
 
     def redo(self):
@@ -429,6 +432,8 @@ class MainApp(QMainWindow):
             self.UI.btn_undo.setEnabled(False)
             med_bills_functions.UNDO_ENTRY_HISTORY.clear()  # todo: delete later
             self.myrow_count = self.UI.table_last_edit.rowCount() - 1
+            self.populateStaffDetails(self.myrow_data_for_undo_redo[1], input_call='Entry')
+
 
 
     def updateTable(self):
@@ -458,6 +463,8 @@ class MainApp(QMainWindow):
             self.UI.table_last_edit.item(row, 5).setTextAlignment(Qt.AlignTop)
             self.UI.table_last_edit.item(row, 6).setFont(QFont('century gothic', 11))
             self.UI.table_last_edit.item(row, 6).setTextAlignment(Qt.AlignTop)
+        self.myrow_data_for_undo_redo = self.myrow_data[0]  # a copy of the list for undo and redo functions to use
+        # print(self.myrow_data_for_undo_redo)
         self.myrow_data.clear()
         # stop = datetime.now()
         # print('Time taken to update table:', stop - start)
@@ -466,6 +473,7 @@ class MainApp(QMainWindow):
     def saveWorkbook(self):
         if MBillsFunctions.saveFile(self.wkbk_med_bills):
             self.status_bar.showMessage('✅File saved successfully!', 3000)  # emoji unnecessary?
+
 
     def closeEvent(self, event):
         self.hide()  # to prevent user from noticing delay in saving file before app closes.
@@ -485,7 +493,7 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   1. Add autosave feature to save after an amount of time like jupyter notebook [medium priority]
-    #   3. Populate staff details after entry and decouple search box text from the populate staff details function
-    #   4. Properly evaluate boolean return value from functions [optional]
-    #   5. Change pink titles to groupboxes [optional]
+    #   1. Properly evaluate boolean return value from functions [optional]
+    #   2. Change pink titles to groupboxes [optional]
+    #   3. Add autosave feature to save after an amount of time like jupyter notebook [optional]
+    #   4. Find a better way of doing " input_call='Entry' " [optional]

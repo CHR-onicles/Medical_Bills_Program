@@ -165,7 +165,8 @@ class UIMainWindow(QWidget):
         # TABLE -------------------------------------------------------------------------------------------
         self.hline1 = QHSeparationLine()
         # self.hline1.setStyleSheet('border: 1px solid gray;')
-        self.lbl_table_title = QLabel('Last Edit History:')
+        self.lbl_table_title = QLabel('History for last added entries:')
+        self.lbl_table_title.setStyleSheet('font-size: 14pt;')  # used this because it appeared too big and bold for some reason
 
         self.table_last_edit = QTableWidget()
         self.table_last_edit.setRowCount(1)
