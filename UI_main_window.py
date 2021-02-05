@@ -42,10 +42,10 @@ class UIMainWindow(QWidget):
         # TABS ---------------------------------------------------------------------------------------------
         self.tabs = QTabWidget()
         self.tab_1 = QWidget()
-        self.tab_2 = QWidget()  # todo: Implement statistics or staff list here
+        # self.tab_2 = QWidget()  # todo: Implement statistics or staff list here
         # self.tab_3 = QWidget()  # todo: Implement Later (for Graphs maybe or utility stuff: like resetting all entries)
         self.tabs.addTab(self.tab_1, 'Receipt Entry')  # may change later
-        self.tabs.addTab(self.tab_2, 'Tab 2')
+        # self.tabs.addTab(self.tab_2, 'Tab 2')
         # self.tabs.addTab(self.tab_3, 'Tab 3')
 
         # TAB 1 WIDGETS ------------------------------------------------------------------------------------
@@ -304,3 +304,4 @@ class UIMainWindow(QWidget):
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
     #   1. Set Tooltips [Optional]
+    #   2. Add Refresh button on status bar for table [optional]

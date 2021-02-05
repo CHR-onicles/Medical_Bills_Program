@@ -179,6 +179,8 @@ class MainApp(QMainWindow):
         self.UI.entry_staff_or_dependant.setCompleter(self.completer)
 
         self.UI.entry_quick_search.setCompleter(self.completer)
+
+        # todo: alter search connections here
         self.UI.entry_quick_search.returnPressed.connect(
             lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
         # self.UI.entry_quick_search.textChanged.connect(self.awakenStaffDetailsWidgets)
@@ -221,8 +223,10 @@ class MainApp(QMainWindow):
 
 
     def updateDetailsForMonth(self):
-        if len(self.UI.entry_quick_search.text()) > 0:
+        if self.UI.entry_quick_search.text() != '':
             self.populateStaffDetails(self.UI.entry_quick_search.text())
+        else:
+            self.populateStaffDetails(self.UI.entry_staff_name.text(), input_call='Entry')
 
     # def awakenStaffDetailsWidgets(self):
     #     if len(self.UI.entry_quick_search.text()) > 0:
@@ -252,13 +256,14 @@ class MainApp(QMainWindow):
             self.UI.btn_submit.setEnabled(False)
 
 
-    def populateStaffDetails(self, person):
-        if self.UI.entry_quick_search.text() != '':
+    def populateStaffDetails(self, person, input_call=None):
+        if (input_call is None) and (self.UI.entry_quick_search.text() == ''):
+            # QMessageBox.critical(self, 'Search Error', 'Search box <b>cannot</b> be empty!')
+            return
+        else:
             person_status = ['Staff Name:', 'Guest Name:', 'Casual Name:']
             self.clearStaffDetails()
-            s_name, d_name, _ = MBillsFunctions.searchForStaffFromStaffList(person.upper(),
-                                                                            # all names in staff list are uppercase
-                                                                            self.staff_details)
+            s_name, d_name, _ = MBillsFunctions.searchForStaffFromStaffList(person.upper(), self.staff_details)
 
             if (s_name and d_name) is not None:
                 self.UI.lbl_staff_name.setText(person_status[0])
@@ -310,8 +315,6 @@ class MainApp(QMainWindow):
                 else:
                     QMessageBox.critical(self, 'Search Error', 'The Person you searched for <b>cannot</b> be found!')
             self.UI.btn_clear.setEnabled(True)
-        else:
-            QMessageBox.critical(self, 'Search Error', 'Search box <b>cannot</b> be empty!')
 
 
     def clearStaffDetails(self):
@@ -350,8 +353,8 @@ class MainApp(QMainWindow):
                                         ])
                 self.updateTable()
             else:  # person could be dependant or casual/guest
-                actual_staff, dependant, status = MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(),
-                                                                                              self.staff_details)
+                actual_staff, dependant, status = \
+                    MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(), self.staff_details)
                 if actual_staff is not None:  # check if person is in staff list
                     actual_staff = actual_staff.title()
                     dependant = [x.title() for x in dependant if x is not None]
@@ -364,10 +367,8 @@ class MainApp(QMainWindow):
                             # 2 if person is spouse of staff else 1 for child of staff
                             if self.UI.entry_staff_or_dependant.text() not in dependant[2:]:
                                 offset_row = 2
-                                # ic('entered spouse')
                             else:
                                 offset_row = 1
-                                # ic('entered child')
                             MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, actual_staff,
                                                                      dept, offset_col, offset_row, amount)
                             self.myrow_data.append([actual_staff, self.staff_details[actual_staff.upper()][0],
@@ -392,9 +393,9 @@ class MainApp(QMainWindow):
                                             ])
                     self.updateTable()
 
-            if self.UI.entry_staff_name.text() == self.UI.entry_staff_or_dependant.text():
-                self.populateStaffDetails(self.UI.entry_staff_or_dependant.text())
+            self.populateStaffDetails(self.UI.entry_staff_or_dependant.text(), input_call='Entry')
             self.UI.entry_staff_or_dependant.clear()
+            self.UI.entry_quick_search.clear()
             self.UI.entry_amount.setText('GH₵ ')
             self.UI.btn_undo.setEnabled(True)
             self.UI.btn_redo.setEnabled(False)
@@ -426,7 +427,7 @@ class MainApp(QMainWindow):
             self.status_bar.showMessage('Entry redone successfully...', 3000)
             self.UI.btn_redo.setEnabled(False)
             self.UI.btn_undo.setEnabled(False)
-            med_bills_functions.UNDO_ENTRY_HISTORY.clear()
+            med_bills_functions.UNDO_ENTRY_HISTORY.clear()  # todo: delete later
             self.myrow_count = self.UI.table_last_edit.rowCount() - 1
 
 
@@ -485,7 +486,6 @@ if __name__ == '__main__':
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
     #   1. Add autosave feature to save after an amount of time like jupyter notebook [medium priority]
-    #   2. Add feature to check search box if staff/dependant name is there...to update the populated summary [optional]
     #   3. Populate staff details after entry and decouple search box text from the populate staff details function
     #   4. Properly evaluate boolean return value from functions [optional]
     #   5. Change pink titles to groupboxes [optional]
