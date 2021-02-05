@@ -220,7 +220,7 @@ class MainApp(QMainWindow):
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
-        self.status_bar.setFont(QFont('century gothic', 12, 0, True))
+        self.status_bar.setFont(QFont('century gothic', 12))
         self.status_bar.showMessage('Welcome, this is the status bar...', 5000)  # todo: insert more appropriate message here
         # END STATUS BAR -----------------------------------------------------------------------------------
 
@@ -230,9 +230,6 @@ class MainApp(QMainWindow):
         self.UI.table_last_edit.setEditTriggers(QAbstractItemView.NoEditTriggers)
         # END TABLE ----------------------------------------------------------------------------------------
 
-    def saveWorkbook(self):
-        if MBillsFunctions.saveFile(self.wkbk_med_bills):
-            self.status_bar.showMessage('File saved successfully!', 3000)
 
     def updateCurAmountLabel(self):
         self.mon = self.UI.combo_months.currentText()[0:3]
@@ -496,7 +493,9 @@ class MainApp(QMainWindow):
         # print('Time taken to update table:', stop - start)
 
 
-
+    def saveWorkbook(self):
+        if MBillsFunctions.saveFile(self.wkbk_med_bills):
+            self.status_bar.showMessage('✅File saved successfully!', 3000)
 
 
 
