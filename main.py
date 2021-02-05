@@ -182,7 +182,6 @@ class MainApp(QMainWindow):
 
         self.UI.entry_quick_search.returnPressed.connect(
             lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
-        # self.UI.entry_quick_search.textChanged.connect(self.awakenStaffDetailsWidgets)
         self.UI.btn_quick_search.clicked.connect(
             lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
 
@@ -224,29 +223,14 @@ class MainApp(QMainWindow):
     def updateDetailsForMonth(self):
         if self.UI.entry_quick_search.text() != '':
             self.populateStaffDetails(self.UI.entry_quick_search.text())
+            return
+        if self.UI.entry_staff_name.text() == self.UI.table_last_edit.item(self.UI.table_last_edit.rowCount()-1, 1).text():
+            self.populateStaffDetails(self.UI.entry_staff_name.text(), input_call='Entry')
+            return
         elif self.UI.entry_quick_search.text() == '' and self.UI.entry_staff_or_dependant.text() == '':
             return
         else:
             self.populateStaffDetails(self.UI.entry_staff_name.text(), input_call='Entry')
-
-    # def awakenStaffDetailsWidgets(self):
-    #     if len(self.UI.entry_quick_search.text()) > 0:
-    #         self.UI.entry_staff_name.setDisabled(False)
-    #         self.UI.entry_department.setDisabled(False)
-    #         self.UI.entry_spouse.setDisabled(False)
-    #         self.UI.combo_children.setDisabled(False)
-    #         self.UI.entry_cur_amount1.setDisabled(False)
-    #     else:
-    #         self.UI.entry_staff_name.clear()
-    #         self.UI.entry_department.clear()
-    #         self.UI.entry_spouse.clear()
-    #         self.UI.combo_children.clear()
-    #         self.UI.entry_cur_amount1.setText('GH₵ ')
-    #         self.UI.entry_staff_name.setDisabled(True)
-    #         self.UI.entry_department.setDisabled(True)
-    #         self.UI.entry_spouse.setDisabled(True)
-    #         self.UI.combo_children.setDisabled(True)
-    #         self.UI.entry_cur_amount1.setDisabled(True)
 
 
     def checkEntryStaffDepState(self):
