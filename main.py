@@ -403,6 +403,7 @@ class MainApp(QMainWindow):
             self.status_bar.showMessage('Last entry has been undone...', 3000)
             self.UI.btn_redo.setEnabled(True)
             self.populateStaffDetails(self.myrow_data_for_undo_redo[1], 'Entry')
+            self.UI.entry_quick_search.clear()
 
 
     def redo(self):
@@ -414,6 +415,7 @@ class MainApp(QMainWindow):
             med_bills_functions.UNDO_ENTRY_HISTORY.clear()  # todo: delete later
             self.myrow_count = self.UI.table_last_edit.rowCount() - 1
             self.populateStaffDetails(self.myrow_data_for_undo_redo[1], input_call='Entry')
+            self.UI.entry_quick_search.clear()
 
 
     def updateTable(self):
