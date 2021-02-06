@@ -475,5 +475,4 @@ if __name__ == '__main__':
     # TODO:
     #   1. Properly evaluate boolean return value from functions [optional]
     #   2. Change pink titles to groupboxes [optional]
-    #   3. Add autosave feature to save after an amount of time like jupyter notebook [optional]
-    #   4. Find a better way of doing " input_call='Entry' " [optional]
+    #   3. Find a better way of doing " input_call='Entry' " [optional]
