@@ -223,14 +223,12 @@ class MainApp(QMainWindow):
     def updateDetailsForMonth(self):
         if self.UI.entry_quick_search.text() != '':
             self.populateStaffDetails(self.UI.entry_quick_search.text())
+        elif self.UI.entry_quick_search.text() == '' and self.UI.entry_staff_or_dependant.text() == ''\
+                and self.UI.table_last_edit.rowCount() == 1:
             return
-        if self.UI.entry_staff_name.text() == self.UI.table_last_edit.item(self.UI.table_last_edit.rowCount()-1, 1).text():
+        elif self.UI.entry_staff_name.text() == self.UI.table_last_edit.item(self.UI.table_last_edit.rowCount()-1, 1).text():
             self.populateStaffDetails(self.UI.entry_staff_name.text(), input_call='Entry')
-            return
-        elif self.UI.entry_quick_search.text() == '' and self.UI.entry_staff_or_dependant.text() == '':
-            return
-        else:
-            self.populateStaffDetails(self.UI.entry_staff_name.text(), input_call='Entry')
+            # without an else: return, it still does the job...imma not touch it 😬
 
 
     def checkEntryStaffDepState(self):
