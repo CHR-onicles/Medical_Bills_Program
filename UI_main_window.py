@@ -284,7 +284,7 @@ class UIMainWindow(QWidget):
         self.tab1_main_layout.addWidget(self.lbl_table_title, 5)
         self.tab1_main_layout.addWidget(self.table_last_edit, 35)
         self.tab_1.setLayout(self.tab1_main_layout)
-        #   END TAB 1 LAYOUTS ------------------------------------------------------------------------------
+        # END TAB 1 LAYOUTS --------------------------------------------------------------------------------
 
 
         # MAIN WINDOW LAYOUT (CENTRAL WIDGET) --------------------------------------------------------------
@@ -299,5 +299,7 @@ class UIMainWindow(QWidget):
 
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
-    #   1. Set Tooltips [Optional]
-    #   2. Add Refresh button on status bar for table [optional]
+    #   1. Add Refresh button on status bar for table [optional]
+
+    # TODO: TAB 2 IDEAS:
+    #   -
