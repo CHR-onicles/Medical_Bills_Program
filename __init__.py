@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 __title__ = 'Med Bills App'
-__date__ = '20/01/2021'
+__date__ = '05/02/2021'
 __version__ = '1.0.0'
 __license__ = 'MIT'
 __author__ = 'Divine Anum'
