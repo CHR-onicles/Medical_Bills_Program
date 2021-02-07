@@ -28,11 +28,12 @@ ic.configureOutput(includeContext=True)
 
 class MainApp(QMainWindow):
     """
-    Main App configurations.
+    App configurations.
     """
 
     def __init__(self):
         super().__init__()
+        # Window configs -------------------------------------------------------------------------------------
         self.setWindowTitle('Med Bills App')
         self.setWindowIcon(QIcon(':/icon/cat'))
         self.UI = UIMainWindow()
@@ -41,8 +42,10 @@ class MainApp(QMainWindow):
         self.resize(1310, 1000)
         # self.resize(1000, 800)  # for testing purposes
         self.setMinimumSize(QSize(1100, 950))  # todo: based on final program edit this
+        # END Window configs ---------------------------------------------------------------------------------
 
-        # Medical Bills Files configs -------------------------------------------------------------------
+
+        # Medical Bills Files configs ------------------------------------------------------------------------
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
                        'August': 9, 'September': 10, 'October': 11, 'November': 12, 'December': 13}
         # todo: Automatically check for the right files later [optional]
@@ -51,8 +54,10 @@ class MainApp(QMainWindow):
         self.all_names_and_dept = MBillsFunctions.getAllMedBillsNamesAndDept(self.wkbk_med_bills)
         self.all_names_and_dept.extend(MBillsFunctions.getAllDependantNames(self.wkbk_staff_list))
         self.staff_details = MBillsFunctions.getDetailsOfPermanentStaff(self.wkbk_staff_list)
+        # END Medical Bills Files configs --------------------------------------------------------------------
 
-        # Completer configs -----------------------------------------------------------------------------
+
+        # Auto Completer configs -----------------------------------------------------------------------------
         self.completer = QCompleter([name.split('|')[0] for name in self.all_names_and_dept])
         self.completer.setCaseSensitivity(Qt.CaseInsensitive)
         self.completer.setFilterMode(Qt.MatchContains)
@@ -146,10 +151,14 @@ class MainApp(QMainWindow):
         }
         
         """)
+        # END Auto Completer configs -------------------------------------------------------------------------
 
-        # Table info
+
+        # Table info -----------------------------------------------------------------------------------------
         self.myrow_data = []
         self.myrow_count = 0
+        # END Table info -------------------------------------------------------------------------------------
+
 
         self.UIComp()
 
@@ -159,6 +168,9 @@ class MainApp(QMainWindow):
 
 
     def initUI(self):
+        """
+        Initializing widgets for startup and connecting signals to slots.
+        """
         # Disable these widgets on startup
         # self.UI.entry_staff_name.setDisabled(True)
         # self.UI.entry_department.setDisabled(True)
@@ -215,12 +227,18 @@ class MainApp(QMainWindow):
 
 
     def updateCurAmountLabel(self):
+        """
+        Method to update the Current Amount Label in accordance with the month it is set to.
+        """
         self.mon = self.UI.combo_months.currentText()[0:3]
         self.UI.lbl_cur_amount.setText(
             'Current Amount For <u>' + self.mon + '</u>(<font color=\"#3d8ec9\">GH₵</font>):')
 
 
     def updateDetailsForMonth(self):
+        """
+        Method to update all details of staff in accordance with the month it is set to.
+        """
         if self.UI.entry_quick_search.text() != '':
             self.populateStaffDetails(self.UI.entry_quick_search.text())
         elif self.UI.entry_quick_search.text() == '' and self.UI.entry_staff_or_dependant.text() == ''\
@@ -232,6 +250,9 @@ class MainApp(QMainWindow):
 
 
     def checkEntryStaffDepState(self):
+        """
+        Method to enable/disable the submit button based on entry in Staff/Dependant & Amount line edits.
+        """
         if len(self.UI.entry_staff_or_dependant.text()) >= 1 and \
                 len(self.UI.entry_amount.text()) > 4:
             self.UI.btn_submit.setEnabled(True)
@@ -240,6 +261,13 @@ class MainApp(QMainWindow):
 
 
     def populateStaffDetails(self, person, input_call=None):
+        """
+        Method to populate various widgets with the details of a Staff(either permanent staff/Guest/Casual) or Dependant.
+
+        :param person: Person whose details are to be populated.
+
+        :param input_call: Random thingy to know which other method called this method and behave accordingly.
+        """
         if (input_call is None) and (self.UI.entry_quick_search.text() == ''):
             # QMessageBox.critical(self, 'Search Error', 'Search box <b>cannot</b> be empty!')
             return
@@ -301,6 +329,9 @@ class MainApp(QMainWindow):
 
 
     def clearStaffDetails(self):
+        """
+        Method to clear widgets populated with staff details.
+        """
         self.UI.entry_staff_name.clear()
         self.UI.entry_department.clear()
         self.UI.entry_spouse.clear()
@@ -314,6 +345,9 @@ class MainApp(QMainWindow):
 
 
     def insertIntoMedBills(self):
+        """
+        Method to insert amount entered for a Staff or Dependant into Med Bills workbook(The database).
+        """
         if self.UI.entry_staff_or_dependant.text() in [names.split('|')[0] for names in self.all_names_and_dept]:
             # start = datetime.now()
             med_bills_functions.UNDO_ENTRY_HISTORY.clear()
@@ -395,6 +429,9 @@ class MainApp(QMainWindow):
 
 
     def undo(self):
+        """
+        Method to undo an entry.
+        """
         if MBillsFunctions.undoEntry():
             self.hidden_row = self.myrow_count
             self.UI.table_last_edit.hideRow(self.hidden_row)
@@ -407,18 +444,23 @@ class MainApp(QMainWindow):
 
 
     def redo(self):
+        """
+        Method to redo a previously undone entry.
+        """
         if MBillsFunctions.redoEntry():
             self.UI.table_last_edit.showRow(self.hidden_row)
             self.status_bar.showMessage('Entry redone successfully...', 3000)
             self.UI.btn_redo.setEnabled(False)
             self.UI.btn_undo.setEnabled(False)
-            med_bills_functions.UNDO_ENTRY_HISTORY.clear()  # todo: delete later
             self.myrow_count = self.UI.table_last_edit.rowCount() - 1
             self.populateStaffDetails(self.myrow_data_for_undo_redo[1], input_call='Entry')
             self.UI.entry_quick_search.clear()
 
 
     def updateTable(self):
+        """
+        Method to update the table after an insertion to the Med Bills workbook has been made.
+        """
         start = datetime.now()  # DONT COMMENT OUT
         if self.myrow_data:  # check if row data is not empty
             self.myrow_count += 1
@@ -446,19 +488,26 @@ class MainApp(QMainWindow):
             self.UI.table_last_edit.item(row, 6).setFont(QFont('century gothic', 11))
             self.UI.table_last_edit.item(row, 6).setTextAlignment(Qt.AlignTop)
         self.myrow_data_for_undo_redo = self.myrow_data[0]  # a copy of the list for undo and redo functions to use
-        # print(self.myrow_data_for_undo_redo)
         self.myrow_data.clear()
         # stop = datetime.now()
         # print('Time taken to update table:', stop - start)
 
 
     def saveWorkbook(self):
+        """
+        Method to save the Med Bills workbook.
+        """
         if MBillsFunctions.saveFile(self.wkbk_med_bills):
-            self.status_bar.showMessage('✅File saved successfully!', 3000)  # emoji unnecessary?
+            self.status_bar.showMessage('✅File saved successfully...', 3000)  # emoji unnecessary?
 
 
     def closeEvent(self, event):
-        self.hide()  # to prevent user from noticing delay in saving file before app closes.
+        """
+        Reimplementing the close event to save the workbook upon exit.
+
+        :param event: Close event object.
+        """
+        self.hide()  # instantly hides app to prevent user from noticing delay(~2secs) in saving file when app exits.
         self.saveWorkbook()
         print('Saved workbook.')
         event.accept()
@@ -476,5 +525,5 @@ if __name__ == '__main__':
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
     #   1. Properly evaluate boolean return value from functions [optional]
-    #   2. Change pink titles to groupboxes [optional]
+    #   2. Change pink titles to groupboxes [optional -> New Feature]
     #   3. Find a better way of doing " input_call='Entry' " [optional]
