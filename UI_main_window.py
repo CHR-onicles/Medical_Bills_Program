@@ -1,6 +1,6 @@
 # 3rd party packages
 from PyQt5.QtCore import (QSize, Qt)
-from PyQt5.QtGui import (QPixmap, QIcon)
+from PyQt5.QtGui import (QPixmap, QIcon, QFontDatabase)
 from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QSizePolicy, QApplication,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QTableWidget,
                              QHeaderView)
@@ -22,6 +22,7 @@ class UIMainWindow(QWidget):
     def UIComponents(self):
         self.UIwidgets()
         self.UIlayouts()
+        self.UIfonts()
 
     def UIwidgets(self):
         # BIG TITLE ----------------------------------------------------------------------------------------
@@ -202,7 +203,6 @@ class UIMainWindow(QWidget):
         # END TABLE ----------------------------------------------------------------------------------------
 
 
-
     def UIlayouts(self):
         # TAB 1 LAYOUTS ------------------------------------------------------------------------------------
         self.tab1_main_layout = QVBoxLayout()
@@ -292,6 +292,18 @@ class UIMainWindow(QWidget):
         self.central_layout.addWidget(self.tabs)
         self.setLayout(self.central_layout)
         # END MAIN WINDOW LAYOUT (CENTRAL WIDGET) ----------------------------------------------------------
+
+
+    def UIfonts(self):
+        gothic_id = QFontDatabase.addApplicationFont(':/fonts/century gothic')
+        gothicb_id = QFontDatabase.addApplicationFont(':/fonts/century gothic bold')
+        gothici_id = QFontDatabase.addApplicationFont(':/fonts/century gothic italic')
+        gothicbi_id = QFontDatabase.addApplicationFont(':/fonts/century gothic bold italic')
+
+        # May not be necessary for windows..but maybe for other OSes
+        segoe_id = QFontDatabase.addApplicationFont(':/fonts/segoeui')
+        segoeb_id = QFontDatabase.addApplicationFont(':/fonts/segoeui bold')
+        segoei_id = QFontDatabase.addApplicationFont(':/fonts/segoeui italic')
 
 
 

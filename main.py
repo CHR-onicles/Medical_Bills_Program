@@ -42,7 +42,7 @@ class MainApp(QMainWindow):
         self.setStyleSheet(styles.main_window_style())
         self.resize(1310, 1000)
         # self.resize(1000, 800)  # for testing purposes
-        self.setMinimumSize(QSize(1100, 950))  # todo: based on final program edit this - allow to be made smaller
+        self.setMinimumSize(QSize(1000, 900))  # todo: based on final program edit this
         # END Window configs ---------------------------------------------------------------------------------
 
 

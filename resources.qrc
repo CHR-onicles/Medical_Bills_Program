@@ -53,4 +53,15 @@
         <file alias="save">rc/save.png</file>
         <file alias="save-disabled">rc/save-disabled.png</file>
     </qresource>
+
+  <qresource prefix="fonts">
+    <file alias="century gothic">fonts/GOTHIC.TTF</file>
+    <file alias="century gothic bold">fonts/GOTHICB.TTF</file>
+    <file alias="century gothic bold italic">fonts/GOTHICBI.TTF</file>
+    <file alias="century gothic italic">fonts/GOTHICI.TTF</file>
+    <file alias="segoeui">fonts/segoeui.ttf</file>
+    <file alias="segoeui bold">fonts/segoeuib.ttf</file>
+    <file alias="segoeui italic">fonts/segoeuii.ttf</file>
+
+  </qresource>
 </RCC>
