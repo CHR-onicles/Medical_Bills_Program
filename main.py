@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QCo
 from PyQt5.QtGui import (QIcon, QFont)
 
 # Local imports
+from _version import __version__
 import med_bills_functions  # to access the global variables
 from med_bills_functions import MBillsFunctions
 import resources_rc  # its used... just not in the code
@@ -34,7 +35,7 @@ class MainApp(QMainWindow):
     def __init__(self):
         super().__init__()
         # Window configs -------------------------------------------------------------------------------------
-        self.setWindowTitle('Med Bills App')
+        self.setWindowTitle('Med Bills App' + ' - v' + __version__)
         self.setWindowIcon(QIcon(':/icon/cat'))
         self.UI = UIMainWindow()
         self.setCentralWidget(self.UI)

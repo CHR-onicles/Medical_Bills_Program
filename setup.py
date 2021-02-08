@@ -2,11 +2,11 @@ import os
 import sys
 
 from cx_Freeze import setup, Executable
+from _version import __version__
 
 
 
 
-__version__ = '1.0.0'
 # Dependencies are automatically detected, but it might need
 # fine tuning.
 build_options = {'zip_include_packages': ['PyQt5.QtWidgets', 'PyQt5.QtGui', 'PyQt5.QtCore', 'openpyxl'],
@@ -21,7 +21,7 @@ base = 'Win32GUI' if sys.platform == 'win32' else None
 # base = None  # for debugging (it displays console)
 
 executables = [
-    Executable('main.py', base=base, icon='rc/cat.ico', target_name='MedBills')  # todo: add version to name
+    Executable('main.py', base=base, icon='rc/cat.ico', target_name='Med Bills')  # todo: add version to name
 ]
 
 setup(
