@@ -5,7 +5,7 @@ Date: 20/01/21
 
 from PyQt5.QtGui import QValidator
 from PyQt5.QtWidgets import QFrame, QSizePolicy, QWidget
-from icecream import ic
+# from icecream import ic
 
 
 
@@ -44,43 +44,42 @@ class CurrencyInputValidator(QValidator):
     """
 
     def validate(self, v_string: str, index: int):
-        ic.disable()
         # invalid_chars = """
         # `~!@#$%^&*()-_=+{[}]|\\'",<>/?
         # """  # Might need them in future
         state = None
         if len(v_string) < 4 or v_string[:4] != 'GH₵ ':
-            ic('Less than 4 or not GHC - invalid')
+            # ic('Less than 4 or not GHC - invalid')
             state = QValidator.Invalid
 
         if len(v_string) >= 4:
-            ic('Greater than 4 - VALID')
+            # ic('Greater than 4 - VALID')
             state = QValidator.Intermediate
 
         if (v_string[4:].isdigit()) is True:
-            ic('All digits - VALID')
+            # ic('All digits - VALID')
             state = QValidator.Acceptable
 
         for x in v_string[4:]:
             if ((x.isdigit() is False) and '.' not in v_string[4:]) or x.isalpha():
-                ic('Alpha or Anything else - invalid')
+                # ic('Alpha or Anything else - invalid')
                 state = QValidator.Invalid
 
         nums = v_string[4:].split('.')
         if '.' in v_string[4:]:
             if (nums[0].isdigit() and nums[1].isdigit()) is True:
-                ic('Has period and both numbers are legit - VALID')
+                # ic('Has period and both numbers are legit - VALID')
                 state = QValidator.Acceptable
             if '.' in v_string[4:] and len(v_string.split('.')[1]) >= 1:
                 if (nums[0].isdigit() is True) and (nums[1].isdigit() is False):
-                    ic('Has period, but other chars too - invalid')
+                    # ic('Has period, but other chars too - invalid')
                     state = QValidator.Invalid
             if len(nums[1]) > 2:
-                ic('More than 2 digits after period - invalid')
+                # ic('More than 2 digits after period - invalid')
                 state = QValidator.Invalid
 
         if v_string.count('.') > 1:
-            ic('More than one period - invalid')
+            # ic('More than one period - invalid')
             state = QValidator.Invalid
 
         return state, v_string, index

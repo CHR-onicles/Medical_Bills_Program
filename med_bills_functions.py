@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from icecream import ic
+# from icecream import ic
 import openpyxl
 
 
@@ -208,8 +208,8 @@ class MBillsFunctions:
         """
         for names in all_people_and_dept:
             if person == names.split('|')[0]:
-                ic.disable()
-                ic(names.split('|')[1])
+                # ic.disable()
+                # ic(names.split('|')[1])
                 return names.split('|')[1]
         return None
 

@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 # 3rd Party imports
-from icecream import ic
+# from icecream import ic
 from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QObject, QUrl)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
                              QCompleter, QMessageBox, QTableWidgetItem, QTableWidget, QStyledItemDelegate,
@@ -20,7 +20,7 @@ from UI_main_window import UIMainWindow, QVSeparationLine, QHSeparationLine
 
 
 # icecream debugging configs
-ic.configureOutput(includeContext=True)
+# ic.configureOutput(includeContext=True)
 
 
 
@@ -41,7 +41,7 @@ class MainApp(QMainWindow):
         self.setStyleSheet(styles.main_window_style())
         self.resize(1310, 1000)
         # self.resize(1000, 800)  # for testing purposes
-        self.setMinimumSize(QSize(1100, 950))  # todo: based on final program edit this
+        self.setMinimumSize(QSize(1100, 950))  # todo: based on final program edit this - allow to be made smaller
         # END Window configs ---------------------------------------------------------------------------------
 
 
@@ -527,3 +527,4 @@ if __name__ == '__main__':
     #   1. Properly evaluate boolean return value from functions [optional]
     #   2. Change pink titles to groupboxes [optional -> New Feature]
     #   3. Find a better way of doing " input_call='Entry' " [optional]
+    #   4. Bundle font with app [HIGH PRIORITY]
