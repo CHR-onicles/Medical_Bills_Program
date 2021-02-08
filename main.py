@@ -528,4 +528,4 @@ if __name__ == '__main__':
     #   1. Properly evaluate boolean return value from functions [optional]
     #   2. Change pink titles to groupboxes [optional -> New Feature]
     #   3. Find a better way of doing " input_call='Entry' " [optional]
-    #   4. Bundle font with app [HIGH PRIORITY]
+    #   4. Add QSettings to remember last size and location[HIGH PRIORITY]
