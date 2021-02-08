@@ -128,3 +128,4 @@ dmypy.json
 test.py
 test_func.py
 *.xlsx
+jupyter_stuff/

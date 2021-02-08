@@ -1,11 +1,9 @@
-
+# 3rd party packages
 from PyQt5.QtCore import (QSize, Qt)
 from PyQt5.QtGui import (QPixmap, QIcon)
 from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QSizePolicy, QApplication,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QTableWidget,
                              QHeaderView)
-import sys
-from icecream import ic
 
 # Local imports
 from custom_widgets import (QHSeparationLine, QVSeparationLine, CurrencyInputValidator)
@@ -302,4 +300,4 @@ class UIMainWindow(QWidget):
     #   1. Add Refresh button on status bar for table [optional]
 
     # TODO: TAB 2 IDEAS:
-    #   -
+    #   - Show table of staff with high amounts and other filters
