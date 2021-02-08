@@ -14,14 +14,14 @@ build_options = {'zip_include_packages': ['PyQt5.QtWidgets', 'PyQt5.QtGui', 'PyQ
                               'distutils', 'unittest', 'packaging', 'cffi', 'html', 'http', 'pycparser', 'icecream',
                               'lxml'
                               ],
-                 'include_files': ['test med bills 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx']
+                 'include_files': ['data files/test med bills 2021.xlsx', 'data files/STAFF DEPENDANT LIST 2020.xlsx']
                  }
 
 base = 'Win32GUI' if sys.platform == 'win32' else None
 # base = None  # for debugging (it displays console)
 
 executables = [
-    Executable('main.py', base=base, icon='rc/cat.ico', target_name='Med Bills')  # todo: add version to name
+    Executable('main.py', base=base, icon='rc/cat.ico', target_name='Med Bills')
 ]
 
 setup(
