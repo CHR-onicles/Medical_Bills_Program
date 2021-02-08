@@ -130,3 +130,6 @@ test_func.py
 *.xlsx
 jupyter_stuff/
 build_1/
+build_2/
+build_3/
+build_4/
