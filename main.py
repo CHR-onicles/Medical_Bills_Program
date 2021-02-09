@@ -529,3 +529,4 @@ if __name__ == '__main__':
     #   2. Change pink titles to groupboxes [optional -> New Feature]
     #   3. Find a better way of doing " input_call='Entry' " [optional]
     #   4. Add QSettings to remember last size and location[HIGH PRIORITY]
+    #   4. Use dekstop resolution for window sizing!! (PS: Check small white paper) [HIGH PRIORITY]
