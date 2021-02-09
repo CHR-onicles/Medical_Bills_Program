@@ -4,8 +4,8 @@ from datetime import datetime
 
 # 3rd Party imports
 # from icecream import ic
-from PyQt5.QtCore import (QSize, Qt)
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QComboBox, QCompleter,
+from PyQt5.QtCore import (Qt)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QComboBox, QCompleter, QDesktopWidget,
                              QMessageBox, QTableWidgetItem, QStyledItemDelegate, QAbstractItemView, QStatusBar)
 from PyQt5.QtGui import (QIcon, QFont)
 
@@ -15,7 +15,7 @@ import med_bills_functions  # to access the global variables
 from med_bills_functions import MBillsFunctions
 import resources_rc  # it's used... just not in the code
 import styles
-from UI_main_window import UIMainWindow, QVSeparationLine, QHSeparationLine
+from UI_main_window import UIMainWindow
 
 
 
@@ -33,15 +33,26 @@ class MainApp(QMainWindow):
 
     def __init__(self):
         super().__init__()
+
         # Window configs -------------------------------------------------------------------------------------
         self.setWindowTitle('Med Bills App' + ' - v' + __version__)
         self.setWindowIcon(QIcon(':/icon/cat'))
         self.UI = UIMainWindow()
         self.setCentralWidget(self.UI)
         self.setStyleSheet(styles.main_window_style())
-        self.resize(1300, 950)
-        # self.resize(1000, 800)  # for testing purposes
-        self.setMinimumSize(QSize(1000, 900))  # todo: based on final program edit this
+
+
+        # Factoring in size of app in other desktop resolutions
+        if self.UI.desktop.width() == 1920 and self.UI.desktop.height() == 1080:
+            self.resize(1300, 950)  # Seems like the perfect size for nice spacing among widgets.
+            # self.resize(1000, 800)  # for testing purposes on 1920x1080 desktop
+        else:
+            # Resize app to maintain spacing between widgets for better look on all desktop resolutions
+            WIDTH_RATIO, HEIGHT_RATIO = 1920 / 1300, 1080 / 950
+            new_app_width = int(round(self.UI.desktop.width() / WIDTH_RATIO, 1))
+            new_app_height = int(round(self.UI.desktop.height() / HEIGHT_RATIO, 1))
+            print('New res:', new_app_width, new_app_height)
+            self.resize(new_app_width, new_app_height)
 
         # END Window configs ---------------------------------------------------------------------------------
 
@@ -534,4 +545,3 @@ if __name__ == '__main__':
     #   2. Change pink titles to groupboxes [optional -> New Feature]
     #   3. Find a better way of doing " input_call='Entry' " [optional]
     #   4. Add QSettings to remember last size and location[HIGH PRIORITY]
-    #   4. Use dekstop resolution for window sizing!! (PS: Check small white paper) [HIGH PRIORITY]

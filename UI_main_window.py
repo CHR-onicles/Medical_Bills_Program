@@ -1,7 +1,7 @@
 # 3rd party packages
 from PyQt5.QtCore import (Qt)
 from PyQt5.QtGui import (QPixmap, QIcon, QFontDatabase)
-from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget,
+from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QDesktopWidget,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QTableWidget, QHeaderView)
 
 # Local imports
@@ -9,11 +9,12 @@ from custom_widgets import (QHSeparationLine, QVSeparationLine, CurrencyInputVal
 
 
 
-
 class UIMainWindow(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.desktop = QDesktopWidget().screenGeometry()
+        print('Desktop:', self.desktop.width(), self.desktop.height())
 
         self.UIComponents()
         # self.show()
@@ -49,7 +50,12 @@ class UIMainWindow(QWidget):
 
         self.entry_quick_search = QLineEdit()
         self.entry_quick_search.setPlaceholderText('Quick Search For Dependant/Staff')
-        self.entry_quick_search.setFixedWidth(500)
+        if self.desktop.width() == 1920:
+            self.entry_quick_search.setFixedWidth(500)
+        else:
+            self.entry_quick_search.setFixedWidth(int(round(self.desktop.width() / 3.84, 1)))
+            print(int(round(self.desktop.width() / 3.84, 1)))
+
         self.entry_quick_search.setClearButtonEnabled(True)
         search_icon = QIcon(':/icon/search')
         self.entry_quick_search.addAction(search_icon, QLineEdit.LeadingPosition)
