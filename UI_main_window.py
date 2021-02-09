@@ -1,9 +1,8 @@
 # 3rd party packages
-from PyQt5.QtCore import (QSize, Qt)
+from PyQt5.QtCore import (Qt)
 from PyQt5.QtGui import (QPixmap, QIcon, QFontDatabase)
-from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QSizePolicy, QApplication,
-                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QFrame, QGroupBox, QTableWidget,
-                             QHeaderView)
+from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget,
+                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QTableWidget, QHeaderView)
 
 # Local imports
 from custom_widgets import (QHSeparationLine, QVSeparationLine, CurrencyInputValidator)

@@ -4,17 +4,16 @@ from datetime import datetime
 
 # 3rd Party imports
 # from icecream import ic
-from PyQt5.QtCore import (QSize, Qt, pyqtSignal, pyqtSlot, QObject, QUrl)
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QComboBox, QWidget, QSizePolicy,
-                             QCompleter, QMessageBox, QTableWidgetItem, QTableWidget, QStyledItemDelegate,
-                             QAbstractItemView, QLineEdit, QStatusBar)
+from PyQt5.QtCore import (QSize, Qt)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QComboBox, QCompleter,
+                             QMessageBox, QTableWidgetItem, QStyledItemDelegate, QAbstractItemView, QStatusBar)
 from PyQt5.QtGui import (QIcon, QFont)
 
 # Local imports
 from _version import __version__
 import med_bills_functions  # to access the global variables
 from med_bills_functions import MBillsFunctions
-import resources_rc  # its used... just not in the code
+import resources_rc  # it's used... just not in the code
 import styles
 from UI_main_window import UIMainWindow, QVSeparationLine, QHSeparationLine
 
@@ -40,9 +39,10 @@ class MainApp(QMainWindow):
         self.UI = UIMainWindow()
         self.setCentralWidget(self.UI)
         self.setStyleSheet(styles.main_window_style())
-        self.resize(1310, 1000)
+        self.resize(1300, 950)
         # self.resize(1000, 800)  # for testing purposes
         self.setMinimumSize(QSize(1000, 900))  # todo: based on final program edit this
+
         # END Window configs ---------------------------------------------------------------------------------
 
 
