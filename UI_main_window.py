@@ -305,7 +305,7 @@ class UIMainWindow(QWidget):
         gothici_id = QFontDatabase.addApplicationFont(':/fonts/century gothic italic')
         gothicbi_id = QFontDatabase.addApplicationFont(':/fonts/century gothic bold italic')
 
-        # May not be necessary for windows..but maybe for other OSes
+        # May not be necessary for Windows..but maybe for other OSes
         segoe_id = QFontDatabase.addApplicationFont(':/fonts/segoeui')
         segoeb_id = QFontDatabase.addApplicationFont(':/fonts/segoeui bold')
         segoei_id = QFontDatabase.addApplicationFont(':/fonts/segoeui italic')

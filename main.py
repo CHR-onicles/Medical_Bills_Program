@@ -41,7 +41,6 @@ class MainApp(QMainWindow):
         self.setCentralWidget(self.UI)
         self.setStyleSheet(styles.main_window_style())
 
-
         # Factoring in size of app in other desktop resolutions
         if self.UI.desktop.width() == 1920 and self.UI.desktop.height() == 1080:
             self.resize(1300, 950)  # Seems like the perfect size for nice spacing among widgets.
@@ -515,7 +514,7 @@ class MainApp(QMainWindow):
         Method to save the Med Bills workbook.
         """
         if MBillsFunctions.saveFile(self.wkbk_med_bills):
-            self.status_bar.showMessage('✅File saved successfully...', 3000)  # emoji unnecessary?
+            self.status_bar.showMessage('File saved successfully...', 3000)
 
 
     def closeEvent(self, event):
