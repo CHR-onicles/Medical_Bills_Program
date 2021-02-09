@@ -442,6 +442,8 @@ class MainApp(QMainWindow):
             self.UI.btn_redo.setEnabled(True)
             self.populateStaffDetails(self.myrow_data_for_undo_redo[1], 'Entry')
             self.UI.entry_quick_search.clear()
+            self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 2, 7)
+
 
 
     def redo(self):
@@ -456,6 +458,8 @@ class MainApp(QMainWindow):
             self.myrow_count = self.UI.table_last_edit.rowCount() - 1
             self.populateStaffDetails(self.myrow_data_for_undo_redo[1], input_call='Entry')
             self.UI.entry_quick_search.clear()
+            self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 1, 7)
+
 
 
     def updateTable(self):
@@ -488,6 +492,7 @@ class MainApp(QMainWindow):
             self.UI.table_last_edit.item(row, 5).setTextAlignment(Qt.AlignTop)
             self.UI.table_last_edit.item(row, 6).setFont(QFont('century gothic', 11))
             self.UI.table_last_edit.item(row, 6).setTextAlignment(Qt.AlignTop)
+            self.UI.table_last_edit.setCurrentCell(row, 7)
         self.myrow_data_for_undo_redo = self.myrow_data[0]  # a copy of the list for undo and redo functions to use
         self.myrow_data.clear()
         # stop = datetime.now()
