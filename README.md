@@ -12,7 +12,7 @@ and *pre-filled* databases. It was custom-made to meet the needs of a nurse at a
 reading and writing operations are **rigid** and will only work properly given the right databases and environments in Excel.
 
 ## Screenshots:
-<img src="screenshots/ss-1.png" width="500">
+<img src="screenshots/ss-1.png" width="700">
 
 ## About:
 - Author: Divine Anum
