@@ -8,8 +8,11 @@
 
 ## Description:
 >This is a receipt entry app(will be expanded with more capabilities) that makes use of two specific *pre-formatted*
-and *pre-filled* databases. It was custom-made to fit the needs of a nurse at a specific organization and most of the
-reading and writing operations is **rigid** and will only work properly given the right databases and environments in Excel.
+and *pre-filled* databases. It was custom-made to meet the needs of a nurse at a specific organization and most of the
+reading and writing operations are **rigid** and will only work properly given the right databases and environments in Excel.
+
+## Screenshots:
+<img src="screenshots/ss-1.png" width="500">
 
 ## About:
 - Author: Divine Anum
