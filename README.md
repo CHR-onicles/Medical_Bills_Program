@@ -13,6 +13,8 @@ reading and writing operations are **rigid** and will only work properly given t
 
 ## Screenshots:
 <img src="screenshots/ss-1.png" width="700">
+<img src="screenshots/ss-2.png" width="700">
+<img src="screenshots/ss-3.png" width="700">
 
 ## About:
 - Author: Divine Anum
