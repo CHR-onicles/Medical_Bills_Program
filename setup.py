@@ -13,7 +13,7 @@ build_options = {'zip_include_packages': ['PyQt5.QtWidgets', 'PyQt5.QtGui', 'PyQ
                  'excludes': ['PySide2', 'tkinter', 'PIL', 'multiprocessing', 'email', 'numpy', 'scipy', 'setuptools',
                               'distutils', 'unittest', 'packaging', 'cffi', 'html', 'http', 'pycparser', 'icecream',
                               'lxml'
-                              ],
+                              ],  # had to yeet all these out as it made the executable folder huge af...
                  'include_files': ['test med bills 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx']
                  }
 
