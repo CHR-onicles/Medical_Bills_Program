@@ -28,6 +28,10 @@ reading and writing operations are **rigid** and will only work properly given t
 <img src="screenshots/ss-2.png" width="700">
 <img src="screenshots/ss-3.png" width="700">
 
+## PS:
+> The actual databases used cannot be released **publicly** as they contain **private** information, so I'll have to manipulate it 
+> a bit before releasing to allow others to use this app the way it should be used. :)
+
 ## About:
 - Author: Divine Anum
 - Contact: tpandivine48@gmail.com
