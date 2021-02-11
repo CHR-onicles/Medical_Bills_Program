@@ -15,7 +15,13 @@ reading and writing operations are **rigid** and will only work properly given t
    > The former database contains all the staff names, their spouses, and their children (if they have any) with special spacing,
 > while the latter database contains the actual information entered through the app. It also has staff names **only**.
    > The "actual information" stored here is just the amount of money spent on medical bills by a staff, his/her spouse
-   > or children for a given month. 
+   > or children for a given month.
+
+>- The reason for two databases is that, sometimes on the physical medicall bills receipt the nurse gets, the name of a
+> **dependant**(spouse or child) appears and is not explicitly linked with the actual staff to whom the dependant belongs. Eg: 
+> Bob Brown appears with an expense of GHS 100.00; But we don't know whether Bob is a spouse to a staff or a child of a
+> staff. For this reason the first database(`STAFF DEPENDANT LIST yyyy.xlsx`) is utilized to search for Bob and connect him to a staff, say Angela Brown,
+> who works in Accounts department. Next, Angela's slot for "husband" will be filled with GHS 100.00 in the second database(`MEDICAL BILLS yyyy.xlsx`).
 
 ## Screenshots:
 <img src="screenshots/ss-1.png" width="700">
