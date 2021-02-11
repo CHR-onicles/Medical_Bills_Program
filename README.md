@@ -32,4 +32,4 @@ reading and writing operations are **rigid** and will only work properly given t
 - Author: Divine Anum
 - Contact: tpandivine48@gmail.com
 - Version: 1.0.0
-- First release: xx-xx-xx
+- First release: *coming soon* 😅
