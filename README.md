@@ -13,7 +13,7 @@ reading and writing operations are **rigid** and will only work properly given t
 
 >- It makes use of **two** databases: `STAFF DEPENDANT LIST yyyy.xlsx` and `MEDICAL BILLS yyyy.xlsx`(yyyy => Current Year).
    > The former database contains all the staff names, their spouses, and their children (if they have any) with special spacing,
-> while the latter database contains the actual information entered through the app with staff names **only**.\
+> while the latter database contains the actual information entered through the app. It also has staff names **only**.
    > The "actual information" stored here is just the amount of money spent on medical bills by a staff, his/her spouse
    > or children for a given month. 
 
