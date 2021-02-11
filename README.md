@@ -30,7 +30,7 @@ reading and writing operations are **rigid** and will only work properly given t
 
 ## PS:
 > The actual databases used cannot be released **publicly** as they contain **private** information, so I'll have to manipulate it 
-> a bit before releasing to allow others to use this app the way it should be used. :)
+> a bit before releasing. It should be known that the app **depends** heavily on the databases to function at all.
 
 ## About:
 - Author: Divine Anum
