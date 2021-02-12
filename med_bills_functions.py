@@ -33,18 +33,24 @@ class MBillsFunctions:
         """
         global MED_BILL_FILE, STAFF_LIST_FILE
         if med_bill_file and staff_list_file is not None:
-            workbook1 = openpyxl.load_workbook(med_bill_file)
-            workbook2 = openpyxl.load_workbook(staff_list_file, read_only=True)
-            MED_BILL_FILE, STAFF_LIST_FILE = med_bill_file, staff_list_file
-            return workbook1, workbook2
-        elif med_bill_file is None:
-            workbook = openpyxl.load_workbook(staff_list_file, read_only=True)
-            STAFF_LIST_FILE = staff_list_file
-            return workbook
-        elif staff_list_file is None:
-            workbook = openpyxl.load_workbook(med_bill_file)
-            MED_BILL_FILE = med_bill_file
-            return workbook
+            try:
+                workbook1 = openpyxl.load_workbook(med_bill_file)
+                workbook2 = openpyxl.load_workbook(staff_list_file, read_only=True)
+                MED_BILL_FILE, STAFF_LIST_FILE = med_bill_file, staff_list_file
+            except FileNotFoundError:
+                raise Exception('Excel files could not be found - make sure both files are located in this folder!')
+            else:
+                return workbook1, workbook2
+
+        # For Debugging --------------------------------------------------------
+        # elif med_bill_file is None:
+        #     workbook = openpyxl.load_workbook(staff_list_file, read_only=True)
+        #     STAFF_LIST_FILE = staff_list_file
+        #     return workbook
+        # elif staff_list_file is None:
+        #     workbook = openpyxl.load_workbook(med_bill_file)
+        #     MED_BILL_FILE = med_bill_file
+        #     return workbook
         else:
             return None
 
