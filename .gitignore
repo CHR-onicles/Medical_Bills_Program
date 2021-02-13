@@ -135,3 +135,5 @@ build_3/
 build_raw/
 old-build-TEMPLATE/
 fake databases/
+demos/
+demo_build/

@@ -32,6 +32,9 @@ reading and writing operations are **rigid** and will only work properly given t
 > The actual databases used cannot be released **publicly** as they contain **private** information, so I'll have to manipulate it 
 > a bit before releasing. It should be known that the app **depends** heavily on the databases to function at all.
 
+## EXCEL DATABASES STRUCTURE:
+-- # TODO: Add later
+
 ## About:
 - Author: Divine Anum
 - Contact: tpandivine48@gmail.com
