@@ -73,8 +73,7 @@ class MainApp(QMainWindow):
         self.completer.setCaseSensitivity(Qt.CaseInsensitive)
         self.completer.setFilterMode(Qt.MatchContains)
         self.com_delegate = QStyledItemDelegate(self)  # have to do this to set style cuz of some bs thingy...
-        self.completer.popup().setItemDelegate(
-            self.com_delegate)  # Source: (https://www.qtcentre.org/threads/39268-Styling-a-QAbstractItemView-item)
+        self.completer.popup().setItemDelegate(self.com_delegate)  # Source: (https://www.qtcentre.org/threads/39268-Styling-a-QAbstractItemView-item)
         self.completer.popup().setStyleSheet("""
         QListView {
             font: 10pt century gothic;
@@ -227,7 +226,7 @@ class MainApp(QMainWindow):
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
         self.status_bar.setFont(QFont('century gothic', 12))
-        self.status_bar.showMessage('All core functionalities initialized...', 4000)
+        self.status_bar.showMessage('All core functionalities initialized...', 3000)
         # END STATUS BAR -----------------------------------------------------------------------------------
 
         # TABLE --------------------------------------------------------------------------------------------
@@ -541,8 +540,8 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   1. Properly evaluate boolean return value from functions [optional]
-    #   2. Change pink titles to groupboxes [optional -> New Feature]
-    #   3. Find a better way of doing " input_call='Entry' " [optional]
-    #   4. Add QSettings to remember last size and location[HIGH PRIORITY]
-    #   5.Highlight a dependant when searched for [optional]
+    #   - Add QSettings to remember last size and location[MEDIUM PRIORITY]
+    #   - Highlight a dependant when searched for [optional]
+    #   - Change pink titles to groupboxes [optional -> New Feature]
+    #   - Find a better way of doing " input_call='Entry' " [optional]
+    #   - Properly evaluate boolean return value from functions [optional]
