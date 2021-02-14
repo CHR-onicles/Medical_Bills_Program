@@ -545,3 +545,4 @@ if __name__ == '__main__':
     #   2. Change pink titles to groupboxes [optional -> New Feature]
     #   3. Find a better way of doing " input_call='Entry' " [optional]
     #   4. Add QSettings to remember last size and location[HIGH PRIORITY]
+    #   5.Highlight a dependant when searched for [optional]

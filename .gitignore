@@ -136,3 +136,5 @@ build_raw/
 old-build-TEMPLATE/
 fake databases/
 demo_build/
+build-release/
+build-release-trial/

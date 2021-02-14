@@ -337,6 +337,7 @@ class UIMainWindow(QWidget):
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
     #   1. Add Refresh button on status bar for table [optional]
+    #   2. Add a tab to edit staff details - adding or removing a dependant etc.
 
     # TODO: TAB 2 IDEAS:
     #   - Show table of staff with high amounts and other filters
