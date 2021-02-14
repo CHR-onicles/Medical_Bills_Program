@@ -509,6 +509,7 @@ class MainApp(QMainWindow):
 
     def refresh(self):
         self.clearStaffDetails()
+        self.UI.entry_quick_search.clear()
         self.UI.combo_months.setCurrentIndex(0)
         self.UI.entry_staff_or_dependant.clear()
         self.UI.table_last_edit.setCurrentCell(0, 0)  # just to make sure it doesn't remove this row as it is now set as active
