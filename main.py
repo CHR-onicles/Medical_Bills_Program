@@ -5,8 +5,8 @@ from datetime import datetime
 # 3rd Party imports
 # from icecream import ic
 from PyQt5.QtCore import (Qt)
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QComboBox, QCompleter, QDesktopWidget,
-                             QMessageBox, QTableWidgetItem, QStyledItemDelegate, QAbstractItemView, QStatusBar)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QComboBox, QCompleter,QMessageBox, QTableWidgetItem,
+                             QStyledItemDelegate, QAbstractItemView, QStatusBar)
 from PyQt5.QtGui import (QIcon, QFont)
 
 # Local imports
@@ -455,7 +455,6 @@ class MainApp(QMainWindow):
             self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 2, 7)
 
 
-
     def redo(self):
         """
         Method to redo a previously undone entry.
@@ -469,7 +468,6 @@ class MainApp(QMainWindow):
             self.populateStaffDetails(self.myrow_data_for_undo_redo[1], input_call='Entry')
             self.UI.entry_quick_search.clear()
             self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 1, 7)
-
 
 
     def updateTable(self):

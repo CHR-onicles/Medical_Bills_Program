@@ -14,7 +14,7 @@ class UIMainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.desktop = QDesktopWidget().screenGeometry()
-        print('Desktop:', self.desktop.width(), self.desktop.height())
+        # print('Desktop:', self.desktop.width(), self.desktop.height())
 
         self.UIComponents()
         # self.show()
@@ -63,6 +63,7 @@ class UIMainWindow(QWidget):
         self.btn_quick_search.setIcon(QIcon(':/icon/search'))
         self.btn_quick_search.setObjectName('menu_button')
         self.btn_quick_search.setToolTip('<b>Search</b> (Enter)')
+        self.btn_quick_search.setStatusTip('Search for a person')
 
         # Menu buttons ------------------------------------------------------------------------------------
         self.btn_undo = QPushButton()
@@ -70,25 +71,28 @@ class UIMainWindow(QWidget):
         undo_icon.addPixmap(QPixmap(':/icon/undo'), QIcon.Normal)
         undo_icon.addPixmap(QPixmap(':/icon/undo-disabled'), QIcon.Disabled)
         self.btn_undo.setIcon(undo_icon)
-        self.btn_undo.setToolTip('<b>Undo</b> last entry (Ctrl+Z)')
-        self.btn_undo.setObjectName('menu_button')
+        self.btn_undo.setToolTip('<b>Undo</b> (Ctrl+Z)')
+        self.btn_undo.setStatusTip('Undo last entry')
         self.btn_undo.setShortcut('Ctrl+Z')
+        self.btn_undo.setObjectName('menu_button')
 
         self.btn_redo = QPushButton()
         redo_icon = QIcon()
         redo_icon.addPixmap(QPixmap(':/icon/redo'), QIcon.Normal)
         redo_icon.addPixmap(QPixmap(':/icon/redo-disabled'), QIcon.Disabled)
         self.btn_redo.setIcon(QIcon(redo_icon))
-        self.btn_redo.setToolTip('<b>Redo</b> entry (Ctrl+Y)')
-        self.btn_redo.setObjectName('menu_button')
+        self.btn_redo.setToolTip('<b>Redo</b> (Ctrl+Y)')
+        self.btn_redo.setStatusTip('Redo undone entry')
         self.btn_redo.setShortcut('Ctrl+Y')
+        self.btn_redo.setObjectName('menu_button')
 
         self.btn_clear = QPushButton()
         clear_icon = QIcon()
         clear_icon.addPixmap(QPixmap(':/icon/clear'), QIcon.Normal)
         clear_icon.addPixmap(QPixmap(':/icon/clear-disabled'), QIcon.Disabled)
         self.btn_clear.setIcon(clear_icon)
-        self.btn_clear.setToolTip('<b>Clear</b> Staff details Summary')
+        self.btn_clear.setToolTip('<b>Clear</b>')  # set a shortcut maybe?
+        self.btn_clear.setStatusTip('Clear Staff Details Summary')
         self.btn_clear.setObjectName('menu_button')
 
         self.btn_save = QPushButton()
@@ -97,6 +101,7 @@ class UIMainWindow(QWidget):
         save_icon.addPixmap(QPixmap(':/icon/save-disabled'), QIcon.Disabled)
         self.btn_save.setIcon(save_icon)
         self.btn_save.setToolTip('<b>Save</b> (Ctrl+S)')
+        self.btn_save.setStatusTip('Save changes to database')
         self.btn_save.setShortcut('Ctrl+S')
         self.btn_save.setObjectName('menu_button')
         # END Menu buttons ---------------------------------------------------------------------------------
@@ -115,7 +120,9 @@ class UIMainWindow(QWidget):
         self.entry_amount = QLineEdit('GH₵ ')
         self.entry_amount.setValidator(CurrencyInputValidator())
         self.entry_amount.setObjectName('entry_amount')
+
         self.btn_submit = QPushButton('Submit')
+        self.btn_submit.setStatusTip('Submit entry into database')
         self.btn_submit.setObjectName('btn_submit')
 
         # END Entry from Receipt Widgets -------------------------------------------------------------------
