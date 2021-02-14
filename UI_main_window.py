@@ -107,6 +107,17 @@ class UIMainWindow(QWidget):
         # self.btn_save.setStatusTip('Save changes to database')
         self.btn_save.setShortcut('Ctrl+S')
         self.btn_save.setObjectName('menu_button')
+
+        self.btn_refresh = QPushButton()
+        refresh_icon = QIcon()
+        refresh_icon.addPixmap(QPixmap(':/icon/refresh'), QIcon.Normal)
+        refresh_icon.addPixmap(QPixmap(':/icon/refresh-disabled'), QIcon.Disabled)
+        self.btn_refresh.setIcon(refresh_icon)
+        self.btn_refresh.setToolTip('<b>Refresh</b> (Ctrl+R)')
+        self.btn_refresh.setStatusTip('Refresh current page')
+        self.btn_refresh.setShortcut('Ctrl+R')
+        self.btn_refresh.setObjectName('menu_button')
+
         # END Menu buttons ---------------------------------------------------------------------------------
 
 
@@ -252,6 +263,7 @@ class UIMainWindow(QWidget):
         self.menu_buttons_layout.addWidget(self.btn_undo)
         self.menu_buttons_layout.addWidget(self.btn_redo)
         self.menu_buttons_layout.addWidget(self.btn_save)
+        self.menu_buttons_layout.addWidget(self.btn_refresh)
         self.menu_button_frame = QFrame()
         self.menu_button_frame.setObjectName('menu_btn_frame')
         self.menu_button_frame.setLayout(self.menu_buttons_layout)

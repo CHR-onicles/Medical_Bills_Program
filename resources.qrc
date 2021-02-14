@@ -52,6 +52,8 @@
         <file alias="clear-disabled">rc/clear-disabled.png</file>
         <file alias="save">rc/save.png</file>
         <file alias="save-disabled">rc/save-disabled.png</file>
+        <file alias="refresh">rc/refresh.png</file>
+        <file alias="refresh-disabled">rc/refresh-disabled.png</file>
     </qresource>
 
   <qresource prefix="fonts">

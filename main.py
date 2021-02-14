@@ -220,6 +220,7 @@ class MainApp(QMainWindow):
         self.UI.btn_undo.clicked.connect(self.undo)
         self.UI.btn_redo.clicked.connect(self.redo)
         self.UI.btn_save.clicked.connect(self.saveWorkbook)
+        self.UI.btn_refresh.clicked.connect(self.refresh)
 
 
         # STATUS BAR ---------------------------------------------------------------------------------------
@@ -504,6 +505,16 @@ class MainApp(QMainWindow):
         self.myrow_data.clear()
         # stop = datetime.now()
         # print('Time taken to update table:', stop - start)
+
+
+    def refresh(self):
+        self.clearStaffDetails()
+        self.UI.combo_months.setCurrentIndex(0)
+        self.UI.entry_staff_or_dependant.clear()
+        self.UI.table_last_edit.setCurrentCell(0, 0)  # just to make sure it doesn't remove this row as it is now set as active
+        self.UI.table_last_edit.setRowCount(1)  # pro way of deleting rows, source: (https://stackoverflow.com/questions/15848086/how-to-delete-all-rows-from-qtablewidget)
+        self.UI.btn_undo.setEnabled(False)
+        self.UI.btn_redo.setEnabled(False)
 
 
     def saveWorkbook(self):
