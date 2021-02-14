@@ -32,10 +32,10 @@ reading and writing operations are **rigid** and will only work properly given t
 [Short demo](https://imgur.com/3FAxKkB):)
 
 ## PS:
-> The actual databases used cannot be released **publicly** as they contain **private** information, so I'll have to manipulate it 
+> The actual databases used cannot be released **publicly** as they contain **private** information, so I'll have to edit it 
 > a bit before releasing. It should be known that the app **depends** heavily on the databases to function at all.
 
-## EXCEL DATABASES STRUCTURE:
+## STRUCTURE OF EXCEL DATABASES:
 -- # TODO: Add later
 
 ## About:
