@@ -63,9 +63,18 @@ def main_window_style():
     }
     
     QPushButton#menu_button {
+        border: none;
         padding-top: 8px;
         padding-bottom: 8px;
+        padding-left: 7px;
+        padding-right: 7px;
     }
+    
+    QPushButton#menu_button:hover {
+        border: 2px solid #78879b;
+        color: silver;
+    }
+    
     
 /* QDarkStyle from here on ------------------------------------------------------------------------------------------ */
     

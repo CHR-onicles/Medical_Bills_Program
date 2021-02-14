@@ -524,6 +524,9 @@ class MainApp(QMainWindow):
         self.hide()  # instantly hides app to prevent user from noticing delay(~2secs) in saving file when app exits.
         self.saveWorkbook()
         print('Saved workbook.')
+        MBillsFunctions.closeFile(self.wkbk_med_bills)
+        MBillsFunctions.closeFile(self.wkbk_staff_list)
+        print('Closed workbooks.')
         event.accept()
 
 

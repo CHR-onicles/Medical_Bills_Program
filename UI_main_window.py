@@ -91,8 +91,9 @@ class UIMainWindow(QWidget):
         clear_icon.addPixmap(QPixmap(':/icon/clear'), QIcon.Normal)
         clear_icon.addPixmap(QPixmap(':/icon/clear-disabled'), QIcon.Disabled)
         self.btn_clear.setIcon(clear_icon)
-        self.btn_clear.setToolTip('<b>Clear</b>')  # set a shortcut maybe?
+        self.btn_clear.setToolTip('<b>Clear</b> (Ctrl+Q)')  # set a shortcut maybe?
         self.btn_clear.setStatusTip('Clear Staff Details Summary')
+        self.btn_clear.setShortcut('Ctrl+Q')
         self.btn_clear.setObjectName('menu_button')
 
         self.btn_save = QPushButton()
@@ -245,6 +246,8 @@ class UIMainWindow(QWidget):
 
 
         # Adding Widgets to TAB 1 Layout -------------------------------------------------------------------
+        self.tab1_quick_search_layout.setSpacing(1)
+        self.tab1_quick_search_layout.setContentsMargins(0, 0, 0, -1)  # didn't expect this to work but it did
         self.tab1_quick_search_layout.addWidget(self.btn_undo)
         self.tab1_quick_search_layout.addWidget(self.btn_redo)
         self.tab1_quick_search_layout.addWidget(self.btn_save)
@@ -286,9 +289,9 @@ class UIMainWindow(QWidget):
 
         self.tab1_main_layout.addLayout(self.tab1_month_layout, 5)
         self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
-        self.tab1_main_layout.addLayout(self.tab1_quick_search_layout, 2)
-        self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
-        self.tab1_main_layout.addLayout(self.tab1_entry_and_details_main_layout, 50)
+        self.tab1_main_layout.addLayout(self.tab1_quick_search_layout, 1)
+        self.tab1_main_layout.addWidget(QHSeparationLine(), 1)  # todo: need this line to go up a bit
+        self.tab1_main_layout.addLayout(self.tab1_entry_and_details_main_layout, 51)
 
         self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
         self.tab1_main_layout.addWidget(self.lbl_table_title, 5)

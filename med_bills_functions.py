@@ -408,6 +408,22 @@ class MBillsFunctions:
             return True
 
 
+    @staticmethod
+    def closeFile(workbook):
+        """
+        Static method to close workbook upon exit of app.
+
+        :param workbook: Medical Bills or Staff List workbook.
+
+        :return: Boolean indicating success.
+        """
+        try:
+            workbook.close()
+        except:
+            raise Exception('Problem closing workbook!')
+        else:
+            return True
+
 
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
