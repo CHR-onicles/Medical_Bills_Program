@@ -227,7 +227,7 @@ class MainApp(QMainWindow):
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
         self.status_bar.setFont(QFont('century gothic', 12))
-        self.status_bar.showMessage('Welcome, this is the status bar...', 5000)  # todo: insert more appropriate message here
+        self.status_bar.showMessage('All core functionalities initialized...', 4000)
         # END STATUS BAR -----------------------------------------------------------------------------------
 
         # TABLE --------------------------------------------------------------------------------------------

@@ -29,7 +29,7 @@ reading and writing operations are **rigid** and will only work properly given t
 <img src="screenshots/ss-3.png" width="700">
 
 ## App Demo:
-[Short demo](https://imgur.com/vSu2Jms)
+[Short demo](https://imgur.com/3FAxKkB))
 
 ## PS:
 > The actual databases used cannot be released **publicly** as they contain **private** information, so I'll have to manipulate it 
