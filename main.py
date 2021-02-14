@@ -512,7 +512,7 @@ class MainApp(QMainWindow):
         Method to save the Med Bills workbook.
         """
         if MBillsFunctions.saveFile(self.wkbk_med_bills):
-            self.status_bar.showMessage('File saved successfully...', 3000)
+            self.status_bar.showMessage('Database updated successfully...', 4000)
 
 
     def closeEvent(self, event):

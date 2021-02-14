@@ -75,6 +75,11 @@ def main_window_style():
         color: silver;
     }
     
+    QFrame#menu_btn_frame {
+        border: 1px solid gray;
+        border-radius: 5px;
+    }
+    
     
 /* QDarkStyle from here on ------------------------------------------------------------------------------------------ */
     

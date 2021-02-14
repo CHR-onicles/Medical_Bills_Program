@@ -1,7 +1,7 @@
 # 3rd party packages
 from PyQt5.QtCore import (Qt)
 from PyQt5.QtGui import (QPixmap, QIcon, QFontDatabase)
-from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QDesktopWidget,
+from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QDesktopWidget, QFrame, QSizePolicy,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QTableWidget, QHeaderView)
 
 # Local imports
@@ -49,11 +49,13 @@ class UIMainWindow(QWidget):
         self.combo_months.setObjectName('combo_titles')
 
         self.entry_quick_search = QLineEdit()
-        self.entry_quick_search.setPlaceholderText('Quick Search For Dependant/Staff')
+        self.entry_quick_search.setPlaceholderText('Search For Dependant/Staff')
         if self.desktop.width() == 1920:
-            self.entry_quick_search.setFixedWidth(500)
+            self.entry_quick_search.setMinimumWidth(500)
+            # self.entry_quick_search.setMinimumWidth(500)
+            # self.entry_quick_search.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred) # trying to allow it to shrink but no good :(
         else:
-            self.entry_quick_search.setFixedWidth(int(round(self.desktop.width() / 3.84, 1)))
+            self.entry_quick_search.setMinimumWidth(int(round(self.desktop.width() / 3.84, 1)))
             print(int(round(self.desktop.width() / 3.84, 1)))
 
         self.entry_quick_search.setClearButtonEnabled(True)
@@ -72,7 +74,7 @@ class UIMainWindow(QWidget):
         undo_icon.addPixmap(QPixmap(':/icon/undo-disabled'), QIcon.Disabled)
         self.btn_undo.setIcon(undo_icon)
         self.btn_undo.setToolTip('<b>Undo</b> (Ctrl+Z)')
-        self.btn_undo.setStatusTip('Undo last entry')
+        # self.btn_undo.setStatusTip('Undo last entry')
         self.btn_undo.setShortcut('Ctrl+Z')
         self.btn_undo.setObjectName('menu_button')
 
@@ -82,7 +84,7 @@ class UIMainWindow(QWidget):
         redo_icon.addPixmap(QPixmap(':/icon/redo-disabled'), QIcon.Disabled)
         self.btn_redo.setIcon(QIcon(redo_icon))
         self.btn_redo.setToolTip('<b>Redo</b> (Ctrl+Y)')
-        self.btn_redo.setStatusTip('Redo undone entry')
+        # self.btn_redo.setStatusTip('Redo undone entry')
         self.btn_redo.setShortcut('Ctrl+Y')
         self.btn_redo.setObjectName('menu_button')
 
@@ -102,7 +104,7 @@ class UIMainWindow(QWidget):
         save_icon.addPixmap(QPixmap(':/icon/save-disabled'), QIcon.Disabled)
         self.btn_save.setIcon(save_icon)
         self.btn_save.setToolTip('<b>Save</b> (Ctrl+S)')
-        self.btn_save.setStatusTip('Save changes to database')
+        # self.btn_save.setStatusTip('Save changes to database')
         self.btn_save.setShortcut('Ctrl+S')
         self.btn_save.setObjectName('menu_button')
         # END Menu buttons ---------------------------------------------------------------------------------
@@ -212,7 +214,6 @@ class UIMainWindow(QWidget):
         self.table_last_edit.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)
         self.table_last_edit.setRowHeight(0, 60)
 
-
         # END TABLE ----------------------------------------------------------------------------------------
 
 
@@ -230,7 +231,6 @@ class UIMainWindow(QWidget):
         self.entry_form = QFormLayout()
         self.entry_form.setVerticalSpacing(15)
 
-
         self.staff_details_layout = QVBoxLayout()
         self.staff_details_layout.setContentsMargins(10, 0, 0, 0)
         self.staff_form = QFormLayout()
@@ -246,11 +246,22 @@ class UIMainWindow(QWidget):
 
 
         # Adding Widgets to TAB 1 Layout -------------------------------------------------------------------
+        self.menu_buttons_layout = QHBoxLayout()
+        self.menu_buttons_layout.setContentsMargins(0, 1, 0, 0)
+        self.menu_buttons_layout.setSpacing(1)
+        self.menu_buttons_layout.addWidget(self.btn_undo)
+        self.menu_buttons_layout.addWidget(self.btn_redo)
+        self.menu_buttons_layout.addWidget(self.btn_save)
+        self.menu_button_frame = QFrame()
+        self.menu_button_frame.setObjectName('menu_btn_frame')
+        self.menu_button_frame.setLayout(self.menu_buttons_layout)
+        if self.desktop.height() == 1080:  # maybe not needed??? hmmmm... check later
+            self.menu_button_frame.setMinimumHeight(12)
+        else:
+            self.menu_button_frame.setMinimumHeight(int(round(self.desktop.height() / 90, 1)))
+
         self.tab1_quick_search_layout.setSpacing(1)
-        self.tab1_quick_search_layout.setContentsMargins(0, 0, 0, -1)  # didn't expect this to work but it did
-        self.tab1_quick_search_layout.addWidget(self.btn_undo)
-        self.tab1_quick_search_layout.addWidget(self.btn_redo)
-        self.tab1_quick_search_layout.addWidget(self.btn_save)
+        self.tab1_quick_search_layout.addWidget(self.menu_button_frame)
         self.tab1_quick_search_layout.addWidget(QLabel(' '), 1)
         self.tab1_quick_search_layout.addWidget(self.entry_quick_search)
         self.tab1_quick_search_layout.addWidget(self.btn_quick_search)
