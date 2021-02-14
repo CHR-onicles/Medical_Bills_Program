@@ -261,6 +261,7 @@ class UIMainWindow(QWidget):
             self.menu_button_frame.setMinimumHeight(int(round(self.desktop.height() / 90, 1)))
 
         self.tab1_quick_search_layout.setSpacing(1)
+        self.tab1_quick_search_layout.setContentsMargins(0, 0, 0, -1)
         self.tab1_quick_search_layout.addWidget(self.menu_button_frame)
         self.tab1_quick_search_layout.addWidget(QLabel(' '), 1)
         self.tab1_quick_search_layout.addWidget(self.entry_quick_search)
