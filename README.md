@@ -2,7 +2,7 @@
  >App to quickly make entries of medical claims/receipts into a pre-formatted, pre-filled Excel database.
 
 ## Requirements:
->- icecream~=2.1.0
+>- icecream~=2.1.0 (optional - for debugging)
 >- PyQt5~=5.15.2
 >- openpyxl~=3.0.6
 
@@ -42,4 +42,4 @@ reading and writing operations are **rigid** and will only work properly given t
 - Author: Divine Anum
 - Contact: tpandivine48@gmail.com
 - Version: 1.0.0
-- First release: *coming soon* 😅
+- Release: *coming soon* 😅
