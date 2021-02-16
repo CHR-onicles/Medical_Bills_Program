@@ -528,7 +528,7 @@ class MainApp(QMainWindow):
 
     def closeEvent(self, event):
         """
-        Reimplementing the close event to save the workbook upon exit.
+        Overriding the close event to save the workbook upon exit.
 
         :param event: Close event object.
         """

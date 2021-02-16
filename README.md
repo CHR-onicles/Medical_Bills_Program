@@ -1,4 +1,4 @@
-# Medical Bills Entry App v1.0.0
+# Medical Bills Entry App v1.0
  >App to quickly make entries of medical claims/receipts into a pre-formatted, pre-filled Excel database.
 
 ## Requirements:
@@ -35,11 +35,9 @@ reading and writing operations are **rigid** and will only work properly given t
 > The actual databases used cannot be released **publicly** as they contain **private** information, so I'll have to edit it 
 > a bit before releasing. It should be known that the app **depends** heavily on the databases to function at all.
 
-## STRUCTURE OF EXCEL DATABASES:
--- # TODO: Add later
 
 ## About:
 - Author: Divine Anum
 - Contact: tpandivine48@gmail.com
-- Version: 1.0.0
-- Release: *coming soon* 😅
+- Version: 1.0
+- Release: [First release](https://github.com/CHR-onicles/Medical_Bills_Program/releases/tag/v1.0)
