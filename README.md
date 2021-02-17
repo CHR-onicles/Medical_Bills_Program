@@ -41,3 +41,4 @@ reading and writing operations are **rigid** and will only work properly given t
 - Contact: tpandivine48@gmail.com
 - Version: 1.0
 - Release: [First release](https://github.com/CHR-onicles/Medical_Bills_Program/releases/tag/v1.0)
+- Credit: Darktheme provided by [Colin Duquesnoy](https://github.com/ColinDuquesnoy)
