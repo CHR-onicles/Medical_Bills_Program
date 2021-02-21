@@ -4,7 +4,7 @@ from datetime import datetime
 
 # 3rd Party imports
 # from icecream import ic
-from PyQt5.QtCore import (Qt)
+from PyQt5.QtCore import (Qt, QSettings, QSize, QPoint)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QComboBox, QCompleter,QMessageBox, QTableWidgetItem,
                              QStyledItemDelegate, QAbstractItemView, QStatusBar)
 from PyQt5.QtGui import (QIcon, QFont)
@@ -43,18 +43,30 @@ class MainApp(QMainWindow):
 
         # Factoring in size of app in other desktop resolutions
         if self.UI.desktop.width() == 1920 and self.UI.desktop.height() == 1080:
-            self.resize(1300, 950)  # Seems like the perfect size for nice spacing among widgets.
+            self.APP_WIDTH, self.APP_HEIGHT = 1300, 950
+            self.resize(self.APP_WIDTH, self.APP_HEIGHT)  # Seems like the perfect size for nice spacing among widgets.
             # self.resize(1000, 800)  # for testing purposes on 1920x1080 desktop
         else:
             # Resize app to maintain spacing between widgets for better look on all desktop resolutions
             WIDTH_RATIO, HEIGHT_RATIO = 1920 / 1300, 1080 / 950
-            new_app_width = int(round(self.UI.desktop.width() / WIDTH_RATIO, 1))
-            new_app_height = int(round(self.UI.desktop.height() / HEIGHT_RATIO, 1))
-            print('New res:', new_app_width, new_app_height)
-            self.resize(new_app_width, new_app_height)
-
+            self.APP_WIDTH = int(round(self.UI.desktop.width() / WIDTH_RATIO, 1))
+            self.APP_HEIGHT = int(round(self.UI.desktop.height() / HEIGHT_RATIO, 1))
+            print('New res:', self.APP_WIDTH, self.APP_HEIGHT)
+            self.resize(self.APP_WIDTH, self.APP_HEIGHT)
         # END Window configs ---------------------------------------------------------------------------------
 
+        # App Settings ---------------------------------------------------------------------------------------
+        self.settings = QSettings('CHR-onicles', 'Med Bills App')
+        self.APP_XPOS, self.APP_YPOS = 0, 0  # Have to initialize to a 'not None' value for it to have effect
+        try:
+            self.resize(self.settings.value('app size', QSize(self.APP_WIDTH, self.APP_HEIGHT), type=QSize))
+            self.move(self.settings.value('app position', QPoint(self.APP_XPOS, self.APP_YPOS), type=QPoint))
+            # print(self.APP_XPOS, self.APP_YPOS)
+        except:
+            pass
+
+
+        # END App Settings -----------------------------------------------------------------------------------
 
         # Medical Bills Files configs ------------------------------------------------------------------------
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
@@ -488,7 +500,7 @@ class MainApp(QMainWindow):
                     else:
                         if 'CHILD' in self.myrow_data[0]:
                             temp_index = self.myrow_data[0][4].index(self.UI.entry_staff_or_dependant.text())
-                            print(temp_index)
+                            # print(temp_index)
                             self.myrow_data[0][4][0], self.myrow_data[0][4][temp_index] \
                                 = self.myrow_data[0][4][temp_index], self.myrow_data[0][4][0]
 
@@ -523,7 +535,7 @@ class MainApp(QMainWindow):
         Method to save the Med Bills workbook.
         """
         if MBillsFunctions.saveFile(self.wkbk_med_bills):
-            self.status_bar.showMessage('Database updated successfully...', 4000)
+            self.status_bar.showMessage('Database saved and updated successfully...', 4000)
 
 
     def closeEvent(self, event):
@@ -532,6 +544,10 @@ class MainApp(QMainWindow):
 
         :param event: Close event object.
         """
+        # Save last size and position of app
+        self.settings.setValue('app position', self.pos())
+        self.settings.setValue('app size', self.size())
+
         self.hide()  # instantly hides app to prevent user from noticing delay(~2secs) in saving file when app exits.
         self.saveWorkbook()
         print('Saved workbook.')
@@ -553,6 +569,7 @@ if __name__ == '__main__':
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
     #   - Add QSettings to remember last size and location[MEDIUM PRIORITY]
+    #   - Create a log file to track batches of entries - for easier error detection [MEDIUM PRIORITY]
     #   - Highlight a dependant when searched for [optional]
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing " input_call='Entry' " [optional]

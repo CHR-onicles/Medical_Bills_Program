@@ -9,13 +9,14 @@ def main_window_style():
     }
     
     QLabel#lbl_header {
-        font: 32pt century gothic;
+        font-size: 32pt;
         color: rgb(0, 110, 161);
         background-color: rgb(147, 147, 147);
     }
     
     QLabel#lbl_titles {
-        font: 75 20pt 'century gothic';
+        font-size: 20pt;
+        /* font-weight: bold;  # not looking too good */
         color: rgb(255, 85, 255);
     }
     
