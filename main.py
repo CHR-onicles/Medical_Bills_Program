@@ -72,11 +72,11 @@ class MainApp(QMainWindow):
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
                        'August': 9, 'September': 10, 'October': 11, 'November': 12, 'December': 13}
         # todo: Automatically check for the right files later [optional]
-        self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initializeFiles('test med bills 2021.xlsx',
-                                                                                    'STAFF DEPENDANT LIST 2020.xlsx')
-        self.all_names_and_dept = MBillsFunctions.getAllMedBillsNamesAndDept(self.wkbk_med_bills)
-        self.all_names_and_dept.extend(MBillsFunctions.getAllDependantNames(self.wkbk_staff_list))
-        self.staff_details = MBillsFunctions.getDetailsOfPermanentStaff(self.wkbk_staff_list)
+        self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initialize_files('test med bills 2021.xlsx',
+                                                                                     'STAFF DEPENDANT LIST 2020.xlsx')
+        self.all_names_and_dept = MBillsFunctions.get_all_med_bills_names_and_dept(self.wkbk_med_bills)
+        self.all_names_and_dept.extend(MBillsFunctions.get_all_dependant_names(self.wkbk_staff_list))
+        self.staff_details = MBillsFunctions.get_details_of_permanent_staff(self.wkbk_staff_list)
         # END Medical Bills Files configs --------------------------------------------------------------------
 
 
@@ -182,14 +182,14 @@ class MainApp(QMainWindow):
         # END Table info -------------------------------------------------------------------------------------
 
 
-        self.UIComp()
+        self.ui_comp()
 
 
-    def UIComp(self):
-        self.initUI()
+    def ui_comp(self):
+        self.init_ui()
 
 
-    def initUI(self):
+    def init_ui(self):
         """
         Initializing widgets for startup and connecting signals to slots.
         """
@@ -215,23 +215,23 @@ class MainApp(QMainWindow):
         self.UI.entry_quick_search.setCompleter(self.completer)
 
         self.UI.entry_quick_search.returnPressed.connect(
-            lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
+            lambda: self.populate_staff_details(self.UI.entry_quick_search.text().strip()))
         self.UI.btn_quick_search.clicked.connect(
-            lambda: self.populateStaffDetails(self.UI.entry_quick_search.text().strip()))
+            lambda: self.populate_staff_details(self.UI.entry_quick_search.text().strip()))
 
-        self.UI.entry_staff_or_dependant.textChanged.connect(self.checkEntryStaffDepState)
-        self.UI.entry_amount.textChanged.connect(self.checkEntryStaffDepState)
-        self.UI.btn_submit.clicked.connect(self.insertIntoMedBills)
+        self.UI.entry_staff_or_dependant.textChanged.connect(self.check_entry_staff_dep_state)
+        self.UI.entry_amount.textChanged.connect(self.check_entry_staff_dep_state)
+        self.UI.btn_submit.clicked.connect(self.insert_into_med_bills)
 
-        self.UI.combo_months.currentTextChanged.connect(self.updateDetailsForMonth)
-        self.UI.combo_months.currentTextChanged.connect(self.updateCurAmountLabel)
+        self.UI.combo_months.currentTextChanged.connect(self.update_details_for_month)
+        self.UI.combo_months.currentTextChanged.connect(self.update_cur_amount_label)
         self.UI.entry_staff_or_dependant.returnPressed.connect(self.UI.entry_amount.setFocus)
-        self.UI.entry_amount.returnPressed.connect(self.insertIntoMedBills)
+        self.UI.entry_amount.returnPressed.connect(self.insert_into_med_bills)
 
-        self.UI.btn_clear.clicked.connect(self.clearStaffDetails)
+        self.UI.btn_clear.clicked.connect(self.clear_staff_details)
         self.UI.btn_undo.clicked.connect(self.undo)
         self.UI.btn_redo.clicked.connect(self.redo)
-        self.UI.btn_save.clicked.connect(self.saveWorkbook)
+        self.UI.btn_save.clicked.connect(self.save_workbook)
         self.UI.btn_refresh.clicked.connect(self.refresh)
 
 
@@ -249,7 +249,7 @@ class MainApp(QMainWindow):
         # END TABLE ----------------------------------------------------------------------------------------
 
 
-    def updateCurAmountLabel(self):
+    def update_cur_amount_label(self):
         """
         Method to update the Current Amount Label in accordance with the month it is set to.
         """
@@ -258,21 +258,21 @@ class MainApp(QMainWindow):
             'Current Amount For <u>' + self.mon + '</u>(<font color=\"#3d8ec9\">GH₵</font>):')
 
 
-    def updateDetailsForMonth(self):
+    def update_details_for_month(self):
         """
         Method to update all details of staff in accordance with the month it is set to.
         """
         if self.UI.entry_quick_search.text() != '':
-            self.populateStaffDetails(self.UI.entry_quick_search.text())
+            self.populate_staff_details(self.UI.entry_quick_search.text())
         elif self.UI.entry_quick_search.text() == '' and self.UI.entry_staff_or_dependant.text() == ''\
                 and self.UI.table_last_edit.rowCount() == 1:
             return
         elif self.UI.entry_staff_name.text() == self.UI.table_last_edit.item(self.UI.table_last_edit.rowCount()-1, 1).text():
-            self.populateStaffDetails(self.UI.entry_staff_name.text(), input_call='Entry')
+            self.populate_staff_details(self.UI.entry_staff_name.text(), input_call='Entry')
             # without an else: return, it still does the job...imma not touch it 😬
 
 
-    def checkEntryStaffDepState(self):
+    def check_entry_staff_dep_state(self):
         """
         Method to enable/disable the submit button based on entry in Staff/Dependant & Amount line edits.
         """
@@ -283,7 +283,7 @@ class MainApp(QMainWindow):
             self.UI.btn_submit.setEnabled(False)
 
 
-    def populateStaffDetails(self, person, input_call=None):
+    def populate_staff_details(self, person, input_call=None):
         """
         Method to populate various widgets with the details of a Staff(either permanent staff/Guest/Casual) or Dependant.
 
@@ -296,8 +296,8 @@ class MainApp(QMainWindow):
             return
         else:
             person_status = ['Staff Name:', 'Guest Name:', 'Casual Name:']
-            self.clearStaffDetails()
-            s_name, d_name, _ = MBillsFunctions.searchForStaffFromStaffList(person.upper(), self.staff_details)
+            self.clear_staff_details()
+            s_name, d_name, _ = MBillsFunctions.search_for_staff_from_staff_list(person.upper(), self.staff_details)
 
             if (s_name and d_name) is not None:
                 self.UI.lbl_staff_name.setText(person_status[0])
@@ -307,7 +307,6 @@ class MainApp(QMainWindow):
                 self.UI.entry_department.setText(d_name[0])
                 if d_name[1] is not None:  # Spouse name
                     self.UI.entry_spouse.setText(d_name[1].title())
-                    # todo: put helper function here
                     if person == d_name[1].title():
                         self.set_border_highlight_switch(self.UI.entry_spouse)
                 else:
@@ -321,22 +320,21 @@ class MainApp(QMainWindow):
                         self.UI.combo_children.setEnabled(True)
                         self.UI.combo_children.addItem(child.title())
                         self.UI.combo_children.setCurrentText(person)
-                        # todo: put helper function here
                         if person == child.title():
                             self.set_border_highlight_switch(self.UI.combo_children)
 
                 staff_amt, child_amt, spouse_amt = MBillsFunctions. \
-                    getPersonAmountForMonth(self.wkbk_med_bills, s_name.title(), self.all_names_and_dept,
+                    get_person_amount_for_month(self.wkbk_med_bills, s_name.title(), self.all_names_and_dept,
                                             self.months, self.UI.combo_months.currentText())
                 self.UI.entry_cur_amount1.setText(str(staff_amt))
                 self.UI.entry_cur_amount2.setText(str(spouse_amt))
                 self.UI.entry_cur_amount3.setText(str(child_amt))
 
             else:  # means person is a guest or casual
-                guest_or_casual = MBillsFunctions.searchForCasualOrGuest(self.all_names_and_dept, person)
+                guest_or_casual = MBillsFunctions.search_for_casual_or_guest(self.all_names_and_dept, person)
                 if guest_or_casual is not None:
                     staff_amt, child_amt, spouse_amt = MBillsFunctions. \
-                        getPersonAmountForMonth(self.wkbk_med_bills, guest_or_casual.split('|')[0],
+                        get_person_amount_for_month(self.wkbk_med_bills, guest_or_casual.split('|')[0],
                                                 self.all_names_and_dept, self.months,
                                                 self.UI.combo_months.currentText())
                     if 'GUEST' in guest_or_casual.split('|')[1]:
@@ -360,7 +358,7 @@ class MainApp(QMainWindow):
             self.UI.btn_clear.setEnabled(True)
 
 
-    def clearStaffDetails(self):
+    def clear_staff_details(self):
         """
         Method to clear widgets populated with staff details.
         """
@@ -377,7 +375,7 @@ class MainApp(QMainWindow):
         self.set_border_highlight_switch(None)
 
 
-    def insertIntoMedBills(self):
+    def insert_into_med_bills(self):
         """
         Method to insert amount entered for a Staff or Dependant into Med Bills workbook(The database).
         """
@@ -391,9 +389,9 @@ class MainApp(QMainWindow):
             # ic(offset_col)
 
             if person_typed.upper() in self.staff_details.keys():  # check if permanent staff was typed
-                dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
+                dept = MBillsFunctions.get_department_from_name(person_typed, self.all_names_and_dept)
                 # ic('entered staff')
-                MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0, amount)
+                MBillsFunctions.insert_amount_into_med_bills(self.wkbk_med_bills, person_typed, dept, offset_col, 0, amount)
                 self.myrow_data.append([person_typed, self.staff_details[person_typed.upper()][0],
                                         self.staff_details[person_typed.upper()][1].title() if
                                         self.staff_details[person_typed.upper()][1] is not None else 'None',
@@ -401,17 +399,17 @@ class MainApp(QMainWindow):
                                          self.staff_details[person_typed.upper()][2:]],
                                         self.UI.combo_months.currentText()[0:3].upper(), 'STAFF', f'{float(amount):.2f}'
                                         ])
-                self.updateTable()
+                self.update_table()
             else:  # person could be dependant or casual/guest
                 actual_staff, dependant, status = \
-                    MBillsFunctions.searchForStaffFromStaffList(person_typed.upper(), self.staff_details)
+                    MBillsFunctions.search_for_staff_from_staff_list(person_typed.upper(), self.staff_details)
                 if actual_staff is not None:  # check if person is in staff list
                     actual_staff = actual_staff.title()
                     dependant = [x.title() for x in dependant if x is not None]
                     # ic(actual_staff, dependant, status)
                     # Checking for dependant
                     if status == 'v':  # found dependant
-                        dept = MBillsFunctions.getDepartmentFromName(actual_staff, self.all_names_and_dept)
+                        dept = MBillsFunctions.get_department_from_name(actual_staff, self.all_names_and_dept)
                         if dept is not None:
                             # global person_typed
                             # 2 if person is spouse of staff else 1 for child of staff
@@ -419,7 +417,7 @@ class MainApp(QMainWindow):
                                 offset_row = 2
                             else:
                                 offset_row = 1
-                            MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, actual_staff,
+                            MBillsFunctions.insert_amount_into_med_bills(self.wkbk_med_bills, actual_staff,
                                                                      dept, offset_col, offset_row, amount)
                             self.myrow_data.append([actual_staff, self.staff_details[actual_staff.upper()][0],
                                                     self.staff_details[actual_staff.upper()][1].title() if
@@ -430,20 +428,20 @@ class MainApp(QMainWindow):
                                                     'CHILD' if offset_row == 1 else 'SPOUSE',
                                                     f'{float(amount):.2f}'
                                                     ])
-                            self.updateTable()
+                            self.update_table()
 
                 else:  # person is guest/casual
                     # ic('entered guest')
-                    dept = MBillsFunctions.getDepartmentFromName(person_typed, self.all_names_and_dept)
-                    MBillsFunctions.insertAmountIntoMedBills(self.wkbk_med_bills, person_typed, dept, offset_col, 0,
+                    dept = MBillsFunctions.get_department_from_name(person_typed, self.all_names_and_dept)
+                    MBillsFunctions.insert_amount_into_med_bills(self.wkbk_med_bills, person_typed, dept, offset_col, 0,
                                                              amount)
                     self.myrow_data.append([person_typed, 'GUEST' if 'GUEST' in dept else 'CAUSAL',
                                             'None', 'None', self.UI.combo_months.currentText()[0:3].upper(),
                                             'GUEST' if 'GUEST' in dept else 'CAUSAL',  f'{float(amount):.2f}'
                                             ])
-                    self.updateTable()
+                    self.update_table()
 
-            self.populateStaffDetails(self.UI.entry_staff_or_dependant.text(), input_call='Entry')
+            self.populate_staff_details(self.UI.entry_staff_or_dependant.text(), input_call='Entry')
             self.UI.entry_staff_or_dependant.clear()
             self.UI.entry_quick_search.clear()
             self.UI.entry_amount.setText('GH₵ ')
@@ -465,14 +463,14 @@ class MainApp(QMainWindow):
         """
         Method to undo an entry.
         """
-        if MBillsFunctions.undoEntry():
+        if MBillsFunctions.undo_entry():
             self.hidden_row = self.myrow_count
             self.UI.table_last_edit.hideRow(self.hidden_row)
             if len(med_bills_functions.UNDO_ENTRY_HISTORY) == 0:
                 self.UI.btn_undo.setEnabled(False)
             self.status_bar.showMessage('Last entry has been undone...', 3000)
             self.UI.btn_redo.setEnabled(True)
-            self.populateStaffDetails(self.myrow_data_for_undo_redo[1], 'Entry')
+            self.populate_staff_details(self.myrow_data_for_undo_redo[1], 'Entry')
             self.UI.entry_quick_search.clear()
             self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 2, 7)
             self.set_border_highlight_switch(None)
@@ -482,18 +480,18 @@ class MainApp(QMainWindow):
         """
         Method to redo a previously undone entry.
         """
-        if MBillsFunctions.redoEntry():
+        if MBillsFunctions.redo_entry():
             self.UI.table_last_edit.showRow(self.hidden_row)
             self.status_bar.showMessage('Entry redone successfully...', 3000)
             self.UI.btn_redo.setEnabled(False)
             self.UI.btn_undo.setEnabled(False)
             self.myrow_count = self.UI.table_last_edit.rowCount() - 1
-            self.populateStaffDetails(self.myrow_data_for_undo_redo[1], input_call='Entry')
+            self.populate_staff_details(self.myrow_data_for_undo_redo[1], input_call='Entry')
             self.UI.entry_quick_search.clear()
             self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 1, 7)
 
 
-    def updateTable(self):
+    def update_table(self):
         """
         Method to update the table after an insertion to the Med Bills workbook has been made.
         """
@@ -531,7 +529,7 @@ class MainApp(QMainWindow):
 
 
     def refresh(self):
-        self.clearStaffDetails()
+        self.clear_staff_details()
         self.UI.entry_quick_search.clear()
         self.UI.combo_months.setCurrentIndex(0)
         self.UI.entry_staff_or_dependant.clear()
@@ -542,11 +540,11 @@ class MainApp(QMainWindow):
         self.set_border_highlight_switch(None)
 
 
-    def saveWorkbook(self):
+    def save_workbook(self):
         """
         Method to save the Med Bills workbook.
         """
-        if MBillsFunctions.saveFile(self.wkbk_med_bills):
+        if MBillsFunctions.save_file(self.wkbk_med_bills):
             self.status_bar.showMessage('Database saved and updated successfully...', 4000)
 
 
@@ -561,10 +559,10 @@ class MainApp(QMainWindow):
         self.settings.setValue('app size', self.size())
 
         self.hide()  # instantly hides app to prevent user from noticing delay(~2secs) in saving file when app exits.
-        self.saveWorkbook()
+        self.save_workbook()
         print('Saved workbook.')
-        MBillsFunctions.closeFile(self.wkbk_med_bills)
-        MBillsFunctions.closeFile(self.wkbk_staff_list)
+        MBillsFunctions.close_file(self.wkbk_med_bills)
+        MBillsFunctions.close_file(self.wkbk_staff_list)
         print('Closed workbooks.')
         event.accept()
 

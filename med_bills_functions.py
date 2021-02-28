@@ -21,7 +21,7 @@ class MBillsFunctions:
     """
 
     @staticmethod
-    def initializeFiles(med_bill_file=None, staff_list_file=None):
+    def initialize_files(med_bill_file=None, staff_list_file=None):
         """
         Loads Med Bills File and Staff List File into workbook objects.
 
@@ -56,7 +56,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def getAllMedBillsNamesAndDept(workbook):
+    def get_all_med_bills_names_and_dept(workbook):
         """
         Static method to get all names from Med Bills workbook.
 
@@ -78,7 +78,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def getAllDependantNames(workbook):  # todo: change name as it is misleading
+    def get_all_dependant_names(workbook):  # todo: change name as it is misleading
         """
         Static method to extract all spouse, and children's names from Staff List workbook.
 
@@ -98,7 +98,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def getDetailsOfPermanentStaff(workbook):
+    def get_details_of_permanent_staff(workbook):
         """
         Optimized static method to extract details of permanent staff from the Staff List workbook.
 
@@ -157,7 +157,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def searchForStaffFromStaffList(person, staff_deets):
+    def search_for_staff_from_staff_list(person, staff_deets):
         """
         Static method to search for anyone using the Staff List workbook. If found, returns staff's details.
         If not, returns None for those particulars in the details(For Casuals and Guests).
@@ -187,7 +187,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def searchForCasualOrGuest(people_in_med_bill, person):
+    def search_for_casual_or_guest(people_in_med_bill, person):
         """
         Static method to search specifically for a Guest or Casual since they are not in the Staff List workbook.
 
@@ -202,7 +202,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def getDepartmentFromName(person: str, all_people_and_dept: list):
+    def get_department_from_name(person: str, all_people_and_dept: list):
         """
         Static method that scans Med Bills workbook for a person's department.
 
@@ -221,7 +221,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def getPersonAmountForMonth(workbook, person: str, all_people: list, months: dict, month: str):
+    def get_person_amount_for_month(workbook, person: str, all_people: list, months: dict, month: str):
         """
         Static method to get the current amount for the month of a person in the Med Bills workbook.
 
@@ -238,9 +238,9 @@ class MBillsFunctions:
         :return: Amount from cell.
         """
         # s1 = datetime.now()
-        dept = MBillsFunctions.getDepartmentFromName(person, all_people)
+        dept = MBillsFunctions.get_department_from_name(person, all_people)
 
-        def processCellValue(celll):  # dont want problems with 'cell' from outer scope
+        def process_cell_value(celll):  # dont want problems with 'cell' from outer scope
             """
             Helper function for processing cell value to display in app.
 
@@ -263,11 +263,11 @@ class MBillsFunctions:
             for cell in col:
                 if cell.value == person:
                     staff_cell = cell.offset(row=0, column=months.get(month, 0))
-                    staff_amt = processCellValue(staff_cell)
+                    staff_amt = process_cell_value(staff_cell)
                     child_cell = cell.offset(row=1, column=months.get(month, 0))
-                    child_amt = processCellValue(child_cell)
+                    child_amt = process_cell_value(child_cell)
                     spouse_cell = cell.offset(row=2, column=months.get(month, 0))
-                    spouse_amt = processCellValue(spouse_cell)
+                    spouse_amt = process_cell_value(spouse_cell)
 
                     # s2 = datetime.now()
                     # ic.enable()
@@ -277,7 +277,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def insertAmountIntoMedBills(workbook, person: str, dept: str, offset_col: int, offset_row: int, amount: str):
+    def insert_amount_into_med_bills(workbook, person: str, dept: str, offset_col: int, offset_row: int, amount: str):
         """
         Static method to insert amount into specific month of staff in Med Bills workbook.
 
@@ -323,7 +323,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def undoEntry():
+    def undo_entry():
         """
         Static method to undo an entry.
 
@@ -364,7 +364,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def redoEntry():
+    def redo_entry():
         """
         Static method to redo a previously undone entry.
 
@@ -386,7 +386,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def saveFile(workbook):
+    def save_file(workbook):
         """
         Static method to save a workbook provided.
 
@@ -409,7 +409,7 @@ class MBillsFunctions:
 
 
     @staticmethod
-    def closeFile(workbook):
+    def close_file(workbook):
         """
         Static method to close workbook upon exit of app.
 
@@ -427,4 +427,3 @@ class MBillsFunctions:
 
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
-    #       - Change names of functions to match PEP standards [MEDIUM PRIORITY]

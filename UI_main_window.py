@@ -16,15 +16,17 @@ class UIMainWindow(QWidget):
         self.desktop = QDesktopWidget().screenGeometry()
         # print('Desktop:', self.desktop.width(), self.desktop.height())
 
-        self.UIComponents()
+        self.ui_components()
         # self.show()
 
-    def UIComponents(self):
-        self.UIwidgets()
-        self.UIlayouts()
-        self.UIfonts()
 
-    def UIwidgets(self):
+    def ui_components(self):
+        self.ui_widgets()
+        self.ui_layouts()
+        self.ui_fonts()
+
+
+    def ui_widgets(self):
         # BIG TITLE ----------------------------------------------------------------------------------------
         self.lbl_title = QLabel('MEDICAL BILLS 2021')  # todo: link this to the excel file name somehow
         # self.lbl_title = QLabel('Medical Bills 2021')
@@ -228,7 +230,7 @@ class UIMainWindow(QWidget):
         # END TABLE ----------------------------------------------------------------------------------------
 
 
-    def UIlayouts(self):
+    def ui_layouts(self):
         # TAB 1 LAYOUTS ------------------------------------------------------------------------------------
         self.tab1_main_layout = QVBoxLayout()
         self.tab1_quick_search_layout = QHBoxLayout()
@@ -333,7 +335,7 @@ class UIMainWindow(QWidget):
         # END MAIN WINDOW LAYOUT (CENTRAL WIDGET) ----------------------------------------------------------
 
 
-    def UIfonts(self):
+    def ui_fonts(self):
         gothic_id = QFontDatabase.addApplicationFont(':/fonts/century gothic')
         gothicb_id = QFontDatabase.addApplicationFont(':/fonts/century gothic bold')
         gothici_id = QFontDatabase.addApplicationFont(':/fonts/century gothic italic')
@@ -348,8 +350,7 @@ class UIMainWindow(QWidget):
 
     # ---------------------------------------- TODO --------------------------------------------------------
     # TODO:
-    #   1. Add Refresh button on status bar for table [optional]
-    #   2. Add a tab to edit staff details - adding or removing a dependant etc.
+    #   - Add a tab to edit staff details - adding or removing a dependant etc.
 
     # TODO: TAB 2 IDEAS:
     #   - Show table of staff with high amounts and other filters
