@@ -302,12 +302,14 @@ class MainApp(QMainWindow):
             if (s_name and d_name) is not None:
                 self.UI.lbl_staff_name.setText(person_status[0])
                 self.UI.entry_staff_name.setText(s_name.title())
+                if person == s_name.title():
+                    self.set_border_highlight_switch(self.UI.entry_staff_name)
                 self.UI.entry_department.setText(d_name[0])
                 if d_name[1] is not None:  # Spouse name
                     self.UI.entry_spouse.setText(d_name[1].title())
                     # todo: put helper function here
                     if person == d_name[1].title():
-                        self.UI.entry_spouse.setStyleSheet('border: 1px solid #3A3939;')
+                        self.set_border_highlight_switch(self.UI.entry_spouse)
                 else:
                     self.UI.entry_spouse.setText('None')
 
@@ -321,7 +323,7 @@ class MainApp(QMainWindow):
                         self.UI.combo_children.setCurrentText(person)
                         # todo: put helper function here
                         if person == child.title():
-                            self.UI.combo_children.setStyleSheet('border: 1px solid #78879b')
+                            self.set_border_highlight_switch(self.UI.combo_children)
 
                 staff_amt, child_amt, spouse_amt = MBillsFunctions. \
                     getPersonAmountForMonth(self.wkbk_med_bills, s_name.title(), self.all_names_and_dept,
@@ -345,6 +347,7 @@ class MainApp(QMainWindow):
                         self.UI.entry_department.setText('CASUAL')
 
                     self.UI.entry_staff_name.setText(guest_or_casual.split('|')[0])
+                    self.set_border_highlight_switch(self.UI.entry_staff_name)
                     self.UI.entry_spouse.setText('None')
                     self.UI.combo_children.addItem('None')
                     self.UI.combo_children.setEnabled(False)
@@ -371,6 +374,7 @@ class MainApp(QMainWindow):
         self.UI.entry_amount.setText('GH₵ ')
         # self.UI.entry_staff_or_dependant.clear()
         self.UI.btn_clear.setEnabled(False)
+        self.set_border_highlight_switch(None)
 
 
     def insertIntoMedBills(self):
@@ -471,6 +475,7 @@ class MainApp(QMainWindow):
             self.populateStaffDetails(self.myrow_data_for_undo_redo[1], 'Entry')
             self.UI.entry_quick_search.clear()
             self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 2, 7)
+            self.set_border_highlight_switch(None)
 
 
     def redo(self):
@@ -534,6 +539,7 @@ class MainApp(QMainWindow):
         self.UI.table_last_edit.setRowCount(1)  # pro way of deleting rows, source: (https://stackoverflow.com/questions/15848086/how-to-delete-all-rows-from-qtablewidget)
         self.UI.btn_undo.setEnabled(False)
         self.UI.btn_redo.setEnabled(False)
+        self.set_border_highlight_switch(None)
 
 
     def saveWorkbook(self):
@@ -564,55 +570,19 @@ class MainApp(QMainWindow):
 
 
     # Helper functions ------------------------------------------------------------------------------
-
-    # def set_highlight_border(self, widget):
-    #     """
-    #     Helper function to highlight the border of a widget if it contains the "searched for" information.
-    #
-    #     :param widget: Widget which contains the information to be highlighted.
-    #     """
-    #     widget.setStyleSheet('border: 1px solid #78879b;')  # kinda silver colour
-    #
-    # def set_normal_border(self, widget):
-    #     """
-    #     Helper function to set the border of a highlighted widget back to normal.
-    #
-    #     :param widget: Widget with highlighted border.
-    #     """
-    #     widget.setStyleSheet('border: 1px solid #3A3939;')  # darker gray
-
-
     def set_border_highlight_switch(self, widget=None):
+        """
+        Helper function to highlight a widget which the 'searched for' person.
 
-        # Less efficient way
-        if widget is None:
-            self.UI.entry_staff_name.setStyleSheet('border: 1px solid #3A3939;')
-            self.UI.entry_spouse.setStyleSheet('border: 1px solid #3A3939;')
-            self.UI.combo_children.setStyleSheet('border: 1px solid #3A3939;')
+        :param widget: Widget to be highlighted.
+        """
+        self.UI.entry_staff_name.setStyleSheet('border: 1px solid #3A3939;')
+        self.UI.entry_spouse.setStyleSheet('border: 1px solid #3A3939;')
+        self.UI.combo_children.setStyleSheet('border: 1px solid #3A3939;')
+        self.setStyleSheet(styles.main_window_style())
 
-        elif widget == self.UI.entry_staff_name:
-            self.UI.entry_staff_name.setStyleSheet('border: 1px solid #78879b;')
-            self.UI.entry_spouse.setStyleSheet('border: 1px solid #3A3939;')
-            self.UI.combo_children.setStyleSheet('border: 1px solid #3A3939;')
-
-        elif widget == self.UI.entry_spouse:
-            self.UI.entry_staff_name.setStyleSheet('border: 1px solid #3A3939;')
-            self.UI.entry_spouse.setStyleSheet('border: 1px solid #78879b;')
-            self.UI.combo_children.setStyleSheet('border: 1px solid #3A3939;')
-
-        elif widget == self.UI.combo_children:
-            self.UI.entry_staff_name.setStyleSheet('border: 1px solid #3A3939;')
-            self.UI.entry_spouse.setStyleSheet('border: 1px solid #3A3939;')
-            self.UI.combo_children.setStyleSheet('border: 1px solid #78879b;')
-            
-
-        # More efficient way
-        # self.UI.entry_staff_name.setStyleSheet('border: 1px solid #3A3939;')
-        # self.UI.entry_spouse.setStyleSheet('border: 1px solid #3A3939;')
-        # self.UI.combo_children.setStyleSheet('border: 1px solid #3A3939;')
-        #
-        # if widget is not None:
-        #     widget.setStyleSheet('border: 1px solid #78879b;')
+        if widget is not None:
+            widget.setStyleSheet('border: 1px solid #78879b;')
 
 
 
@@ -627,7 +597,6 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - *****  Highlight a dependant when searched for  *****
     #   - Create a log file to track batches of entries - for easier error detection [MEDIUM PRIORITY]
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing " input_call='Entry' " [optional]
