@@ -564,21 +564,55 @@ class MainApp(QMainWindow):
 
 
     # Helper functions ------------------------------------------------------------------------------
-    def set_highlight_border(self, widget):
-        """
-        Helper function to highlight the border of a widget if it contains the "searched for" information.
 
-        :param widget: Widget which contains the information to be highlighted.
-        """
-        widget.setStyleSheet('border: 1px solid #78879b;')  # kinda silver colour
+    # def set_highlight_border(self, widget):
+    #     """
+    #     Helper function to highlight the border of a widget if it contains the "searched for" information.
+    #
+    #     :param widget: Widget which contains the information to be highlighted.
+    #     """
+    #     widget.setStyleSheet('border: 1px solid #78879b;')  # kinda silver colour
+    #
+    # def set_normal_border(self, widget):
+    #     """
+    #     Helper function to set the border of a highlighted widget back to normal.
+    #
+    #     :param widget: Widget with highlighted border.
+    #     """
+    #     widget.setStyleSheet('border: 1px solid #3A3939;')  # darker gray
 
-    def set_normal_border(self, widget):
-        """
-        Helper function to set the border of a highlighted widget back to normal.
 
-        :param widget: Widget with highlighted border.
-        """
-        widget.setStyleSheet('border: 1px solid #3A3939;')  # darker gray
+    def set_border_highlight_switch(self, widget=None):
+
+        # Less efficient way
+        if widget is None:
+            self.UI.entry_staff_name.setStyleSheet('border: 1px solid #3A3939;')
+            self.UI.entry_spouse.setStyleSheet('border: 1px solid #3A3939;')
+            self.UI.combo_children.setStyleSheet('border: 1px solid #3A3939;')
+
+        elif widget == self.UI.entry_staff_name:
+            self.UI.entry_staff_name.setStyleSheet('border: 1px solid #78879b;')
+            self.UI.entry_spouse.setStyleSheet('border: 1px solid #3A3939;')
+            self.UI.combo_children.setStyleSheet('border: 1px solid #3A3939;')
+
+        elif widget == self.UI.entry_spouse:
+            self.UI.entry_staff_name.setStyleSheet('border: 1px solid #3A3939;')
+            self.UI.entry_spouse.setStyleSheet('border: 1px solid #78879b;')
+            self.UI.combo_children.setStyleSheet('border: 1px solid #3A3939;')
+
+        elif widget == self.UI.combo_children:
+            self.UI.entry_staff_name.setStyleSheet('border: 1px solid #3A3939;')
+            self.UI.entry_spouse.setStyleSheet('border: 1px solid #3A3939;')
+            self.UI.combo_children.setStyleSheet('border: 1px solid #78879b;')
+            
+
+        # More efficient way
+        # self.UI.entry_staff_name.setStyleSheet('border: 1px solid #3A3939;')
+        # self.UI.entry_spouse.setStyleSheet('border: 1px solid #3A3939;')
+        # self.UI.combo_children.setStyleSheet('border: 1px solid #3A3939;')
+        #
+        # if widget is not None:
+        #     widget.setStyleSheet('border: 1px solid #78879b;')
 
 
 
