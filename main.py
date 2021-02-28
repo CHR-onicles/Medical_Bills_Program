@@ -305,6 +305,9 @@ class MainApp(QMainWindow):
                 self.UI.entry_department.setText(d_name[0])
                 if d_name[1] is not None:  # Spouse name
                     self.UI.entry_spouse.setText(d_name[1].title())
+                    # todo: put helper function here
+                    if person == d_name[1].title():
+                        self.UI.entry_spouse.setStyleSheet('border: 1px solid #3A3939;')
                 else:
                     self.UI.entry_spouse.setText('None')
 
@@ -316,6 +319,9 @@ class MainApp(QMainWindow):
                         self.UI.combo_children.setEnabled(True)
                         self.UI.combo_children.addItem(child.title())
                         self.UI.combo_children.setCurrentText(person)
+                        # todo: put helper function here
+                        if person == child.title():
+                            self.UI.combo_children.setStyleSheet('border: 1px solid #78879b')
 
                 staff_amt, child_amt, spouse_amt = MBillsFunctions. \
                     getPersonAmountForMonth(self.wkbk_med_bills, s_name.title(), self.all_names_and_dept,
@@ -557,6 +563,25 @@ class MainApp(QMainWindow):
         event.accept()
 
 
+    # Helper functions ------------------------------------------------------------------------------
+    def set_highlight_border(self, widget):
+        """
+        Helper function to highlight the border of a widget if it contains the "searched for" information.
+
+        :param widget: Widget which contains the information to be highlighted.
+        """
+        widget.setStyleSheet('border: 1px solid #78879b;')  # kinda silver colour
+
+    def set_normal_border(self, widget):
+        """
+        Helper function to set the border of a highlighted widget back to normal.
+
+        :param widget: Widget with highlighted border.
+        """
+        widget.setStyleSheet('border: 1px solid #3A3939;')  # darker gray
+
+
+
 
 
 if __name__ == '__main__':
@@ -568,9 +593,8 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - Add QSettings to remember last size and location[MEDIUM PRIORITY]
+    #   - *****  Highlight a dependant when searched for  *****
     #   - Create a log file to track batches of entries - for easier error detection [MEDIUM PRIORITY]
-    #   - Highlight a dependant when searched for [optional]
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing " input_call='Entry' " [optional]
     #   - Properly evaluate boolean return value from functions [optional]
