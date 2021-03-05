@@ -550,7 +550,7 @@ class MainApp(QMainWindow):
 
     def closeEvent(self, event):
         """
-        Overriding the close event to save the workbook upon exit.
+        Overriding PyQt's close event to save the workbook upon exit.
 
         :param event: Close event object.
         """
