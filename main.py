@@ -72,8 +72,10 @@ class MainApp(QMainWindow):
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
                        'August': 9, 'September': 10, 'October': 11, 'November': 12, 'December': 13}
         # todo: Automatically check for the right files later [optional]
-        self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initialize_files('test med bills 2021.xlsx',
-                                                                                     'STAFF DEPENDANT LIST 2020.xlsx')
+
+        FILE_1, FILE_2 = 'test med bills 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx'
+        self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initialize_files(FILE_1, FILE_2)
+        print(f'Working with: "{FILE_1}" and "{FILE_2}"')  # For testing and debugging
         self.all_names_and_dept = MBillsFunctions.get_all_med_bills_names_and_dept(self.wkbk_med_bills)
         self.all_names_and_dept.extend(MBillsFunctions.get_all_dependant_names(self.wkbk_staff_list))
         self.staff_details = MBillsFunctions.get_details_of_permanent_staff(self.wkbk_staff_list)
