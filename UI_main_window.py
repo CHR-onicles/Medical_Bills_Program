@@ -49,6 +49,7 @@ class UIMainWindow(QWidget):
         self.lbl_month.setObjectName('lbl_titles')
         self.combo_months = QComboBox()
         self.combo_months.setObjectName('combo_titles')
+        self.combo_months.setCursor(Qt.PointingHandCursor)
 
         self.entry_quick_search = QLineEdit()
         self.entry_quick_search.setPlaceholderText('Search For Dependant/Staff')
@@ -68,6 +69,7 @@ class UIMainWindow(QWidget):
         self.btn_quick_search.setObjectName('menu_button')
         self.btn_quick_search.setToolTip('<b>Search</b> (Enter)')
         self.btn_quick_search.setStatusTip('Search for a person')
+        self.btn_quick_search.setCursor(Qt.PointingHandCursor)
 
         # Menu buttons ------------------------------------------------------------------------------------
         self.btn_undo = QPushButton()
@@ -79,6 +81,7 @@ class UIMainWindow(QWidget):
         # self.btn_undo.setStatusTip('Undo last entry')
         self.btn_undo.setShortcut('Ctrl+Z')
         self.btn_undo.setObjectName('menu_button')
+        self.btn_undo.setCursor(Qt.PointingHandCursor)
 
         self.btn_redo = QPushButton()
         redo_icon = QIcon()
@@ -89,6 +92,7 @@ class UIMainWindow(QWidget):
         # self.btn_redo.setStatusTip('Redo undone entry')
         self.btn_redo.setShortcut('Ctrl+Y')
         self.btn_redo.setObjectName('menu_button')
+        self.btn_redo.setCursor(Qt.PointingHandCursor)
 
         self.btn_clear = QPushButton()
         clear_icon = QIcon()
@@ -99,6 +103,7 @@ class UIMainWindow(QWidget):
         self.btn_clear.setStatusTip('Clear Staff Details Summary')
         self.btn_clear.setShortcut('Ctrl+Q')
         self.btn_clear.setObjectName('menu_button')
+        self.btn_clear.setCursor(Qt.PointingHandCursor)
 
         self.btn_save = QPushButton()
         save_icon = QIcon()
@@ -109,6 +114,7 @@ class UIMainWindow(QWidget):
         # self.btn_save.setStatusTip('Save changes to database')
         self.btn_save.setShortcut('Ctrl+S')
         self.btn_save.setObjectName('menu_button')
+        self.btn_save.setCursor(Qt.PointingHandCursor)
 
         self.btn_refresh = QPushButton()
         refresh_icon = QIcon()
@@ -119,6 +125,7 @@ class UIMainWindow(QWidget):
         self.btn_refresh.setStatusTip('Refresh current page')
         self.btn_refresh.setShortcut('Ctrl+R')
         self.btn_refresh.setObjectName('menu_button')
+        self.btn_refresh.setCursor(Qt.PointingHandCursor)
 
         # END Menu buttons ---------------------------------------------------------------------------------
 
@@ -161,6 +168,7 @@ class UIMainWindow(QWidget):
         self.entry_spouse.setReadOnly(True)
         self.lbl_children = QLabel('Child(ren):')
         self.combo_children = QComboBox()
+        self.combo_children.setCursor(Qt.PointingHandCursor)
         self.lbl_cur_amount = QLabel()
         self.lbl_cur_amount.setWordWrap(True)
         self.lbl_staff_amt = QLabel('Staff')

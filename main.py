@@ -35,7 +35,7 @@ class MainApp(QMainWindow):
         super().__init__()
 
         # Window configs -------------------------------------------------------------------------------------
-        self.setWindowTitle('Med Bills App' + ' - v' + __version__)
+        self.setWindowTitle('Med Bills App' + ' v' + __version__)
         self.setWindowIcon(QIcon(':/icon/cat'))
         self.UI = UIMainWindow()
         self.setCentralWidget(self.UI)
