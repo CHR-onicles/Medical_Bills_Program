@@ -71,11 +71,11 @@ class MainApp(QMainWindow):
         # Medical Bills Files configs ------------------------------------------------------------------------
         self.months = {'January': 2, 'February': 3, 'March': 4, 'April': 5, 'May': 6, 'June': 7, 'July': 8,
                        'August': 9, 'September': 10, 'October': 11, 'November': 12, 'December': 13}
-        # todo: Automatically check for the right files later [optional]
 
-        FILE_1, FILE_2 = 'test med bills 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx'
-        self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initialize_files(FILE_1, FILE_2)
-        print(f'Working with: "{FILE_1}" and "{FILE_2}"')  # For testing and debugging
+        # todo: Automatically check for the right files later [optional]
+        self.FILE_1, self.FILE_2 = 'MEDICAL BILLS 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx'
+        self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initialize_files(self.FILE_1, self.FILE_2)
+        print(f'Working with: "{self.FILE_1}" and "{self.FILE_2}"')  # For testing and debugging
         self.all_names_and_dept = MBillsFunctions.get_all_med_bills_names_and_dept(self.wkbk_med_bills)
         self.all_names_and_dept.extend(MBillsFunctions.get_all_dependant_names(self.wkbk_staff_list))
         self.staff_details = MBillsFunctions.get_details_of_permanent_staff(self.wkbk_staff_list)
@@ -241,7 +241,8 @@ class MainApp(QMainWindow):
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
         self.status_bar.setFont(QFont('century gothic', 12))
-        self.status_bar.showMessage('All core functionalities initialized...', 3000)
+        self.status_bar.showMessage(f'Initializing files: "{self.FILE_1}" and "{self.FILE_2}"', 5000)
+
         # END STATUS BAR -----------------------------------------------------------------------------------
 
         # TABLE --------------------------------------------------------------------------------------------
@@ -271,7 +272,7 @@ class MainApp(QMainWindow):
             return
         elif self.UI.entry_staff_name.text() == self.UI.table_last_edit.item(self.UI.table_last_edit.rowCount()-1, 1).text():
             self.populate_staff_details(self.UI.entry_staff_name.text(), input_call='Entry')
-            # without an else: return, it still does the job...imma not touch it 😬
+            # without an else: return, it still does the job...DONT touch it! 😬
 
 
     def check_entry_staff_dep_state(self):
