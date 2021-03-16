@@ -528,6 +528,11 @@ class MainApp(QMainWindow):
             self.UI.table_last_edit.item(row, 6).setTextAlignment(Qt.AlignTop)
             self.UI.table_last_edit.setCurrentCell(row, 7)
         self.myrow_data_for_undo_redo = self.myrow_data[0]  # a copy of the list for undo and redo functions to use
+
+        # Logging added entry (for debugging)
+        with open('entry_log.log', 'a') as f:
+            f.write(str(self.myrow_data[0]) + '\n')
+
         self.myrow_data.clear()
         # stop = datetime.now()
         # print('Time taken to update table:', stop - start)
@@ -536,7 +541,7 @@ class MainApp(QMainWindow):
     def refresh(self):
         self.clear_staff_details()
         self.UI.entry_quick_search.clear()
-        self.UI.combo_months.setCurrentIndex(0)
+        # self.UI.combo_months.setCurrentIndex(0)
         self.UI.entry_staff_or_dependant.clear()
         self.UI.table_last_edit.setCurrentCell(0, 0)  # just to make sure it doesn't remove this row as it is now set as active
         self.UI.table_last_edit.setRowCount(1)  # pro way of deleting rows, source: (https://stackoverflow.com/questions/15848086/how-to-delete-all-rows-from-qtablewidget)
@@ -600,7 +605,8 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - Create a log file to track batches of entries - for easier error detection [MEDIUM PRIORITY]
+    #   - * Create a log file to track batches of entries - for easier error detection [HIGH PRIORITY] *
+    #   - *  Create separate methods for writing to the log file [HIGH PRIORITY] *
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing " input_call='Entry' " [optional]
     #   - Properly evaluate boolean return value from functions [optional]
