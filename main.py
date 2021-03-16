@@ -267,12 +267,11 @@ class MainApp(QMainWindow):
         """
         if self.UI.entry_quick_search.text() != '':
             self.populate_staff_details(self.UI.entry_quick_search.text())
-        elif self.UI.entry_quick_search.text() == '' and self.UI.entry_staff_or_dependant.text() == ''\
-                and self.UI.table_last_edit.rowCount() == 1:
+        elif self.UI.entry_quick_search.text() == '' and self.UI.table_last_edit.rowCount() == 1:
             return
         elif self.UI.entry_staff_name.text() == self.UI.table_last_edit.item(self.UI.table_last_edit.rowCount()-1, 1).text():
             self.populate_staff_details(self.UI.entry_staff_name.text(), input_call='Entry')
-            # without an else: return, it still does the job...DONT touch it! 😬
+            # without an else: return, it still does the job...DONT touch it! 😬 - might not actually be necessary
 
 
     def check_entry_staff_dep_state(self):
