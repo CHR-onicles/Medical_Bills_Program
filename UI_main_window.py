@@ -147,6 +147,7 @@ class UIMainWindow(QWidget):
         self.btn_submit = QPushButton('Submit')
         self.btn_submit.setStatusTip('Submit entry into database')
         self.btn_submit.setObjectName('btn_submit')
+        self.btn_submit.setCursor(Qt.PointingHandCursor)
 
         # END Entry from Receipt Widgets -------------------------------------------------------------------
 

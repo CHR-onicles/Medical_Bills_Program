@@ -42,10 +42,7 @@ class Log:
 
     def add_entry(self, entry, is_redo=False):
         with open('entry_log.log', 'a') as f:
-            if (is_redo or self.undo_called) is True:
-                f.write(str(entry))
-            else:
-                f.write('\n' + str(entry))
+            f.write(str(entry))  if (is_redo or self.undo_called) is True else f.write('\n' + str(entry))
         self.undo_called = False
 
     def undo_entry(self):
@@ -68,8 +65,9 @@ class Log:
                 self.undo_called = True
 
     def terminate(self):
-        with open('entry_log.log', 'a') as f:
-            f.write('\n' + '='*150 + '\n\n')
+        if self.initialized_already is True:
+            with open('entry_log.log', 'a') as f:
+                f.write('=' * 150 + '\n\n') if self.undo_called is True else f.write('\n' + '='*150 + '\n\n')
 
 
 
