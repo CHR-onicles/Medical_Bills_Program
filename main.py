@@ -29,23 +29,25 @@ class Log:
     """
 
     def __init__(self):
-        self.log_started = False
+        self.initialized_already = False
 
-    def initialize(self):
+    def initialize(self, file):
+        if self.initialized_already is True:
+            return
         with open('entry_log.log', 'a') as f:
-            f.write('== ' + str(datetime.now().strftime('%d/%m/%Y %H:%M:%S')) + ' ==\n')
-        self.log_started = True
+            f.write('== ' + str(datetime.now().strftime('%d/%m/%Y %H:%M:%S')) + f' -> {file}' + ' ==\n')
+        self.initialized_already = True
 
     def add_entry(self, entry):
         with open('entry_log.log', 'a') as f:
             f.write(str(entry) + '\n')
 
     def terminate(self):
-        if self.log_started is True:
-            with open('entry_log.log', 'a') as f:
-                f.write('=================================================================' + '\n')
-        else:
-            return
+        with open('entry_log.log', 'a') as f:
+            f.write('='*150 + '\n\n')
+
+    # todo: add med bill file being used
+
 
 
 
@@ -559,7 +561,7 @@ class MainApp(QMainWindow):
         self.myrow_data_for_undo_redo = self.myrow_data[0]  # a copy of the list for undo and redo functions to use
 
         # Logging added entry (for debugging)
-        self.log.initialize()
+        self.log.initialize(self.FILE_1)
         self.log.add_entry(self.myrow_data[0])
 
         self.myrow_data.clear()
