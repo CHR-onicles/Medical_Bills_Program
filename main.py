@@ -23,6 +23,31 @@ from UI_main_window import UIMainWindow
 # ic.configureOutput(includeContext=True)
 
 
+class Log:
+    """
+    Class to deal with logging of entries from app.
+    """
+
+    def __init__(self):
+        self.log_started = False
+
+    def initialize(self):
+        with open('entry_log.log', 'a') as f:
+            f.write('== ' + str(datetime.now().strftime('%d/%m/%Y %H:%M:%S')) + ' ==\n')
+        self.log_started = True
+
+    def add_entry(self, entry):
+        with open('entry_log.log', 'a') as f:
+            f.write(str(entry) + '\n')
+
+    def terminate(self):
+        if self.log_started is True:
+            with open('entry_log.log', 'a') as f:
+                f.write('=================================================================' + '\n')
+        else:
+            return
+
+
 
 
 
@@ -185,8 +210,7 @@ class MainApp(QMainWindow):
         # END Table info -------------------------------------------------------------------------------------
 
         # Initializing log -----------------------------------------------------------------------------------
-        with open('entry_log.log', 'a') as f:
-            f.write('== ' + str(datetime.now().strftime('%d/%m/%Y %H:%M:%S')) + ' ==\n')
+        self.log = Log()
         # END Initializing log -------------------------------------------------------------------------------
 
         self.ui_comp()
@@ -535,8 +559,8 @@ class MainApp(QMainWindow):
         self.myrow_data_for_undo_redo = self.myrow_data[0]  # a copy of the list for undo and redo functions to use
 
         # Logging added entry (for debugging)
-        with open('entry_log.log', 'a') as f:
-            f.write(str(self.myrow_data[0]) + '\n')
+        self.log.initialize()
+        self.log.add_entry(self.myrow_data[0])
 
         self.myrow_data.clear()
         # stop = datetime.now()
@@ -565,7 +589,7 @@ class MainApp(QMainWindow):
 
     def closeEvent(self, event):
         """
-        Overriding PyQt's close event to save the workbook upon exit.
+        Overriding PyQt's Close Event to save the workbook upon exit.
 
         :param event: Close event object.
         """
@@ -580,6 +604,10 @@ class MainApp(QMainWindow):
         MBillsFunctions.close_file(self.wkbk_med_bills)
         MBillsFunctions.close_file(self.wkbk_staff_list)
         print('Closed workbooks.')
+
+        # End logging
+        self.log.terminate()
+
         event.accept()
 
 
@@ -611,8 +639,7 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - * Create a log file to track batches of entries - for easier error detection [HIGH PRIORITY] *
-    #   - *  Create separate methods for writing to the log file [HIGH PRIORITY] *
+    #   - *  Create separate methods for writing to the log file [HIGH PRIORITY]?? *
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing " input_call='Entry' " [optional]
     #   - Properly evaluate boolean return value from functions [optional]
