@@ -1,4 +1,5 @@
 # Standard library imports
+import os
 import sys
 from datetime import datetime
 
@@ -27,6 +28,7 @@ class Log:
     """
     Class to deal with logging of entries from app.
     """
+    undo_called = False
 
     def __init__(self):
         self.initialized_already = False
@@ -35,18 +37,40 @@ class Log:
         if self.initialized_already is True:
             return
         with open('entry_log.log', 'a') as f:
-            f.write('== ' + str(datetime.now().strftime('%d/%m/%Y %H:%M:%S')) + f' -> {file}' + ' ==\n')
+            f.write('== ' + str(datetime.now().strftime('%d/%m/%Y %H:%M:%S')) + f' -> {file}' + ' ==')
         self.initialized_already = True
 
-    def add_entry(self, entry):
+    def add_entry(self, entry, is_redo=False):
         with open('entry_log.log', 'a') as f:
-            f.write(str(entry) + '\n')
+            if (is_redo or self.undo_called) is True:
+                f.write(str(entry))
+            else:
+                f.write('\n' + str(entry))
+        self.undo_called = False
+
+    def undo_entry(self):
+        """
+        Deleting last line in file: (https://stackoverflow.com/questions/1877999/delete-final-line-in-file-with-python)
+        """
+        with open('entry_log.log', "r+",) as file:
+            # Move the pointer to the end of the file
+            file.seek(0, os.SEEK_END)
+            # Go one step back from the last newline character at EOF
+            pos = file.tell() - 1
+            # Loop backwards searching for newline character
+            while pos > 0 and file.read(1) != "\n":
+                pos -= 1
+                file.seek(pos, os.SEEK_SET)
+            # Delete all the characters ahead of this position if we're not at the beginning
+            if pos > 0:
+                file.seek(pos, os.SEEK_SET)
+                file.truncate()
+                self.undo_called = True
 
     def terminate(self):
         with open('entry_log.log', 'a') as f:
-            f.write('='*150 + '\n\n')
+            f.write('\n' + '='*150 + '\n\n')
 
-    # todo: add med bill file being used
 
 
 
@@ -510,6 +534,7 @@ class MainApp(QMainWindow):
             self.UI.entry_quick_search.clear()
             self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 2, 7)
             self.set_border_highlight_switch(None)
+            self.log.undo_entry()
 
 
     def redo(self):
@@ -525,6 +550,7 @@ class MainApp(QMainWindow):
             self.populate_staff_details(self.myrow_data_for_undo_redo[1], input_call='Entry')
             self.UI.entry_quick_search.clear()
             self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 1, 7)
+            self.log.add_entry(self.myrow_data_for_undo_redo, is_redo=True)
 
 
     def update_table(self):
