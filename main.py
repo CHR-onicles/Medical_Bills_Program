@@ -211,6 +211,10 @@ class MainApp(QMainWindow):
         self.UI.entry_staff_or_dependant.setFocus()
 
         self.UI.combo_months.addItems(list(self.months.keys()))
+        try:
+            self.UI.combo_months.setCurrentIndex(self.settings.value('current month', 0, type=int))
+        except:
+            pass
         self.mon = self.UI.combo_months.currentText()[0:3]
         self.UI.lbl_cur_amount.setText(
             'Current Amount For <u>' + self.mon + '</u>(<font color=\"#3d8ec9\">GH₵</font>):')
@@ -567,6 +571,7 @@ class MainApp(QMainWindow):
         # Save last size and position of app
         self.settings.setValue('app position', self.pos())
         self.settings.setValue('app size', self.size())
+        self.settings.setValue('current month', self.UI.combo_months.currentIndex())
 
         self.hide()  # instantly hides app to prevent user from noticing delay(~2secs) in saving file when app exits.
         self.save_workbook()
