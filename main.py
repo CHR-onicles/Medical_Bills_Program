@@ -64,8 +64,6 @@ class MainApp(QMainWindow):
             # print(self.APP_XPOS, self.APP_YPOS)
         except:
             pass
-
-
         # END App Settings -----------------------------------------------------------------------------------
 
         # Medical Bills Files configs ------------------------------------------------------------------------
@@ -186,6 +184,10 @@ class MainApp(QMainWindow):
         self.myrow_count = 0
         # END Table info -------------------------------------------------------------------------------------
 
+        # Initializing log -----------------------------------------------------------------------------------
+        with open('entry_log.log', 'a') as f:
+            f.write('== ' + str(datetime.now().strftime('%d/%m/%Y %H:%M:%S')) + ' ==\n')
+        # END Initializing log -------------------------------------------------------------------------------
 
         self.ui_comp()
 
@@ -248,8 +250,7 @@ class MainApp(QMainWindow):
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
         self.status_bar.setFont(QFont('century gothic', 12))
-        self.status_bar.showMessage(f'Initializing files: "{self.FILE_1}" and "{self.FILE_2}"', 5000)
-
+        self.status_bar.showMessage(f'Initializing files: "{self.FILE_1}" and "{self.FILE_2}"', 7000)
         # END STATUS BAR -----------------------------------------------------------------------------------
 
         # TABLE --------------------------------------------------------------------------------------------
