@@ -29,7 +29,6 @@ class UIMainWindow(QWidget):
     def ui_widgets(self):
         # BIG TITLE ----------------------------------------------------------------------------------------
         self.lbl_title = QLabel('MEDICAL BILLS 2021')  # todo: link this to the excel file name somehow
-        # self.lbl_title = QLabel('Medical Bills 2021')
         self.lbl_title.setObjectName('lbl_header')
         self.lbl_title.setAlignment(Qt.AlignHCenter)
         # END BIG TITLE ------------------------------------------------------------------------------------
@@ -55,7 +54,6 @@ class UIMainWindow(QWidget):
         self.entry_quick_search.setPlaceholderText('Search For Dependant/Staff')
         if self.desktop.width() == 1920:
             self.entry_quick_search.setMinimumWidth(500)
-            # self.entry_quick_search.setMinimumWidth(500)
             # self.entry_quick_search.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred) # trying to allow it to shrink but no good :(
         else:
             self.entry_quick_search.setMinimumWidth(int(round(self.desktop.width() / 3.84, 1)))
@@ -138,7 +136,7 @@ class UIMainWindow(QWidget):
         self.lbl_staff_or_dependant = QLabel('Staff/Dependant Name:')
         self.entry_staff_or_dependant = QLineEdit()
         self.entry_staff_or_dependant.setClearButtonEnabled(True)
-        # self.entry_staff_or_dependant.setValidator(NameInputValidator())
+        # self.entry_staff_or_dependant.setValidator(NameInputValidator())  # Not needed
         self.lbl_amount = QLabel('Amount:')
         self.entry_amount = QLineEdit('GH₵ ')
         self.entry_amount.setValidator(CurrencyInputValidator())
@@ -278,7 +276,7 @@ class UIMainWindow(QWidget):
         self.menu_button_frame = QFrame()
         self.menu_button_frame.setObjectName('menu_btn_frame')
         self.menu_button_frame.setLayout(self.menu_buttons_layout)
-        if self.desktop.height() == 1080:  # maybe not needed??? hmmmm... check later
+        if self.desktop.height() == 1080:  # maybe not needed??? hmmmm... todo: check later
             self.menu_button_frame.setMinimumHeight(12)
         else:
             self.menu_button_frame.setMinimumHeight(int(round(self.desktop.height() / 90, 1)))
@@ -325,7 +323,7 @@ class UIMainWindow(QWidget):
         self.tab1_main_layout.addLayout(self.tab1_month_layout, 5)
         self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
         self.tab1_main_layout.addLayout(self.tab1_quick_search_layout, 1)
-        self.tab1_main_layout.addWidget(QHSeparationLine(), 1)  # todo: need this line to go up a bit
+        self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
         self.tab1_main_layout.addLayout(self.tab1_entry_and_details_main_layout, 51)
 
         self.tab1_main_layout.addWidget(QHSeparationLine(), 1)
