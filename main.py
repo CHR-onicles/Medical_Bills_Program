@@ -667,7 +667,6 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - *  Create separate methods for writing to the log file [HIGH PRIORITY]?? *
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing " input_call='Entry' " [optional]
     #   - Properly evaluate boolean return value from functions [optional]
