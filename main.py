@@ -32,16 +32,18 @@ class Log:
 
     def __init__(self):
         self.initialized_already = False
+        self.LOG_FILE = 'entry_log.log'  # change this when working on test files.
+        # self.LOG_FILE = 'test_entry_log.log'
 
     def initialize(self, file):
         if self.initialized_already is True:
             return
-        with open('entry_log.log', 'a') as f:
+        with open(self.LOG_FILE, 'a') as f:
             f.write('== ' + str(datetime.now().strftime('%d/%m/%Y %H:%M:%S')) + f' -> {file}' + ' ==')
         self.initialized_already = True
 
     def add_entry(self, entry, is_redo=False):
-        with open('entry_log.log', 'a') as f:
+        with open(self.LOG_FILE, 'a') as f:
             f.write(str(entry))  if (is_redo or self.undo_called) is True else f.write('\n' + str(entry))
         self.undo_called = False
 
@@ -49,7 +51,7 @@ class Log:
         """
         Deleting last line in file: (https://stackoverflow.com/questions/1877999/delete-final-line-in-file-with-python)
         """
-        with open('entry_log.log', "r+",) as file:
+        with open(self.LOG_FILE, "r+",) as file:
             # Move the pointer to the end of the file
             file.seek(0, os.SEEK_END)
             # Go one step back from the last newline character at EOF
@@ -66,7 +68,7 @@ class Log:
 
     def terminate(self):
         if self.initialized_already is True:
-            with open('entry_log.log', 'a') as f:
+            with open(self.LOG_FILE, 'a') as f:
                 f.write('=' * 150 + '\n\n') if self.undo_called is True else f.write('\n' + '='*150 + '\n\n')
 
 
@@ -123,7 +125,7 @@ class MainApp(QMainWindow):
         # Files to use for faster reference:
         # test med bills 2021.xlsx
         # MEDICAL BILLS 2021.xlsx
-        self.FILE_1, self.FILE_2 = 'test med bills 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx'
+        self.FILE_1, self.FILE_2 = 'MEDICAL BILLS 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx'
         self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initialize_files(self.FILE_1, self.FILE_2)
         print(f'Working with: "{self.FILE_1}" and "{self.FILE_2}"')  # For testing and debugging
         self.all_names_and_dept = MBillsFunctions.get_all_med_bills_names_and_dept(self.wkbk_med_bills)
