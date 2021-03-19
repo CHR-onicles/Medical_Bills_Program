@@ -30,9 +30,9 @@ class Log:
     """
     undo_called = False
 
-    def __init__(self):
+    def __init__(self, log_file):
         self.initialized_already = False
-        self.LOG_FILE = 'entry_log.log'  # change this when working on test files.
+        self.LOG_FILE = log_file  # change this when working on test files.
         # self.LOG_FILE = 'test_entry_log.log'
 
     def initialize(self, file):
@@ -125,7 +125,7 @@ class MainApp(QMainWindow):
         # Files to use for faster reference:
         # test med bills 2021.xlsx
         # MEDICAL BILLS 2021.xlsx
-        self.FILE_1, self.FILE_2 = 'MEDICAL BILLS 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx'
+        self.FILE_1, self.FILE_2 = 'test med bills 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx'
         self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initialize_files(self.FILE_1, self.FILE_2)
         print(f'Working with: "{self.FILE_1}" and "{self.FILE_2}"')  # For testing and debugging
         self.all_names_and_dept = MBillsFunctions.get_all_med_bills_names_and_dept(self.wkbk_med_bills)
@@ -135,7 +135,14 @@ class MainApp(QMainWindow):
 
 
         # Auto Completer configs -----------------------------------------------------------------------------
+        # import collections
         self.completer = QCompleter([name.split('|')[0] for name in self.all_names_and_dept])
+        # fixme: Duplicate names issue!
+        # l = collections.Counter([name.split('|')[0] for name in self.all_names_and_dept])
+        # for k, v in l.items():
+        #     if v > 1:
+        #         print(k, v)
+
         self.completer.setCaseSensitivity(Qt.CaseInsensitive)
         self.completer.setFilterMode(Qt.MatchContains)
         self.com_delegate = QStyledItemDelegate(self)  # have to do this to set style cuz of some bs thingy...
@@ -236,7 +243,10 @@ class MainApp(QMainWindow):
         # END Table info -------------------------------------------------------------------------------------
 
         # Initializing log -----------------------------------------------------------------------------------
-        self.log = Log()
+        if self.FILE_1 == 'MEDICAL BILLS 2021.xlsx':
+            self.log = Log('entry_log.log')
+        else:
+            self.log = Log('test_log.log')
         # END Initializing log -------------------------------------------------------------------------------
 
         self.ui_comp()
