@@ -135,13 +135,13 @@ class MainApp(QMainWindow):
 
 
         # Auto Completer configs -----------------------------------------------------------------------------
-        # import collections
+        import collections
         self.completer = QCompleter([name.split('|')[0] for name in self.all_names_and_dept])
         # fixme: Duplicate names issue!
-        # l = collections.Counter([name.split('|')[0] for name in self.all_names_and_dept])
-        # for k, v in l.items():
-        #     if v > 1:
-        #         print(k, v)
+        l = collections.Counter([name.split('|')[0] for name in self.all_names_and_dept])
+        for k, v in l.items():
+            if v > 1:
+                print(k, v)
 
         self.completer.setCaseSensitivity(Qt.CaseInsensitive)
         self.completer.setFilterMode(Qt.MatchContains)
