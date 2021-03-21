@@ -138,10 +138,10 @@ class MainApp(QMainWindow):
         import collections
         self.completer = QCompleter([name.split('|')[0] for name in self.all_names_and_dept])
         # fixme: Duplicate names issue!
-        l = collections.Counter([name.split('|')[0] for name in self.all_names_and_dept])
-        for k, v in l.items():
-            if v > 1:
-                print(k, v)
+        # l = collections.Counter([name.split('|')[0] for name in self.all_names_and_dept])
+        # for k, v in l.items():
+        #     if v > 1:
+        #         print(k, v)
 
         self.completer.setCaseSensitivity(Qt.CaseInsensitive)
         self.completer.setFilterMode(Qt.MatchContains)
@@ -677,6 +677,7 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
+    #   - Undo specific entry by right-clicking on row in table (update entry log - OPTIONAL)
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing " input_call='Entry' " [optional]
     #   - Properly evaluate boolean return value from functions [optional]
