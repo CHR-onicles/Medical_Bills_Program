@@ -1,6 +1,6 @@
 # 3rd party packages
 from PyQt5.QtCore import (Qt)
-from PyQt5.QtGui import (QPixmap, QIcon, QFontDatabase)
+from PyQt5.QtGui import (QPixmap, QIcon, QFontDatabase, QKeySequence)
 from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QDesktopWidget, QFrame, QSizePolicy,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QTableWidget, QHeaderView)
 
@@ -77,7 +77,8 @@ class UIMainWindow(QWidget):
         self.btn_undo.setIcon(undo_icon)
         self.btn_undo.setToolTip('<b>Undo</b> (Ctrl+Z)')
         # self.btn_undo.setStatusTip('Undo last entry')
-        self.btn_undo.setShortcut('Ctrl+Z')
+        # self.btn_undo.setShortcut('Ctrl+Z')
+        self.btn_undo.setShortcut(QKeySequence.Undo)
         self.btn_undo.setObjectName('menu_button')
         self.btn_undo.setCursor(Qt.PointingHandCursor)
 
@@ -88,7 +89,8 @@ class UIMainWindow(QWidget):
         self.btn_redo.setIcon(QIcon(redo_icon))
         self.btn_redo.setToolTip('<b>Redo</b> (Ctrl+Y)')
         # self.btn_redo.setStatusTip('Redo undone entry')
-        self.btn_redo.setShortcut('Ctrl+Y')
+        # self.btn_redo.setShortcut('Ctrl+Y')
+        self.btn_redo.setShortcut(QKeySequence.Redo)
         self.btn_redo.setObjectName('menu_button')
         self.btn_redo.setCursor(Qt.PointingHandCursor)
 
@@ -110,7 +112,8 @@ class UIMainWindow(QWidget):
         self.btn_save.setIcon(save_icon)
         self.btn_save.setToolTip('<b>Save</b> (Ctrl+S)')
         # self.btn_save.setStatusTip('Save changes to database')
-        self.btn_save.setShortcut('Ctrl+S')
+        # self.btn_save.setShortcut('Ctrl+S')
+        self.btn_save.setShortcut(QKeySequence.Save)
         self.btn_save.setObjectName('menu_button')
         self.btn_save.setCursor(Qt.PointingHandCursor)
 
@@ -121,7 +124,8 @@ class UIMainWindow(QWidget):
         self.btn_refresh.setIcon(refresh_icon)
         self.btn_refresh.setToolTip('<b>Refresh</b> (Ctrl+R)')
         self.btn_refresh.setStatusTip('Refresh current page')
-        self.btn_refresh.setShortcut('Ctrl+R')
+        # self.btn_refresh.setShortcut('Ctrl+R')
+        self.btn_refresh.setShortcut(QKeySequence.Refresh)
         self.btn_refresh.setObjectName('menu_button')
         self.btn_refresh.setCursor(Qt.PointingHandCursor)
 

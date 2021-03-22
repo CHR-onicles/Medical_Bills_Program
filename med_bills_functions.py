@@ -364,6 +364,44 @@ class MBillsFunctions:
 
 
     @staticmethod
+    def undo_specific_entry(wkbk, sheet, person: str, status: str, offset_col):
+        """
+        Static method to undo a specific entry.
+
+        :param wkbk: Medical Bills Workbook.
+
+        :param sheet: Department of staff.
+
+        :param person: Staff name.
+
+        :param status: Relationship of person to staff.
+
+        :param offset_col: Offset for month of entry.
+        """
+        wb = wkbk
+        sht = wb[sheet]
+        status_dict = {'STAFF': 0, 'GUEST': 0, 'CASUAL': 0, 'CHILD': 1, 'SPOUSE': 2}
+        offset_row = status_dict[status]
+
+        for row in sht.iter_rows(min_row=4, max_row=500, min_col=1, max_col=1):
+            for cell in row:
+                if cell.value == person:
+                    a_cell = cell.offset(row=offset_row, column=offset_col)
+                    if a_cell.value == 0:
+                        raise Exception('Cell is already at default value!')
+                    elif ('=' and '+') in a_cell.value:  # multiple amounts entered
+                        total_amount = a_cell.value.split('+')
+                        last_amount = total_amount.pop()
+                        rest_of_amount = '+'.join(total_amount)
+                        a_cell.value = rest_of_amount
+                        return True
+                    elif '=' in a_cell.value:  # just one amount entered
+                        cur_amount = a_cell.value
+                        a_cell.value = 0
+                        return True
+
+
+    @staticmethod
     def redo_entry():
         """
         Static method to redo a previously undone entry.

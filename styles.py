@@ -98,9 +98,11 @@ QProgressBar::chunk:horizontal {
 QToolTip
 {   
     font: 9pt segoe UI;
-    border: 1px solid #3A3939;
+    /* border: 1px solid #3A3939; - original color...cant even see it */
+    border: 1px solid silver;
+    border-radius: 5px;
     /* background-color: rgb(90, 102, 117); original colour...not nice*/
-    background-color: #444;
+    background-color: #3A3939; /* COINCIDENCE I promise */
     color: white;
     padding: 3px;
     opacity: 200; /* the frick does this do? cuz I don't see anything*/

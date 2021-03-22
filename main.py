@@ -4,10 +4,10 @@ import sys
 from datetime import datetime
 
 # 3rd Party imports
-# from icecream import ic
+from icecream import ic
 from PyQt5.QtCore import (Qt, QSettings, QSize, QPoint)
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QComboBox, QCompleter,QMessageBox, QTableWidgetItem,
-                             QStyledItemDelegate, QAbstractItemView, QStatusBar)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QComboBox, QCompleter, QMessageBox, QTableWidgetItem,
+                             QStyledItemDelegate, QAbstractItemView, QStatusBar, QAction)
 from PyQt5.QtGui import (QIcon, QFont)
 
 # Local imports
@@ -21,7 +21,7 @@ from UI_main_window import UIMainWindow
 
 
 # icecream debugging configs
-# ic.configureOutput(includeContext=True)
+ic.configureOutput(includeContext=True)
 
 
 class Log:
@@ -240,6 +240,12 @@ class MainApp(QMainWindow):
         # Table info -----------------------------------------------------------------------------------------
         self.myrow_data = []
         self.myrow_count = 0
+
+        self.UI.table_last_edit.setContextMenuPolicy(Qt.ActionsContextMenu)
+        remove_action = QAction('Remove Entry \t', self.UI.table_last_edit)  # '\t' quick fix for text not being centered automatically
+        remove_action.setFont(QFont('segoe UI'))
+        self.UI.table_last_edit.addAction(remove_action)
+        remove_action.triggered.connect(self.remove_particular_entry)
         # END Table info -------------------------------------------------------------------------------------
 
         # Initializing log -----------------------------------------------------------------------------------
@@ -504,10 +510,10 @@ class MainApp(QMainWindow):
                     # ic('entered guest')
                     dept = MBillsFunctions.get_department_from_name(person_typed, self.all_names_and_dept)
                     MBillsFunctions.insert_amount_into_med_bills(self.wkbk_med_bills, person_typed, dept, offset_col, 0,
-                                                             amount)
-                    self.myrow_data.append([person_typed, 'GUEST' if 'GUEST' in dept else 'CAUSAL',
+                                                                 amount)
+                    self.myrow_data.append([person_typed, 'GUEST' if 'GUEST' in dept else 'CASUAL',
                                             'None', 'None', self.UI.combo_months.currentText()[0:3].upper(),
-                                            'GUEST' if 'GUEST' in dept else 'CAUSAL',  f'{float(amount):.2f}'
+                                            'GUEST' if 'GUEST' in dept else 'CASUAL',  f'{float(amount):.2f}'
                                             ])
                     self.update_table()
 
@@ -578,6 +584,7 @@ class MainApp(QMainWindow):
                     combo_temp = QComboBox()
                     if 'None' in self.myrow_data[0][4]:
                         combo_temp.addItem('None')
+                        combo_temp.setDisabled(True)
                     else:
                         if 'CHILD' in self.myrow_data[0]:
                             temp_index = self.myrow_data[0][4].index(self.UI.entry_staff_or_dependant.text())
@@ -603,6 +610,31 @@ class MainApp(QMainWindow):
         self.myrow_data.clear()
         # stop = datetime.now()
         # print('Time taken to update table:', stop - start)
+
+
+    def remove_particular_entry(self):
+        """
+        Method to remove/reverse/undo specific entries provided by a context menu.
+        """
+        # todo: number of rows in table is same as a batch in entry log so use that to seek to that location and remove a row
+        # start = datetime.now()
+        selected_row = self.UI.table_last_edit.currentRow()
+        for col in range(self.UI.table_last_edit.columnCount()):
+            if col == 1:
+                staff_name = self.UI.table_last_edit.item(selected_row, col).text()
+                # print('Staff:', staff_name)
+            if col == 6:
+                status = self.UI.table_last_edit.item(selected_row, col).text()
+                # print('Status:', status)
+        department = MBillsFunctions.get_department_from_name(staff_name, self.all_names_and_dept)
+        # print('Department:', department)
+        MBillsFunctions.undo_specific_entry(self.wkbk_med_bills, department, staff_name, status,
+                                            self.months[self.UI.combo_months.currentText()])
+        self.UI.table_last_edit.removeRow(selected_row)
+        self.populate_staff_details(staff_name, 'Entry')
+
+        # stop = datetime.now()
+        # ic('Time taken for specific undo:', stop-start)
 
 
     def refresh(self):
