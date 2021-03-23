@@ -36,6 +36,9 @@ class Log:
         # self.LOG_FILE = 'test_entry_log.log'
 
     def initialize(self, file):
+        """
+        Method to signify start of batch entries by a timestamp and name of the database file.
+        """
         if self.initialized_already is True:
             return
         with open(self.LOG_FILE, 'a') as f:
@@ -43,8 +46,11 @@ class Log:
         self.initialized_already = True
 
     def add_entry(self, entry, is_redo=False):
+        """
+        Method to add an entry to log file
+        """
         with open(self.LOG_FILE, 'a') as f:
-            f.write(str(entry))  if (is_redo or self.undo_called) is True else f.write('\n' + str(entry))
+            f.write(str(entry)) if (is_redo or self.undo_called) is True else f.write('\n' + str(entry))
         self.undo_called = False
 
     def undo_entry(self):
@@ -66,7 +72,18 @@ class Log:
                 file.truncate()
                 self.undo_called = True
 
+    def undo_specific_entry(self):
+        """
+        Method to remove a specific row(entry) from a batch of entries.
+        """
+        pass
+        # Todo: Use code from undo_entry()
+
+
     def terminate(self):
+        """
+        Method to end signify end of a batch of entries with '='.
+        """
         if self.initialized_already is True:
             with open(self.LOG_FILE, 'a') as f:
                 f.write('=' * 150 + '\n\n') if self.undo_called is True else f.write('\n' + '='*150 + '\n\n')
@@ -76,7 +93,8 @@ class Log:
 
 
 
-
+# todo: add global variables here to track total rows and specific row where undo was clicked on
+#   to use in Log Class.
 class MainApp(QMainWindow):
     """
     App configurations.
@@ -632,6 +650,7 @@ class MainApp(QMainWindow):
                                             self.months[self.UI.combo_months.currentText()])
         self.UI.table_last_edit.removeRow(selected_row)
         self.populate_staff_details(staff_name, 'Entry')
+        self.log.undo_specific_entry()
 
         # stop = datetime.now()
         # ic('Time taken for specific undo:', stop-start)
