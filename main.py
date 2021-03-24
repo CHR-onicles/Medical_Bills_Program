@@ -78,8 +78,8 @@ class Log:
         """
         global global_specific_row, global_all_entries
         row = global_specific_row - 1
-        print(global_all_entries)
-        print('Row:', row)
+        # print(global_all_entries)
+        # print('Row:', row)
         # print(global_all_entries)
         with open(self.LOG_FILE, 'r') as file:
             lines = file.readlines()
@@ -87,6 +87,7 @@ class Log:
             for line in lines:
                 if line.strip('\n') != str(global_all_entries[row]):
                     file.write(line)
+                    # fixme: bug here where it creates a newline if this function is called on the last entry.
             print('Deleting:', str(global_all_entries[row]))
             del global_all_entries[row]
 
@@ -648,7 +649,7 @@ class MainApp(QMainWindow):
         Method to remove/reverse/undo specific entries provided by a context menu.
         """
         global global_specific_row
-        start = datetime.now()
+        # start = datetime.now()
         selected_row = self.UI.table_last_edit.currentRow()
         global_specific_row = selected_row
         for col in range(self.UI.table_last_edit.columnCount()):
@@ -666,9 +667,10 @@ class MainApp(QMainWindow):
         self.populate_staff_details(staff_name, 'Entry')
         self.log.undo_specific_entry()
         self.UI.btn_undo.setDisabled(True)
+        self.UI.btn_redo.setDisabled(True)
 
-        stop = datetime.now()
-        ic('Time taken for specific undo:', stop-start)
+        # stop = datetime.now()
+        # ic('Time taken for specific undo:', stop-start)
 
 
     def refresh(self):
@@ -734,9 +736,11 @@ class MainApp(QMainWindow):
         """
         Helper function to remove hidden rows in table for accurate results in other calculations.
         """
+        global global_all_entries
         for i in range(self.UI.table_last_edit.rowCount()):
             if self.UI.table_last_edit.isRowHidden(i):
                 self.UI.table_last_edit.removeRow(i)
+                del global_all_entries[i - 1]  # to keep visible rows and entries aligned
 
 
 
@@ -749,7 +753,6 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - Undo specific entry by right-clicking on row in table (update entry log - OPTIONAL)
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing " input_call='Entry' " [optional]
     #   - Properly evaluate boolean return value from functions [optional]
