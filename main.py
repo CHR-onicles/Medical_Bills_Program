@@ -76,9 +76,19 @@ class Log:
         """
         Method to remove a specific row(entry) from a batch of entries.
         """
-        pass
-        # Todo: Use code from undo_entry()
-
+        global global_specific_row, global_all_entries
+        row = global_specific_row - 1
+        print(global_all_entries)
+        print('Row:', row)
+        # print(global_all_entries)
+        with open(self.LOG_FILE, 'r') as file:
+            lines = file.readlines()
+        with open(self.LOG_FILE, 'w') as file:
+            for line in lines:
+                if line.strip('\n') != str(global_all_entries[row]):
+                    file.write(line)
+            print('Deleting:', str(global_all_entries[row]))
+            del global_all_entries[row]
 
     def terminate(self):
         """
@@ -93,8 +103,11 @@ class Log:
 
 
 
-# todo: add global variables here to track total rows and specific row where undo was clicked on
-#   to use in Log Class.
+# Global variables
+global_specific_row = 0
+global_all_entries = []
+
+
 class MainApp(QMainWindow):
     """
     App configurations.
@@ -257,7 +270,6 @@ class MainApp(QMainWindow):
 
         # Table info -----------------------------------------------------------------------------------------
         self.myrow_data = []
-        self.myrow_count = 0
 
         self.UI.table_last_edit.setContextMenuPolicy(Qt.ActionsContextMenu)
         remove_action = QAction('Remove Entry \t', self.UI.table_last_edit)  # '\t' quick fix for text not being centered automatically
@@ -543,6 +555,7 @@ class MainApp(QMainWindow):
             self.UI.btn_redo.setEnabled(False)
             self.undo_clicked_already = 0
             self.UI.entry_staff_or_dependant.setFocus()
+            self.remove_hidden_rows()
 
             self.status_bar.showMessage('Entry entered successfully...', 2000)
 
@@ -558,7 +571,7 @@ class MainApp(QMainWindow):
         Method to undo an entry.
         """
         if MBillsFunctions.undo_entry():
-            self.hidden_row = self.myrow_count
+            self.hidden_row = self.UI.table_last_edit.rowCount() - 1
             self.UI.table_last_edit.hideRow(self.hidden_row)
             if len(med_bills_functions.UNDO_ENTRY_HISTORY) == 0:
                 self.UI.btn_undo.setEnabled(False)
@@ -580,7 +593,6 @@ class MainApp(QMainWindow):
             self.status_bar.showMessage('Entry redone successfully...', 3000)
             self.UI.btn_redo.setEnabled(False)
             self.UI.btn_undo.setEnabled(False)
-            self.myrow_count = self.UI.table_last_edit.rowCount() - 1
             self.populate_staff_details(self.myrow_data_for_undo_redo[1], input_call='Entry')
             self.UI.entry_quick_search.clear()
             self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 1, 7)
@@ -591,9 +603,9 @@ class MainApp(QMainWindow):
         """
         Method to update the table after an insertion to the Med Bills workbook has been made.
         """
+        global global_all_entries
         start = datetime.now()  # DONT COMMENT OUT
         if self.myrow_data:  # check if row data is not empty
-            self.myrow_count += 1
             self.UI.table_last_edit.insertRow(self.UI.table_last_edit.rowCount())  # add row at location of last row
             row = self.UI.table_last_edit.rowCount() - 1
             self.myrow_data[0].insert(0, str(start.strftime('%H:%M:%S')))
@@ -606,7 +618,6 @@ class MainApp(QMainWindow):
                     else:
                         if 'CHILD' in self.myrow_data[0]:
                             temp_index = self.myrow_data[0][4].index(self.UI.entry_staff_or_dependant.text())
-                            # print(temp_index)
                             self.myrow_data[0][4][0], self.myrow_data[0][4][temp_index] \
                                 = self.myrow_data[0][4][temp_index], self.myrow_data[0][4][0]
 
@@ -619,7 +630,9 @@ class MainApp(QMainWindow):
             self.UI.table_last_edit.item(row, 6).setFont(QFont('century gothic', 11))
             self.UI.table_last_edit.item(row, 6).setTextAlignment(Qt.AlignTop)
             self.UI.table_last_edit.setCurrentCell(row, 7)
+
         self.myrow_data_for_undo_redo = self.myrow_data[0]  # a copy of the list for undo and redo functions to use
+        global_all_entries.append(self.myrow_data[0])
 
         # Logging added entry (for debugging)
         self.log.initialize(self.FILE_1)
@@ -634,9 +647,10 @@ class MainApp(QMainWindow):
         """
         Method to remove/reverse/undo specific entries provided by a context menu.
         """
-        # todo: number of rows in table is same as a batch in entry log so use that to seek to that location and remove a row
-        # start = datetime.now()
+        global global_specific_row
+        start = datetime.now()
         selected_row = self.UI.table_last_edit.currentRow()
+        global_specific_row = selected_row
         for col in range(self.UI.table_last_edit.columnCount()):
             if col == 1:
                 staff_name = self.UI.table_last_edit.item(selected_row, col).text()
@@ -651,9 +665,10 @@ class MainApp(QMainWindow):
         self.UI.table_last_edit.removeRow(selected_row)
         self.populate_staff_details(staff_name, 'Entry')
         self.log.undo_specific_entry()
+        self.UI.btn_undo.setDisabled(True)
 
-        # stop = datetime.now()
-        # ic('Time taken for specific undo:', stop-start)
+        stop = datetime.now()
+        ic('Time taken for specific undo:', stop-start)
 
 
     def refresh(self):
@@ -715,7 +730,13 @@ class MainApp(QMainWindow):
         if widget is not None:
             widget.setStyleSheet('border: 1px solid #78879b;')
 
-
+    def remove_hidden_rows(self):
+        """
+        Helper function to remove hidden rows in table for accurate results in other calculations.
+        """
+        for i in range(self.UI.table_last_edit.rowCount()):
+            if self.UI.table_last_edit.isRowHidden(i):
+                self.UI.table_last_edit.removeRow(i)
 
 
 
