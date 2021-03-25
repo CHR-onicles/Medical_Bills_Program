@@ -83,13 +83,24 @@ class Log:
         # print(global_all_entries)
         with open(self.LOG_FILE, 'r') as file:
             lines = file.readlines()
-        with open(self.LOG_FILE, 'w') as file:
+        with open(self.LOG_FILE, 'w+') as file:
             for line in lines:
                 if line.strip('\n') != str(global_all_entries[row]):
                     file.write(line)
-                    # fixme: bug here where it creates a newline if this function is called on the last entry.
-            print('Deleting:', str(global_all_entries[row]))
+            if row == len(global_all_entries) - 1:
+                file.seek(0, os.SEEK_END)
+                pos = file.tell()
+                char = ']' if row != 0 else '='
+                while pos > 0 and file.read(1) != char:
+                    pos -= 1
+                    file.seek(pos, os.SEEK_SET)
+                if pos > 0:
+                    file.seek(pos+1, os.SEEK_SET)
+                    file.truncate()
+                    # fixme: bug here where it sometimes doesn't delete the first person after multiple entries
+
             del global_all_entries[row]
+            print(global_all_entries)
 
     def terminate(self):
         """
