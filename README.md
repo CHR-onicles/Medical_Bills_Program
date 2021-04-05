@@ -30,3 +30,4 @@ be edited before releasing. It should be known that the app **depends heavily** 
 >- Contact:    &ensp;&emsp;&emsp;tpandivine48@gmail.com
 >- Executable: &emsp;&nbsp;[First Release](https://github.com/CHR-onicles/Medical_Bills_Program/releases/tag/v1.0)
 >- Credit:     &emsp;&emsp;&nbsp;&emsp;Darktheme provided by [Colin Duquesnoy](https://github.com/ColinDuquesnoy)
+>- Credit:           Darktheme provided by [Colin Duquesnoy](https://github.com/ColinDuquesnoy)
