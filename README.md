@@ -20,7 +20,7 @@ reading and writing operations are **rigid** and will only work properly given t
 ## App Demo:
 [Short demo](https://imgur.com/3FAxKkB)
 
-## PS:
+## NB:
 > The actual databases used cannot be released **publicly** as they contain **private** information. They'll have to
 be edited before releasing. It should be known that the app **depends heavily** on the databases to function at all.
 
@@ -30,4 +30,3 @@ be edited before releasing. It should be known that the app **depends heavily** 
 >- Contact:    &ensp;&emsp;&emsp;tpandivine48@gmail.com
 >- Executable: &emsp;&nbsp;[First Release](https://github.com/CHR-onicles/Medical_Bills_Program/releases/tag/v1.0)
 >- Credit:     &emsp;&emsp;&nbsp;&emsp;Darktheme provided by [Colin Duquesnoy](https://github.com/ColinDuquesnoy)
->- Credit:           Darktheme provided by [Colin Duquesnoy](https://github.com/ColinDuquesnoy)
