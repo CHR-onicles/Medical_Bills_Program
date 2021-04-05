@@ -26,7 +26,7 @@ be edited before releasing. It should be known that the app **depends heavily** 
 
 
 ## About:
->- Author:     Divine Anum
->- Contact:    tpandivine48@gmail.com
->- Executable: [First Release](https://github.com/CHR-onicles/Medical_Bills_Program/releases/tag/v1.0)
->- Credit:     Darktheme provided by [Colin Duquesnoy](https://github.com/ColinDuquesnoy)
+>- Author:     &emsp;&emsp;&emsp;Divine Anum
+>- Contact:    &ensp;&emsp;&emsp;tpandivine48@gmail.com
+>- Executable: &emsp;[First Release](https://github.com/CHR-onicles/Medical_Bills_Program/releases/tag/v1.0)
+>- Credit:     &emsp;&emsp;&nbsp;&emsp;Darktheme provided by [Colin Duquesnoy](https://github.com/ColinDuquesnoy)
