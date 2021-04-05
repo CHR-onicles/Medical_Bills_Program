@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## v1.0.4 - March 21, 2021 (LATEST)
+## v1.1.0 - April 5, 2021 (LATEST)
+- Minor bug fixes.
 - Restyled tool tips.
-- Added option to remove/undo a specific entry from the table history.
-- Added Changelog.
+- Added option to **remove/undo** a **specific entry** from the table history.
+- Added a log file to track entries.
+- Added a Changelog.

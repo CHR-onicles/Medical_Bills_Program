@@ -4,7 +4,7 @@ import sys
 from datetime import datetime
 
 # 3rd Party imports
-from icecream import ic
+# from icecream import ic
 from PyQt5.QtCore import (Qt, QSettings, QSize, QPoint)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QComboBox, QCompleter, QMessageBox, QTableWidgetItem,
                              QStyledItemDelegate, QAbstractItemView, QStatusBar, QAction)
@@ -21,7 +21,7 @@ from UI_main_window import UIMainWindow
 
 
 # icecream debugging configs
-ic.configureOutput(includeContext=True)
+# ic.configureOutput(includeContext=True)
 
 
 class Log:
@@ -47,10 +47,12 @@ class Log:
 
     def add_entry(self, entry, is_redo=False):
         """
-        Method to add an entry to log file
+        Method to add an entry to log file.
         """
         with open(self.LOG_FILE, 'a') as f:
-            f.write(str(entry)) if (is_redo or self.undo_called) is True else f.write('\n' + str(entry))
+            # line below is not creating newline after undo on Win 8.1(Target PC)
+            # f.write(str(entry)) if (is_redo or self.undo_called) is True else f.write('\n' + str(entry))
+            f.write('\n' + str(entry))
         self.undo_called = False
 
     def undo_entry(self):
@@ -98,9 +100,10 @@ class Log:
                     file.seek(pos+1, os.SEEK_SET)
                     file.truncate()
                     # fixme: bug here where it sometimes doesn't delete the first person after multiple entries
+                    #   - bug not occuring on Win 8.1 VM (target PC)... so maybe ignore...
 
             del global_all_entries[row]
-            print(global_all_entries)
+            # print(global_all_entries)
 
     def terminate(self):
         """
@@ -764,6 +767,9 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
+    #   - Check newline after initializing line in test log on windows 8 and make special case for it...or redo the whole newline thing there
+    #   - Update highlighted field after redo-ing to the person whose information was entered.
+    #   - Update README with img links for preview in Pycharm
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing " input_call='Entry' " [optional]
     #   - Properly evaluate boolean return value from functions [optional]

@@ -4,7 +4,7 @@ def main_window_style():
         font-family: century gothic;
     }
     
-    QLabel, QLineEdit, QLineEdit, QTabBar, QPushButton, QComboBox {
+    QLabel, QLineEdit, QTabBar, QPushButton, QComboBox {
         font-size: 15pt;
     }
     

@@ -1,8 +1,3 @@
-"""
-Author: CHR-onicles
-Date: 20/01/21
-"""
-
 from PyQt5.QtGui import QValidator
 from PyQt5.QtWidgets import QFrame, QSizePolicy, QWidget
 # from icecream import ic
