@@ -7,7 +7,7 @@
 >- openpyxl~=3.0.6
 
 ## Description:
->- This is a receipt entry app(will be expanded with more capabilities) that makes use of two specific *pre-formatted*
+> This is a receipt entry app(will be expanded with more capabilities) that makes use of two specific *pre-formatted*
 and *pre-filled* databases. It was custom-made to meet the needs of a nurse at a specific organization and most of the
 reading and writing operations are **rigid** and will only work properly given the right databases and environments in
 **Ms Excel**.
@@ -28,5 +28,5 @@ be edited before releasing. It should be known that the app **depends heavily** 
 ## About:
 >- Author:     &emsp;&emsp;&emsp;Divine Anum
 >- Contact:    &ensp;&emsp;&emsp;tpandivine48@gmail.com
->- Executable: &emsp;[First Release](https://github.com/CHR-onicles/Medical_Bills_Program/releases/tag/v1.0)
+>- Executable: &emsp;&nbsp;[First Release](https://github.com/CHR-onicles/Medical_Bills_Program/releases/tag/v1.0)
 >- Credit:     &emsp;&emsp;&nbsp;&emsp;Darktheme provided by [Colin Duquesnoy](https://github.com/ColinDuquesnoy)
