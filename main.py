@@ -612,6 +612,14 @@ class MainApp(QMainWindow):
             self.UI.entry_quick_search.clear()
             self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 1, 7)
             self.log.add_entry(self.myrow_data_for_undo_redo, is_redo=True)
+            status = self.UI.table_last_edit.item(self.UI.table_last_edit.rowCount()-1, 6).text()
+            if status == 'STAFF':
+                self.set_border_highlight_switch(self.UI.entry_staff_name)
+            elif status == 'SPOUSE':
+                self.set_border_highlight_switch(self.UI.entry_spouse)
+            elif status == 'CHILD':
+                self.set_border_highlight_switch(self.UI.combo_children)
+            # No else statement to prevent unforeseen occurences.
 
 
     def update_table(self):
@@ -767,9 +775,7 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - Check newline after initializing line in test log on windows 8 and make special case for it...or redo the whole newline thing there
     #   - Update highlighted field after redo-ing to the person whose information was entered.
-    #   - Update README with img links for preview in Pycharm
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing " input_call='Entry' " [optional]
     #   - Properly evaluate boolean return value from functions [optional]

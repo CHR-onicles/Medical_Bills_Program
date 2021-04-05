@@ -17,7 +17,6 @@ class UIMainWindow(QWidget):
         # print('Desktop:', self.desktop.width(), self.desktop.height())
 
         self.ui_components()
-        # self.show()
 
 
     def ui_components(self):
@@ -128,7 +127,6 @@ class UIMainWindow(QWidget):
         self.btn_refresh.setShortcut(QKeySequence.Refresh)
         self.btn_refresh.setObjectName('menu_button')
         self.btn_refresh.setCursor(Qt.PointingHandCursor)
-
         # END Menu buttons ---------------------------------------------------------------------------------
 
 
@@ -140,7 +138,7 @@ class UIMainWindow(QWidget):
         self.lbl_staff_or_dependant = QLabel('Staff/Dependant Name:')
         self.entry_staff_or_dependant = QLineEdit()
         self.entry_staff_or_dependant.setClearButtonEnabled(True)
-        # self.entry_staff_or_dependant.setValidator(NameInputValidator())  # Not needed
+        # self.entry_staff_or_dependant.setValidator(NameInputValidator())  # Not needed but don't delete this comment
         self.lbl_amount = QLabel('Amount:')
         self.entry_amount = QLineEdit('GH₵ ')
         self.entry_amount.setValidator(CurrencyInputValidator())
@@ -150,7 +148,6 @@ class UIMainWindow(QWidget):
         self.btn_submit.setStatusTip('Submit entry into database')
         self.btn_submit.setObjectName('btn_submit')
         self.btn_submit.setCursor(Qt.PointingHandCursor)
-
         # END Entry from Receipt Widgets -------------------------------------------------------------------
 
 
@@ -237,7 +234,6 @@ class UIMainWindow(QWidget):
         self.table_last_edit.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
         self.table_last_edit.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)
         self.table_last_edit.setRowHeight(0, 60)
-
         # END TABLE ----------------------------------------------------------------------------------------
 
 
