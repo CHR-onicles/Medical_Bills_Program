@@ -31,7 +31,7 @@ setup(
     author='Divine Anum',
     author_email='tpandivine48@gmail.com',
     url='https://github.com/CHR-onicles/Medical_Bills_Program',
-    description='App to speed up the process of entering medical bills claims/receipts into a preformatted excel database.',
+    description='App to speed up entry of medical bills claims/receipts into a preformatted excel database.',
     options={'build_exe': build_options},
     executables=executables)
 

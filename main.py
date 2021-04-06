@@ -775,7 +775,6 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - Update app screenshots for to update version being seen.
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing " input_call='Entry' " [optional]
     #   - Properly evaluate boolean return value from functions [optional]
