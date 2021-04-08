@@ -32,8 +32,7 @@ class Log:
 
     def __init__(self, log_file):
         self.initialized_already = False
-        self.LOG_FILE = log_file  # change this when working on test files.
-        # self.LOG_FILE = 'test_entry_log.log'
+        self.LOG_FILE = log_file  # this changes when working on test files.
 
     def initialize(self, file):
         """
@@ -775,6 +774,8 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
+    #   - Create exe for v1.1
+    #   - Fix Duplicate name issue
     #   - Change pink titles to groupboxes [optional -> New Feature]
-    #   - Find a better way of doing " input_call='Entry' " [optional]
+    #   - Find a better way of doing "input_call='Entry'" [optional]
     #   - Properly evaluate boolean return value from functions [optional]
