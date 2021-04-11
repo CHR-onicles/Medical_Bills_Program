@@ -7,9 +7,9 @@
 >- openpyxl~=3.0.6
 
 ## Description:
-> This is a receipt entry app(will be expanded with more capabilities) that makes use of two specific *pre-formatted*
+> This is a receipt entry app that makes use of two specific *pre-formatted*
 and *pre-filled* databases. It was custom-made to meet the needs of a nurse at a specific organization and most of the
-reading and writing operations are **rigid** and will only work properly given the right databases and environments in
+reading and writing operations are **rigid** and will only work properly, given the right databases and environments in
 **Ms Excel**.
 
 ## Screenshots:
