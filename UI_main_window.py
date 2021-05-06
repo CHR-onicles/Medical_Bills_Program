@@ -135,7 +135,7 @@ class UIMainWindow(QWidget):
         self.lbl_entry_from_receipt.setAlignment(Qt.AlignHCenter)
         self.lbl_entry_from_receipt.setObjectName('lbl_titles')
 
-        self.lbl_staff_or_dependant = QLabel('Staff/Dependant Name:')
+        self.lbl_staff_or_dependant = QLabel('Staff/Dependant\nName:')
         self.entry_staff_or_dependant = QLineEdit()
         self.entry_staff_or_dependant.setClearButtonEnabled(True)
         # self.entry_staff_or_dependant.setValidator(NameInputValidator())  # Not needed but don't delete this comment
