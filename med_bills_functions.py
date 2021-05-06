@@ -155,6 +155,7 @@ class MBillsFunctions:
         # ic('Time elapsed for extracting:', (stop - start))
 
         # ------------------------------------------------------------------------------------------------
+        # Debugging:
         # To print out the staff in the Staff List Workbook without Spouses (the causes of the current bug)
         count = 0
         for i, j in staff_details.items():
@@ -162,6 +163,8 @@ class MBillsFunctions:
                 count += 1
                 print(i, j)
         print('length:', count)
+        # ------------------------------------------------------------------------------------------------
+
         return staff_details
 
 
