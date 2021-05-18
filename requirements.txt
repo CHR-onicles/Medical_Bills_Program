@@ -1,3 +1,4 @@
 icecream~=2.1.0
 PyQt5~=5.15.2
 openpyxl~=3.0.6
+cx-Freeze~=6.6
