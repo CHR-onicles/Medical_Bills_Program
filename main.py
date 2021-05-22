@@ -1,6 +1,8 @@
 # Standard library imports
 import os
+import subprocess as sbp
 import sys
+import time
 from datetime import datetime
 
 # 3rd Party imports
@@ -710,6 +712,15 @@ class MainApp(QMainWindow):
         """
         Method to save the Med Bills workbook.
         """
+        # Check if Excel is opened and close it first to prevent file corruption:
+        print('\nChecking if Excel is opened')
+        tasklist = sbp.run('tasklist', shell=True, text=True, capture_output=True)
+        if ('excel.exe' in tasklist.stdout) or ('EXCEL.EXE' in tasklist.stdout):
+            print('Found Excel opened, closing it ASAP!')
+            sbp.run(['taskkill', '/f', '/im', 'excel.exe', '/t'])
+            print('Killed Excel successfully!')
+        time.sleep(1)  # breather before app saves its version of the Excel file.
+
         if MBillsFunctions.save_file(self.wkbk_med_bills):
             self.status_bar.showMessage('Database saved and updated successfully...', 4000)
 
