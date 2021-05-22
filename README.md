@@ -5,6 +5,7 @@
 >- icecream~=2.1.0 (optional - for debugging)
 >- PyQt5~=5.15.2
 >- openpyxl~=3.0.6
+>- cx-Freeze~=6.6
 
 ## Description:
 > This is a receipt entry app that makes use of two specific *pre-formatted*
