@@ -713,6 +713,7 @@ class MainApp(QMainWindow):
         Method to save the Med Bills workbook.
         """
         # Check if Excel is opened and close it first to prevent file corruption:
+        # todo: maybe notify user that all opened Excel files have been closed for above reason
         print('\nChecking if Excel is opened')
         tasklist = sbp.run('tasklist', shell=True, text=True, capture_output=True)
         if ('excel.exe' in tasklist.stdout) or ('EXCEL.EXE' in tasklist.stdout):
@@ -785,7 +786,6 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - Create exe for v1.1
     #   - Fix Duplicate name issue
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing "input_call='Entry'" [optional]
