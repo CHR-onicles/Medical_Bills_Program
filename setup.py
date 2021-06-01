@@ -21,7 +21,7 @@ base = 'Win32GUI' if sys.platform == 'win32' else None
 # base = None  # for debugging (it displays console)
 
 executables = [
-    Executable('main.py', base=base, icon='rc/cat.ico', target_name='Med Bills')
+    Executable('src/main.py', base=base, icon='rc/cat.ico', target_name='Med Bills')
 ]
 
 setup(
