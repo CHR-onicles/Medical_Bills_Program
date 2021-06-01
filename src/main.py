@@ -16,9 +16,12 @@ from PyQt5.QtGui import (QIcon, QFont)
 from _version import __version__
 import med_bills_functions  # to access the global variables
 from med_bills_functions import MBillsFunctions
-import resources_rc  # it's used... just not in the code
 import styles
 from UI_main_window import UIMainWindow
+
+
+sys.path.append("..")  # to include files one level up from this directory
+import resources_rc
 
 
 
@@ -60,7 +63,7 @@ class Log:
         """
         Deleting last line in file: (https://stackoverflow.com/questions/1877999/delete-final-line-in-file-with-python)
         """
-        with open(self.LOG_FILE, "r+",) as file:
+        with open(self.LOG_FILE, "r+", ) as file:
             # Move the pointer to the end of the file
             file.seek(0, os.SEEK_END)
             # Go one step back from the last newline character at EOF
@@ -98,7 +101,7 @@ class Log:
                     pos -= 1
                     file.seek(pos, os.SEEK_SET)
                 if pos > 0:
-                    file.seek(pos+1, os.SEEK_SET)
+                    file.seek(pos + 1, os.SEEK_SET)
                     file.truncate()
                     # fixme: bug here where it sometimes doesn't delete the first person after multiple entries
                     #   - bug not occuring on Win 8.1 VM (target PC)... so maybe ignore...
@@ -112,7 +115,7 @@ class Log:
         """
         if self.initialized_already is True:
             with open(self.LOG_FILE, 'a') as f:
-                f.write('=' * 150 + '\n\n') if self.undo_called is True else f.write('\n' + '='*150 + '\n\n')
+                f.write('=' * 150 + '\n\n') if self.undo_called is True else f.write('\n' + '=' * 150 + '\n\n')
 
 
 
@@ -182,9 +185,9 @@ class MainApp(QMainWindow):
 
 
         # Auto Completer configs -----------------------------------------------------------------------------
-        import collections
         self.completer = QCompleter([name.split('|')[0] for name in self.all_names_and_dept])
         # fixme: Duplicate names issue!
+        # import collections
         # l = collections.Counter([name.split('|')[0] for name in self.all_names_and_dept])
         # for k, v in l.items():
         #     if v > 1:
@@ -193,7 +196,8 @@ class MainApp(QMainWindow):
         self.completer.setCaseSensitivity(Qt.CaseInsensitive)
         self.completer.setFilterMode(Qt.MatchContains)
         self.com_delegate = QStyledItemDelegate(self)  # have to do this to set style cuz of some bs thingy...
-        self.completer.popup().setItemDelegate(self.com_delegate)  # Source: (https://www.qtcentre.org/threads/39268-Styling-a-QAbstractItemView-item)
+        self.completer.popup().setItemDelegate(
+            self.com_delegate)  # Source: (https://www.qtcentre.org/threads/39268-Styling-a-QAbstractItemView-item)
         self.completer.popup().setStyleSheet("""
         QListView {
             font: 10pt century gothic;
@@ -288,7 +292,8 @@ class MainApp(QMainWindow):
         self.myrow_data = []
 
         self.UI.table_last_edit.setContextMenuPolicy(Qt.ActionsContextMenu)
-        remove_action = QAction('Remove Entry \t', self.UI.table_last_edit)  # '\t' quick fix for text not being centered automatically
+        remove_action = QAction('Remove Entry \t',
+                                self.UI.table_last_edit)  # '\t' quick fix for text not being centered automatically
         remove_action.setFont(QFont('segoe UI'))
         self.UI.table_last_edit.addAction(remove_action)
         remove_action.triggered.connect(self.remove_particular_entry)
@@ -297,6 +302,8 @@ class MainApp(QMainWindow):
         # Initializing log -----------------------------------------------------------------------------------
         if self.FILE_1 == 'MEDICAL BILLS 2021.xlsx':
             self.log = Log('entry_log.log')
+            # No need to explicitly state that its "one level up" with "../",
+            # because it's included in Path.
         else:
             self.log = Log('test_log.log')
         # END Initializing log -------------------------------------------------------------------------------
@@ -357,7 +364,6 @@ class MainApp(QMainWindow):
         self.UI.btn_save.clicked.connect(self.save_workbook)
         self.UI.btn_refresh.clicked.connect(self.refresh)
 
-
         # STATUS BAR ---------------------------------------------------------------------------------------
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
@@ -389,7 +395,8 @@ class MainApp(QMainWindow):
             self.populate_staff_details(self.UI.entry_quick_search.text())
         elif self.UI.entry_quick_search.text() == '' and self.UI.table_last_edit.rowCount() == 1:
             return
-        elif self.UI.entry_staff_name.text() == self.UI.table_last_edit.item(self.UI.table_last_edit.rowCount()-1, 1).text():
+        elif self.UI.entry_staff_name.text() == self.UI.table_last_edit.item(self.UI.table_last_edit.rowCount() - 1,
+                                                                             1).text():
             self.populate_staff_details(self.UI.entry_staff_name.text(), input_call='Entry')
             # without an else: return, it still does the job...DONT touch it! 😬 - might not actually be necessary
 
@@ -447,7 +454,7 @@ class MainApp(QMainWindow):
 
                 staff_amt, child_amt, spouse_amt = MBillsFunctions. \
                     get_person_amount_for_month(self.wkbk_med_bills, s_name.title(), self.all_names_and_dept,
-                                            self.months, self.UI.combo_months.currentText())
+                                                self.months, self.UI.combo_months.currentText())
                 self.UI.entry_cur_amount1.setText(str(staff_amt))
                 self.UI.entry_cur_amount2.setText(str(spouse_amt))
                 self.UI.entry_cur_amount3.setText(str(child_amt))
@@ -457,8 +464,8 @@ class MainApp(QMainWindow):
                 if guest_or_casual is not None:
                     staff_amt, child_amt, spouse_amt = MBillsFunctions. \
                         get_person_amount_for_month(self.wkbk_med_bills, guest_or_casual.split('|')[0],
-                                                self.all_names_and_dept, self.months,
-                                                self.UI.combo_months.currentText())
+                                                    self.all_names_and_dept, self.months,
+                                                    self.UI.combo_months.currentText())
                     if 'GUEST' in guest_or_casual.split('|')[1]:
                         self.UI.lbl_staff_name.setText(person_status[1])
                         self.UI.entry_department.setText('GUEST')
@@ -513,7 +520,8 @@ class MainApp(QMainWindow):
             if person_typed.upper() in self.staff_details.keys():  # check if permanent staff was typed
                 dept = MBillsFunctions.get_department_from_name(person_typed, self.all_names_and_dept)
                 # ic('entered staff')
-                MBillsFunctions.insert_amount_into_med_bills(self.wkbk_med_bills, person_typed, dept, offset_col, 0, amount)
+                MBillsFunctions.insert_amount_into_med_bills(self.wkbk_med_bills, person_typed, dept, offset_col, 0,
+                                                             amount)
                 self.myrow_data.append([person_typed, self.staff_details[person_typed.upper()][0],
                                         self.staff_details[person_typed.upper()][1].title() if
                                         self.staff_details[person_typed.upper()][1] is not None else 'None',
@@ -559,7 +567,7 @@ class MainApp(QMainWindow):
                                                                  amount)
                     self.myrow_data.append([person_typed, 'GUEST' if 'GUEST' in dept else 'CASUAL',
                                             'None', 'None', self.UI.combo_months.currentText()[0:3].upper(),
-                                            'GUEST' if 'GUEST' in dept else 'CASUAL',  f'{float(amount):.2f}'
+                                            'GUEST' if 'GUEST' in dept else 'CASUAL', f'{float(amount):.2f}'
                                             ])
                     self.update_table()
 
@@ -613,7 +621,7 @@ class MainApp(QMainWindow):
             self.UI.entry_quick_search.clear()
             self.UI.table_last_edit.setCurrentCell(self.UI.table_last_edit.rowCount() - 1, 7)
             self.log.add_entry(self.myrow_data_for_undo_redo, is_redo=True)
-            status = self.UI.table_last_edit.item(self.UI.table_last_edit.rowCount()-1, 6).text()
+            status = self.UI.table_last_edit.item(self.UI.table_last_edit.rowCount() - 1, 6).text()
             if status == 'STAFF':
                 self.set_border_highlight_switch(self.UI.entry_staff_name)
             elif status == 'SPOUSE':
@@ -701,8 +709,10 @@ class MainApp(QMainWindow):
         self.UI.entry_quick_search.clear()
         # self.UI.combo_months.setCurrentIndex(0)
         self.UI.entry_staff_or_dependant.clear()
-        self.UI.table_last_edit.setCurrentCell(0, 0)  # just to make sure it doesn't remove this row as it is now set as active
-        self.UI.table_last_edit.setRowCount(1)  # pro way of deleting rows, source: (https://stackoverflow.com/questions/15848086/how-to-delete-all-rows-from-qtablewidget)
+        self.UI.table_last_edit.setCurrentCell(0,
+                                               0)  # just to make sure it doesn't remove this row as it is now set as active
+        self.UI.table_last_edit.setRowCount(
+            1)  # pro way of deleting rows, source: (https://stackoverflow.com/questions/15848086/how-to-delete-all-rows-from-qtablewidget)
         self.UI.btn_undo.setEnabled(False)
         self.UI.btn_redo.setEnabled(False)
         self.set_border_highlight_switch(None)
