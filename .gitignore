@@ -130,14 +130,5 @@ test.py
 test_func.py
 *.xlsx
 jupyter_stuff/
-build_1/
-build-test/
-build_2/
-build_3/
-build_raw/
-old-build-TEMPLATE/
-fake databases/
-demo_build/
-build-release/
-build-release-trial/
+builds/
 app - RELEASES/
