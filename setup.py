@@ -2,7 +2,7 @@ import os
 import sys
 
 from cx_Freeze import setup, Executable
-from src._version import __version__
+from _version import __version__
 
 
 

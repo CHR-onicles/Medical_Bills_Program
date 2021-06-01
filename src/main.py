@@ -14,10 +14,9 @@ from PyQt5.QtGui import (QIcon, QFont)
 
 # Local imports
 from _version import __version__
-import med_bills_functions  # to access the global variables
-from med_bills_functions import MBillsFunctions
-import styles
-from UI_main_window import UIMainWindow
+from src import styles
+from src import med_bills_functions  # to access the global variables
+from src import UIMainWindow, MBillsFunctions
 
 
 sys.path.append("..")  # to include files one level up from this directory
