@@ -1,6 +1,6 @@
 # Standard library imports
 import os
-import subprocess as sbp
+import subprocess as sbp  # To terminate Excel processes before the app saves.
 import sys
 import time
 from datetime import datetime
@@ -106,7 +106,6 @@ class Log:
                     #   - bug not occuring on Win 8.1 VM (target PC)... so maybe ignore...
 
             del global_all_entries[row]
-            # print(global_all_entries)
 
     def terminate(self):
         """
