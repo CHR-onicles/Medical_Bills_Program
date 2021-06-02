@@ -128,6 +128,7 @@ dmypy.json
 # For my personal logs and testing; (*.log) is already included
 test.py
 test_func.py
+queries.py
 *.xlsx
 jupyter_stuff/
 builds/
