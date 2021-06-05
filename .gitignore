@@ -128,7 +128,6 @@ dmypy.json
 # For my personal logs and testing; (*.log) is already included
 test.py
 queries_staff_list.py
-test_func.py
 *.xlsx
 jupyter_stuff/
 app - RELEASES/
