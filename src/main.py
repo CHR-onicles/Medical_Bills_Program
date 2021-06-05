@@ -432,7 +432,7 @@ class MainApp(QMainWindow):
                 if person == s_name.title():
                     self.set_border_highlight_switch(self.UI.entry_staff_name)
                 self.UI.entry_department.setText(d_name[0])
-                if d_name[1] is not None:  # Spouse name
+                if d_name[1] != '-':  # Spouse name
                     self.UI.entry_spouse.setText(d_name[1].title())
                     if person == d_name[1].title():
                         self.set_border_highlight_switch(self.UI.entry_spouse)
@@ -440,7 +440,7 @@ class MainApp(QMainWindow):
                     self.UI.entry_spouse.setText('None')
 
                 for child in d_name[2:]:
-                    if child is None:
+                    if child == '-':
                         self.UI.combo_children.addItem('None')
                         self.UI.combo_children.setEnabled(False)
                     else:
@@ -522,8 +522,8 @@ class MainApp(QMainWindow):
                                                              amount)
                 self.myrow_data.append([person_typed, self.staff_details[person_typed.upper()][0],
                                         self.staff_details[person_typed.upper()][1].title() if
-                                        self.staff_details[person_typed.upper()][1] is not None else 'None',
-                                        [x.title() if x is not None else 'None' for x in
+                                        self.staff_details[person_typed.upper()][1] != '-' else 'None',
+                                        [x.title() if x != '-' else 'None' for x in
                                          self.staff_details[person_typed.upper()][2:]],
                                         self.UI.combo_months.currentText()[0:3].upper(), 'STAFF', f'{float(amount):.2f}'
                                         ])
@@ -549,8 +549,8 @@ class MainApp(QMainWindow):
                                                                          dept, offset_col, offset_row, amount)
                             self.myrow_data.append([actual_staff, self.staff_details[actual_staff.upper()][0],
                                                     self.staff_details[actual_staff.upper()][1].title() if
-                                                    self.staff_details[actual_staff.upper()][1] is not None else 'None',
-                                                    [x.title() if x is not None else 'None' for x in
+                                                    self.staff_details[actual_staff.upper()][1] != '-' else 'None',
+                                                    [x.title() if x != '-' else 'None' for x in
                                                      self.staff_details[actual_staff.upper()][2:]],
                                                     self.UI.combo_months.currentText()[0:3].upper(),
                                                     'CHILD' if offset_row == 1 else 'SPOUSE',

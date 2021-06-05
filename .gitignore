@@ -126,7 +126,6 @@ dmypy.json
 .pyre/
 
 # For my personal logs and testing; (*.log) is already included
-test*.py
 queries*.*
 *.xlsx
 jupyter_stuff/
