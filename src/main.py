@@ -173,7 +173,7 @@ class MainApp(QMainWindow):
         # Files to use for faster reference:
         # test med bills 2021.xlsx
         # MEDICAL BILLS 2021.xlsx
-        self.FILE_1, self.FILE_2 = 'test med bills 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx'
+        self.FILE_1, self.FILE_2 = 'test med bills 2021.xlsx', 'STL2020--.xlsx'
         self.wkbk_med_bills, self.wkbk_staff_list = MBillsFunctions.initialize_files(self.FILE_1, self.FILE_2)
         print(f'Working with: "{self.FILE_1}" and "{self.FILE_2}"')  # For testing and debugging
         self.all_names_and_dept = MBillsFunctions.get_all_med_bills_names_and_dept(self.wkbk_med_bills)
