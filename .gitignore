@@ -131,4 +131,4 @@ queries*.*
 *.xlsx
 jupyter_stuff/
 app - RELEASES/
-builds/
+build*
