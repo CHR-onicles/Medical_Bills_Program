@@ -183,14 +183,7 @@ class MainApp(QMainWindow):
 
 
         # Auto Completer configs -----------------------------------------------------------------------------
-        self.completer = QCompleter([name.split('|')[0] for name in self.all_names_and_dept])
-        # fixme: Duplicate names issue!
-        # import collections
-        # l = collections.Counter([name.split('|')[0] for name in self.all_names_and_dept])
-        # for k, v in l.items():
-        #     if v > 1:
-        #         print(k, v)
-
+        self.completer = QCompleter(set([name.split('|')[0] for name in self.all_names_and_dept]))
         self.completer.setCaseSensitivity(Qt.CaseInsensitive)
         self.completer.setFilterMode(Qt.MatchContains)
         self.com_delegate = QStyledItemDelegate(self)  # have to do this to set style cuz of some bs thingy...
@@ -424,9 +417,11 @@ class MainApp(QMainWindow):
         else:
             person_status = ['Staff Name:', 'Guest Name:', 'Casual Name:']
             self.clear_staff_details()
-            s_name, d_name, _ = MBillsFunctions.search_for_staff_from_staff_list(person.upper(), self.staff_details)
+            search_result = MBillsFunctions.search_for_staff_from_staff_list(person.upper(), self.staff_details)
+            s_name = search_result[0][0]
+            d_name = search_result[0][1]
 
-            if (s_name and d_name) is not None:
+            if search_result:  # not empty list
                 self.UI.lbl_staff_name.setText(person_status[0])
                 self.UI.entry_staff_name.setText(s_name.title())
                 if person == s_name.title():
@@ -529,8 +524,8 @@ class MainApp(QMainWindow):
                                         ])
                 self.update_table()
             else:  # person could be dependant or casual/guest
-                actual_staff, dependant, status = \
-                    MBillsFunctions.search_for_staff_from_staff_list(person_typed.upper(), self.staff_details)
+                search_result = MBillsFunctions.search_for_staff_from_staff_list(person_typed.upper(), self.staff_details)
+                actual_staff, dependant, status = search_result[0][0], search_result[0][1], search_result[0][2]
                 if actual_staff is not None:  # check if person is in staff list
                     actual_staff = actual_staff.title()
                     dependant = [x.title() for x in dependant if x is not None]
@@ -794,7 +789,9 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - Fix Duplicate name issue
+    #   - Fix Duplicate name issue:
+    #       * Store duplicate names with a prefix of suffix('-ST' or '-SP'), then open the two options for the user with tab widgets -> for data entry.
+    #       * For searching, use the same tab widgets but with different tab names for children like (Husband, Wife) and (Staff, Spouse) for Staff.
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing "input_call='Entry'" [optional]
     #   - Properly evaluate boolean return value from functions [optional]
