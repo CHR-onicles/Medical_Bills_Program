@@ -355,7 +355,7 @@ class MainApp(QMainWindow):
         self.UI.entry_staff_or_dependant.returnPressed.connect(self.UI.entry_amount.setFocus)
         self.UI.entry_amount.returnPressed.connect(self.insert_into_med_bills)
 
-        self.UI.btn_clear.clicked.connect(self.clear_staff_details)
+        self.UI.btn_clear.clicked.connect(self.control_clear_staff_details)
         self.UI.btn_undo.clicked.connect(self.undo)
         self.UI.btn_redo.clicked.connect(self.redo)
         self.UI.btn_save.clicked.connect(self.save_workbook)
@@ -432,7 +432,6 @@ class MainApp(QMainWindow):
                 if len(search_result) > 1 and (search_result[0][-1] == 'k') and (search_result[1][-1] == 'v')\
                         and self.is_duplicate_toggle is False:
                     if not self.duplicate_btn1.isVisible():
-                        self.is_duplicate_toggle = True
                         self.setup_duplicate_btns(s_name, d_name[1].title(), self.UI.staff_form)
                         return
 
@@ -494,6 +493,10 @@ class MainApp(QMainWindow):
             self.UI.btn_clear.setEnabled(True)
 
 
+    def control_clear_staff_details(self):
+        self.clear_staff_details() if self.is_duplicate_toggle is False else self.clear_staff_details_with_duplicate()
+
+
     def clear_staff_details(self):
         """
         Method to clear widgets populated with staff details.
@@ -509,8 +512,11 @@ class MainApp(QMainWindow):
         # self.UI.entry_staff_or_dependant.clear()
         self.UI.btn_clear.setEnabled(False)
         self.set_border_highlight_switch(None)
-        # self.remove_duplicate_btns()
 
+
+    def clear_staff_details_with_duplicate(self):
+        self.clear_staff_details()
+        self.remove_duplicate_btns()
 
     def insert_into_med_bills(self):
         """
@@ -799,9 +805,11 @@ class MainApp(QMainWindow):
         Helper function to toggle between the two instances of duplicate names.
         """
         # todo: check if buttons already exist, if not, create them afresh
+        self.duplicate_btn1.show()
         self.duplicate_btn1.setText(name1.split()[0])
         self.duplicate_btn1.setChecked(True)
         self.duplicate_btn1.clicked.connect(lambda: self.on_dup_btn1_clicked(name1))
+        self.duplicate_btn2.show()
         self.on_dup_btn2_clicked(name1)
         self.duplicate_btn2.setText(name2.split()[0])
         self.duplicate_btn2.clicked.connect(lambda: self.on_dup_btn2_clicked(name2))
@@ -809,28 +817,28 @@ class MainApp(QMainWindow):
         self.temp_layout.addWidget(self.duplicate_btn1)
         self.temp_layout.addWidget(self.duplicate_btn2)
         location.insertRow(0, '', self.temp_layout)
+        self.is_duplicate_toggle = True
 
     def on_dup_btn1_clicked(self, name):
         """
 
         """
         self.populate_staff_details(name, input_call='Entry')
-        self.is_duplicate_toggle = False
 
     def on_dup_btn2_clicked(self, name):
         """
 
         """
         self.populate_staff_details(name, input_call='Entry')
-        self.is_duplicate_toggle = False
 
     def remove_duplicate_btns(self):
         """
-
+        Helper function to remove buttons associated with the duplicate condition.
         """
-        # self.duplicate_btn1.hide()
-        # self.duplicate_btn2.hide()
+        self.duplicate_btn1.hide()
+        self.duplicate_btn2.hide()
         self.UI.staff_form.removeItem(self.temp_layout)
+        self.is_duplicate_toggle = False
 
 
 if __name__ == '__main__':
