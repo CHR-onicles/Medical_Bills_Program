@@ -431,7 +431,6 @@ class MainApp(QMainWindow):
             search_result = MBillsFunctions.search_for_staff_from_staff_list(person.upper(), self.staff_details)
             s_name = search_result[0][0]
             d_name = search_result[0][1]
-            # todo: add case for 'v' 'v' search results
 
             if search_result:  # not empty list
                 if self.duplicate_btn1.isVisible() and s_name.split()[0] not in [self.duplicate_btn1.text(), self.duplicate_btn2.text()]:
@@ -532,6 +531,7 @@ class MainApp(QMainWindow):
         """
         Method to insert amount entered for a Staff or Dependant into Med Bills workbook(The database).
         """
+        # todo: add code to take care of duplicates
         if self.UI.entry_staff_or_dependant.text() in [names.split('|')[0] for names in self.all_names_and_dept]:
             # start = datetime.now()
             med_bills_functions.UNDO_ENTRY_HISTORY.clear()
