@@ -437,8 +437,7 @@ class MainApp(QMainWindow):
                 if self.duplicate_btn1.isVisible() and s_name.split()[0] not in [self.duplicate_btn1.text(), self.duplicate_btn2.text()]:
                     # print(s_name.split()[0], 'not same as', self.duplicate_btn1.text(), 'or', self.duplicate_btn2.text())
                     self.remove_duplicate_btns()
-                if len(search_result) > 1 and (search_result[0][-1] == 'k') and (search_result[1][-1] == 'v') \
-                        and self.is_duplicate_toggle is False:
+                if len(search_result) > 1 and self.is_duplicate_toggle is False:
                     if not self.duplicate_btn1.isVisible():
                         self.setup_duplicate_btns(s_name, d_name[1].title(), self.UI.staff_form)
                         return
@@ -868,7 +867,7 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - Bump version number to v1.2.0
+    #   - Bump version number to v1.2.0 (minor version update)
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing "input_call='Entry'" [optional]
     #   - Properly evaluate boolean return value from functions [optional]
