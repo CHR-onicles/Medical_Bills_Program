@@ -388,7 +388,11 @@ class MainApp(QMainWindow):
         """
         Method to update all details of staff in accordance with the month it is set to.
         """
-        # todo add code here to factor in duplicates
+        if self.duplicate_btn1.isVisible():
+            self.populate_staff_details(self.dup_name1, input_call='Entry') if self.duplicate_btn1.isChecked() \
+                else self.populate_staff_details(self.dup_name2, input_call='Entry')
+            return
+
         if self.UI.entry_quick_search.text() != '':
             self.populate_staff_details(self.UI.entry_quick_search.text())
         elif self.UI.entry_quick_search.text() == '' and self.UI.table_last_edit.rowCount() == 1:
@@ -427,13 +431,19 @@ class MainApp(QMainWindow):
             search_result = MBillsFunctions.search_for_staff_from_staff_list(person.upper(), self.staff_details)
             s_name = search_result[0][0]
             d_name = search_result[0][1]
+            # todo: add case for 'v' 'v' search results
 
             if search_result:  # not empty list
-                if len(search_result) > 1 and (search_result[0][-1] == 'k') and (search_result[1][-1] == 'v')\
+                if self.duplicate_btn1.isVisible() and s_name.split()[0] not in [self.duplicate_btn1.text(), self.duplicate_btn2.text()]:
+                    # print(s_name.split()[0], 'not same as', self.duplicate_btn1.text(), 'or', self.duplicate_btn2.text())
+                    self.remove_duplicate_btns()
+                if len(search_result) > 1 and (search_result[0][-1] == 'k') and (search_result[1][-1] == 'v') \
                         and self.is_duplicate_toggle is False:
                     if not self.duplicate_btn1.isVisible():
                         self.setup_duplicate_btns(s_name, d_name[1].title(), self.UI.staff_form)
                         return
+                if self.duplicate_btn1.isVisible() and len(search_result) == 1:  # searching for non-duplicate
+                    self.remove_duplicate_btns()
 
                 self.UI.lbl_staff_name.setText(person_status[0])
                 self.UI.entry_staff_name.setText(s_name.title())
@@ -517,6 +527,7 @@ class MainApp(QMainWindow):
     def clear_staff_details_with_duplicate(self):
         self.clear_staff_details()
         self.remove_duplicate_btns()
+
 
     def insert_into_med_bills(self):
         """
@@ -804,14 +815,17 @@ class MainApp(QMainWindow):
         """
         Helper function to toggle between the two instances of duplicate names.
         """
+        self.UI.entry_quick_search.clear()
+        self.dup_name1 = name1
+        self.dup_name2 = name2  # in order to pass it to the update month details method
         self.duplicate_btn1.show()
-        self.duplicate_btn1.setText(name1.split()[0])
+        self.duplicate_btn1.setText(self.dup_name1.split()[0])
         self.duplicate_btn1.setChecked(True)
-        self.duplicate_btn1.clicked.connect(lambda: self.on_dup_btn1_clicked(name1))
+        self.duplicate_btn1.clicked.connect(lambda: self.on_dup_btn1_clicked(self.dup_name1))
+        self.on_dup_btn1_clicked(self.dup_name1)
         self.duplicate_btn2.show()
-        self.on_dup_btn2_clicked(name1)
-        self.duplicate_btn2.setText(name2.split()[0])
-        self.duplicate_btn2.clicked.connect(lambda: self.on_dup_btn2_clicked(name2))
+        self.duplicate_btn2.setText(self.dup_name2.split()[0])
+        self.duplicate_btn2.clicked.connect(lambda: self.on_dup_btn2_clicked(self.dup_name2))
         self.temp_layout = QHBoxLayout()
         self.temp_layout.addWidget(self.duplicate_btn1)
         self.temp_layout.addWidget(self.duplicate_btn2)
@@ -829,6 +843,7 @@ class MainApp(QMainWindow):
         Helper function to toggle to details of staff in the second option.
         """
         self.populate_staff_details(name, input_call='Entry')
+        # Separated these one-liners into functions to potentially add more stuff later.
 
     def remove_duplicate_btns(self):
         """
@@ -853,6 +868,7 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
+    #   - Bump version number to v1.2.0
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing "input_call='Entry'" [optional]
     #   - Properly evaluate boolean return value from functions [optional]
