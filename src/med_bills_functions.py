@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from icecream import ic
+# from icecream import ic
 import openpyxl
 
 
@@ -179,8 +179,8 @@ class MBillsFunctions:
 
         :return: list of specific's staff's details or lists of duplicate staff's details.
         """
-        start = datetime.now()
-        ic.enable()
+        # start = datetime.now()
+        # ic.enable()
 
         result = [[staff.title(), dependants, 'k'] for staff, dependants in staff_deets.items() if staff == person]
 
@@ -195,8 +195,8 @@ class MBillsFunctions:
                 result[1].append(result[1][0].split()[0])
                 # simply append the first name of the staff to the items in result to help differentiate
 
-        stop = datetime.now()
-        ic('Time for search elapsed:', stop - start)
+        # stop = datetime.now()
+        # ic('Time for search elapsed:', stop - start)
         return result
 
 

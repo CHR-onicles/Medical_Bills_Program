@@ -129,6 +129,7 @@ class MainApp(QMainWindow):
     """
     App configurations.
     """
+    is_duplicate_toggle = False
 
     def __init__(self):
         super().__init__()
@@ -322,6 +323,11 @@ class MainApp(QMainWindow):
         self.UI.btn_clear.setEnabled(False)
         self.UI.entry_staff_or_dependant.setFocus()
 
+        # Dynamic widgets created for duplicate condition
+        self.duplicate_btn1 = QRadioButton()
+        self.duplicate_btn2 = QRadioButton()
+        self.temp_layout = QHBoxLayout()
+
         self.UI.combo_months.addItems(list(self.months.keys()))
         try:
             self.UI.combo_months.setCurrentIndex(self.settings.value('current month', 0, type=int))
@@ -382,6 +388,7 @@ class MainApp(QMainWindow):
         """
         Method to update all details of staff in accordance with the month it is set to.
         """
+        # todo add code here to factor in duplicates
         if self.UI.entry_quick_search.text() != '':
             self.populate_staff_details(self.UI.entry_quick_search.text())
         elif self.UI.entry_quick_search.text() == '' and self.UI.table_last_edit.rowCount() == 1:
@@ -422,9 +429,12 @@ class MainApp(QMainWindow):
             d_name = search_result[0][1]
 
             if search_result:  # not empty list
-                if len(search_result) > 1 and (search_result[0][-1] == 'k') and (search_result[1][-1] == 'v'):
-                    self.setup_duplicate_btns(s_name.split()[0], d_name[1].split()[0].title(), self.UI.staff_form)
-                    return
+                if len(search_result) > 1 and (search_result[0][-1] == 'k') and (search_result[1][-1] == 'v')\
+                        and self.is_duplicate_toggle is False:
+                    if not self.duplicate_btn1.isVisible():
+                        self.is_duplicate_toggle = True
+                        self.setup_duplicate_btns(s_name, d_name[1].title(), self.UI.staff_form)
+                        return
 
                 self.UI.lbl_staff_name.setText(person_status[0])
                 self.UI.entry_staff_name.setText(s_name.title())
@@ -499,6 +509,7 @@ class MainApp(QMainWindow):
         # self.UI.entry_staff_or_dependant.clear()
         self.UI.btn_clear.setEnabled(False)
         self.set_border_highlight_switch(None)
+        # self.remove_duplicate_btns()
 
 
     def insert_into_med_bills(self):
@@ -713,6 +724,7 @@ class MainApp(QMainWindow):
         self.UI.btn_undo.setEnabled(False)
         self.UI.btn_redo.setEnabled(False)
         self.set_border_highlight_switch(None)
+        self.remove_duplicate_btns()
 
 
     def save_workbook(self):
@@ -786,33 +798,39 @@ class MainApp(QMainWindow):
         """
         Helper function to toggle between the two instances of duplicate names.
         """
-        self.duplicate_btn1 = QRadioButton(name1)
+        # todo: check if buttons already exist, if not, create them afresh
+        self.duplicate_btn1.setText(name1.split()[0])
         self.duplicate_btn1.setChecked(True)
-        self.duplicate_btn1.clicked.connect(self.on_dup_btn1_clicked)
-        self.duplicate_btn2 = QRadioButton(name2)
-        self.duplicate_btn2.clicked.connect(self.on_dup_btn2_clicked)
+        self.duplicate_btn1.clicked.connect(lambda: self.on_dup_btn1_clicked(name1))
+        self.on_dup_btn2_clicked(name1)
+        self.duplicate_btn2.setText(name2.split()[0])
+        self.duplicate_btn2.clicked.connect(lambda: self.on_dup_btn2_clicked(name2))
         self.temp_layout = QHBoxLayout()
         self.temp_layout.addWidget(self.duplicate_btn1)
         self.temp_layout.addWidget(self.duplicate_btn2)
         location.insertRow(0, '', self.temp_layout)
 
-    def on_dup_btn1_clicked(self):
+    def on_dup_btn1_clicked(self, name):
         """
 
         """
-        pass
+        self.populate_staff_details(name, input_call='Entry')
+        self.is_duplicate_toggle = False
 
-    def on_dup_btn2_clicked(self):
+    def on_dup_btn2_clicked(self, name):
         """
 
         """
-        pass
+        self.populate_staff_details(name, input_call='Entry')
+        self.is_duplicate_toggle = False
 
     def remove_duplicate_btns(self):
         """
 
         """
-        self.UI.entry_form.removeItem(self.temp_layout)
+        # self.duplicate_btn1.hide()
+        # self.duplicate_btn2.hide()
+        self.UI.staff_form.removeItem(self.temp_layout)
 
 
 if __name__ == '__main__':
