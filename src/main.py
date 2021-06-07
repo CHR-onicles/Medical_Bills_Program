@@ -9,7 +9,7 @@ from datetime import datetime
 # from icecream import ic
 from PyQt5.QtCore import (Qt, QSettings, QSize, QPoint)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QComboBox, QCompleter, QMessageBox, QTableWidgetItem,
-                             QStyledItemDelegate, QAbstractItemView, QStatusBar, QAction)
+                             QStyledItemDelegate, QAbstractItemView, QStatusBar, QAction, QRadioButton, QHBoxLayout)
 from PyQt5.QtGui import (QIcon, QFont)
 
 # Local imports
@@ -422,6 +422,10 @@ class MainApp(QMainWindow):
             d_name = search_result[0][1]
 
             if search_result:  # not empty list
+                if len(search_result) > 1 and (search_result[0][-1] == 'k') and (search_result[1][-1] == 'v'):
+                    self.setup_duplicate_btns(s_name.split()[0], d_name[1].split()[0].title(), self.UI.staff_form)
+                    return
+
                 self.UI.lbl_staff_name.setText(person_status[0])
                 self.UI.entry_staff_name.setText(s_name.title())
                 if person == s_name.title():
@@ -778,6 +782,37 @@ class MainApp(QMainWindow):
                 self.UI.table_last_edit.removeRow(i)
                 del global_all_entries[i - 1]  # to keep visible rows and entries aligned
 
+    def setup_duplicate_btns(self, name1, name2, location):
+        """
+        Helper function to toggle between the two instances of duplicate names.
+        """
+        self.duplicate_btn1 = QRadioButton(name1)
+        self.duplicate_btn1.setChecked(True)
+        self.duplicate_btn1.clicked.connect(self.on_dup_btn1_clicked)
+        self.duplicate_btn2 = QRadioButton(name2)
+        self.duplicate_btn2.clicked.connect(self.on_dup_btn2_clicked)
+        self.temp_layout = QHBoxLayout()
+        self.temp_layout.addWidget(self.duplicate_btn1)
+        self.temp_layout.addWidget(self.duplicate_btn2)
+        location.insertRow(0, '', self.temp_layout)
+
+    def on_dup_btn1_clicked(self):
+        """
+
+        """
+        pass
+
+    def on_dup_btn2_clicked(self):
+        """
+
+        """
+        pass
+
+    def remove_duplicate_btns(self):
+        """
+
+        """
+        self.UI.entry_form.removeItem(self.temp_layout)
 
 
 if __name__ == '__main__':
