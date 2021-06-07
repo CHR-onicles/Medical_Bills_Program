@@ -804,7 +804,6 @@ class MainApp(QMainWindow):
         """
         Helper function to toggle between the two instances of duplicate names.
         """
-        # todo: check if buttons already exist, if not, create them afresh
         self.duplicate_btn1.show()
         self.duplicate_btn1.setText(name1.split()[0])
         self.duplicate_btn1.setChecked(True)
@@ -821,13 +820,13 @@ class MainApp(QMainWindow):
 
     def on_dup_btn1_clicked(self, name):
         """
-
+        Helper function to toggle to details of staff in the first option.
         """
         self.populate_staff_details(name, input_call='Entry')
 
     def on_dup_btn2_clicked(self, name):
         """
-
+        Helper function to toggle to details of staff in the second option.
         """
         self.populate_staff_details(name, input_call='Entry')
 
@@ -841,6 +840,10 @@ class MainApp(QMainWindow):
         self.is_duplicate_toggle = False
 
 
+
+
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainApp()
@@ -850,9 +853,6 @@ if __name__ == '__main__':
 
     # TODO/FIXME -------------------------------------------------------------------------------------------------------
     # TODO:
-    #   - Fix Duplicate name issue:
-    #       * Store duplicate names with a prefix of suffix('-ST' or '-SP'), then open the two options for the user with tab widgets -> for data entry.
-    #       * For searching, use the same tab widgets but with different tab names for children like (Husband, Wife) and (Staff, Spouse) for Staff.
     #   - Change pink titles to groupboxes [optional -> New Feature]
     #   - Find a better way of doing "input_call='Entry'" [optional]
     #   - Properly evaluate boolean return value from functions [optional]
