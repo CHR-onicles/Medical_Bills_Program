@@ -819,12 +819,14 @@ class MainApp(QMainWindow):
         """
         # Check if Excel is opened and close it first to prevent file corruption:
         # todo: maybe notify user that all opened Excel files have been closed for above reason
-        print('\nChecking if Excel is opened')
+        print('\nChecking if Excel is opened...')
         tasklist = sbp.run('tasklist', shell=True, text=True, capture_output=True)
         if ('excel.exe' in tasklist.stdout) or ('EXCEL.EXE' in tasklist.stdout):
             print('Found Excel opened, closing it ASAP!')
             sbp.run(['taskkill', '/f', '/im', 'excel.exe', '/t'])
             print('Killed Excel successfully!')
+        else:
+            print('Excel not found...')
         time.sleep(1)  # breather before app saves its version of the Excel file.
 
         if MBillsFunctions.save_file(self.wkbk_med_bills):
