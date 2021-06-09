@@ -566,6 +566,12 @@ class MainApp(QMainWindow):
             Helper function to make this block reusable.
             """
             self.populate_staff_details(person, input_call='Entry')
+            if self.is_duplicate_toggle is True:
+                if self.dup_name1 == self.UI.entry_staff_name.text():
+                    self.duplicate_btn1.setChecked(True)
+                elif self.dup_name2 == self.UI.entry_staff_name.text():
+                    self.duplicate_btn2.setChecked(True)
+                # avoiding else-block for potentially unforeseen events.
             self.UI.entry_staff_or_dependant.clear()
             self.UI.entry_quick_search.clear()
             self.UI.entry_amount.setText('GH₵ ')
@@ -589,16 +595,17 @@ class MainApp(QMainWindow):
 
             if len(MBillsFunctions.search_for_staff_from_staff_list(person_typed.upper(), self.staff_details)) \
                     > 1 and self.is_btn_3_or_4_deleted is False:  # means person is a duplicate staff
+                d_dept = MBillsFunctions.get_department_from_name(self.who_to_insert_into, self.all_names_and_dept)
 
                 if person_typed in [self.dup_name3, self.dup_name4] and (person_typed == self.who_to_insert_into):
                     # taking  staff version of duplicate staff
                     pass  # do nothing...transfer control back to normal flow...then why put this condition here you
                     # may ask....cuz why not :)
+
                 elif person_typed in [self.dup_name3, self.dup_name4] and person_typed != self.who_to_insert_into:
                     # taking spouse version of duplicate staff: offset_row = 2
-                    dept = MBillsFunctions.get_department_from_name(self.who_to_insert_into, self.all_names_and_dept)
                     MBillsFunctions.insert_amount_into_med_bills(self.wkbk_med_bills, self.who_to_insert_into,
-                                                                 dept, offset_col, 2, amount)
+                                                                 d_dept, offset_col, 2, amount)
                     self.myrow_data.append([self.who_to_insert_into, self.staff_details[
                                             self.who_to_insert_into.upper()][0],
                                             self.staff_details[self.who_to_insert_into.upper()][1].title() if
@@ -614,7 +621,19 @@ class MainApp(QMainWindow):
 
                 elif person_typed not in [self.dup_name3, self.dup_name4] and person_typed != self.who_to_insert_into:
                     # means it is a child of one of the duplicate staff: offset_row = 1
-                    pass
+                    MBillsFunctions.insert_amount_into_med_bills(self.wkbk_med_bills, self.who_to_insert_into,
+                                                                 d_dept, offset_col, 1, amount)
+                    self.myrow_data.append([self.who_to_insert_into, self.staff_details[
+                        self.who_to_insert_into.upper()][0],
+                                            self.staff_details[self.who_to_insert_into.upper()][1].title() if
+                                            self.staff_details[self.who_to_insert_into.upper()][1] != '-' else 'None',
+                                            [x.title() if x != '-' else 'None' for x in
+                                             self.staff_details[self.who_to_insert_into.upper()][2:]],
+                                            self.UI.combo_months.currentText()[0:3].upper(),
+                                            'CHILD', f'{float(amount):.2f}'
+                                            ])
+                    self.update_table()
+                    what_to_do_after_insert(self.who_to_insert_into)
                     return
 
             if person_typed.upper() in self.staff_details.keys():  # check if permanent staff was typed
