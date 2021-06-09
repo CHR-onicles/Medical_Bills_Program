@@ -447,7 +447,7 @@ class MainApp(QMainWindow):
                 s_name = search_result[0][0]
                 d_name = search_result[0][1]
                 if self.is_btn_1_or_2_deleted is False and s_name.split()[0] not in [self.duplicate_btn1.text(),
-                                                                                    self.duplicate_btn2.text()]:
+                                                                                     self.duplicate_btn2.text()]:
                     # print(s_name.split()[0], 'not same as', self.duplicate_btn1.text(), 'or',
                     # self.duplicate_btn2.text())
                     self.remove_duplicate_btns_1_and_2()
@@ -560,6 +560,23 @@ class MainApp(QMainWindow):
         """
         Method to insert amount entered for a Staff or Dependant into Med Bills workbook(The database).
         """
+
+        def what_to_do_after_insert(person):
+            """
+            Helper function to make this block reusable.
+            """
+            self.populate_staff_details(person, input_call='Entry')
+            self.UI.entry_staff_or_dependant.clear()
+            self.UI.entry_quick_search.clear()
+            self.UI.entry_amount.setText('GH₵ ')
+            self.UI.btn_undo.setEnabled(True)
+            self.UI.btn_redo.setEnabled(False)
+            self.undo_clicked_already = 0
+            self.UI.entry_staff_or_dependant.setFocus()
+            self.remove_hidden_rows()
+            self.remove_duplicate_btns_3_and_4()
+            self.status_bar.showMessage('Entry entered successfully...', 2000)
+
         # todo: add code to take care of duplicates
         if self.UI.entry_staff_or_dependant.text() in [names.split('|')[0] for names in self.all_names_and_dept]:
             # start = datetime.now()
@@ -572,17 +589,31 @@ class MainApp(QMainWindow):
 
             if len(MBillsFunctions.search_for_staff_from_staff_list(person_typed.upper(), self.staff_details)) \
                     > 1 and self.is_btn_3_or_4_deleted is False:  # means person is a duplicate staff
+
                 if person_typed in [self.dup_name3, self.dup_name4] and (person_typed == self.who_to_insert_into):
                     # taking  staff version of duplicate staff
                     pass  # do nothing...transfer control back to normal flow...then why put this condition here you
                     # may ask....cuz why not :)
                 elif person_typed in [self.dup_name3, self.dup_name4] and person_typed != self.who_to_insert_into:
-                    # taking spouse version of duplicate staff: offset_row 2
-                    pass
+                    # taking spouse version of duplicate staff: offset_row = 2
+                    dept = MBillsFunctions.get_department_from_name(self.who_to_insert_into, self.all_names_and_dept)
+                    MBillsFunctions.insert_amount_into_med_bills(self.wkbk_med_bills, self.who_to_insert_into,
+                                                                 dept, offset_col, 2, amount)
+                    self.myrow_data.append([self.who_to_insert_into, self.staff_details[
+                                            self.who_to_insert_into.upper()][0],
+                                            self.staff_details[self.who_to_insert_into.upper()][1].title() if
+                                            self.staff_details[self.who_to_insert_into.upper()][1] != '-' else 'None',
+                                            [x.title() if x != '-' else 'None' for x in
+                                             self.staff_details[self.who_to_insert_into.upper()][2:]],
+                                            self.UI.combo_months.currentText()[0:3].upper(),
+                                            'SPOUSE', f'{float(amount):.2f}'
+                                            ])
+                    self.update_table()
+                    what_to_do_after_insert(self.who_to_insert_into)
                     return
 
                 elif person_typed not in [self.dup_name3, self.dup_name4] and person_typed != self.who_to_insert_into:
-                    # means it is a child of one of the duplicate staff: offset_row 1
+                    # means it is a child of one of the duplicate staff: offset_row = 1
                     pass
                     return
 
@@ -640,19 +671,7 @@ class MainApp(QMainWindow):
                                             ])
                     self.update_table()
 
-            self.populate_staff_details(self.UI.entry_staff_or_dependant.text(), input_call='Entry')
-            self.UI.entry_staff_or_dependant.clear()
-            self.UI.entry_quick_search.clear()
-            self.UI.entry_amount.setText('GH₵ ')
-            self.UI.btn_undo.setEnabled(True)
-            self.UI.btn_redo.setEnabled(False)
-            self.undo_clicked_already = 0
-            self.UI.entry_staff_or_dependant.setFocus()
-            self.remove_hidden_rows()
-            self.remove_duplicate_btns_3_and_4()
-
-            self.status_bar.showMessage('Entry entered successfully...', 2000)
-
+            what_to_do_after_insert(self.UI.entry_staff_or_dependant.text())
             # stop = datetime.now()
             # print('Time taken to insert:', stop - start)
 
@@ -905,6 +924,8 @@ class MainApp(QMainWindow):
         """
         if self.is_btn_1_or_2_deleted is False:
             self.UI.staff_form.removeRow(0)
+        else:
+            return
         self.is_duplicate_toggle = False
         self.is_btn_1_or_2_deleted = True  # todo: Aren't these two bools the same? remove one later.
 
@@ -939,7 +960,10 @@ class MainApp(QMainWindow):
         """
         Refer to func remove_duplicate_btns_1_and_2()
         """
-        self.UI.entry_form.removeRow(0)
+        if self.is_btn_3_or_4_deleted is False:
+            self.UI.entry_form.removeRow(0)
+        else:
+            return
         self.UI.entry_form.setVerticalSpacing(15)
         self.is_btn_3_or_4_deleted = True
 
