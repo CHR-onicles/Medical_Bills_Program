@@ -136,8 +136,8 @@ class MainApp(QMainWindow):
     dup_name4 = ''  # Avoiding the use of the same variables for both cases because the user can use both at the
     # same time and result in conflict.
     who_to_insert_into = ''
-    is_btn_1_or_2_deleted = False
-    is_btn_3_or_4_deleted = False
+    is_btn_1_or_2_deleted = True
+    is_btn_3_or_4_deleted = True
 
     def __init__(self):
         super().__init__()
@@ -868,6 +868,7 @@ class MainApp(QMainWindow):
         :param location: Layout where duplicate buttons will be added and removed.
         """
         self.UI.entry_quick_search.clear()
+        self.is_duplicate_toggle = True
         self.dup_name1 = name1
         self.dup_name2 = name2  # in order to pass it to the update month details method
         self.duplicate_btn1 = QRadioButton()
@@ -882,10 +883,7 @@ class MainApp(QMainWindow):
         self.duplicate_btn2.clicked.connect(lambda: self.on_dup_btn2_clicked(self.dup_name2))
         self.temp_layout.addWidget(self.duplicate_btn1)
         self.temp_layout.addWidget(self.duplicate_btn2)
-        self.UI.staff_form.insertRow(0, '', self.temp_layout)  # 'location' is used here instead of hardcoded value
-        # because I
-        # want to see the exact layout(location) I'm using when I call this function elsewhere in the code.
-        self.is_duplicate_toggle = True
+        self.UI.staff_form.insertRow(0, '', self.temp_layout)
         self.is_btn_1_or_2_deleted = False
 
     def on_dup_btn1_clicked(self, name):
@@ -905,11 +903,10 @@ class MainApp(QMainWindow):
         """
         Helper function to remove buttons associated with the duplicate condition.
         """
-        self.duplicate_btn1.hide()
-        self.duplicate_btn2.hide()
-        self.UI.staff_form.removeItem(self.temp_layout)
+        if self.is_btn_1_or_2_deleted is False:
+            self.UI.staff_form.removeRow(0)
         self.is_duplicate_toggle = False
-        self.is_btn_1_or_2_deleted = True
+        self.is_btn_1_or_2_deleted = True  # todo: Aren't these two bools the same? remove one later.
 
     def setup_duplicate_btns_3_and_4(self, name1, name2):
         """
@@ -942,10 +939,7 @@ class MainApp(QMainWindow):
         """
         Refer to func remove_duplicate_btns_1_and_2()
         """
-        # self.duplicate_btn3.hide()
-        # self.duplicate_btn4.hide()
         self.UI.entry_form.removeRow(0)
-        # self.UI.entry_form.removeItem(self.temp_layout_2)
         self.UI.entry_form.setVerticalSpacing(15)
         self.is_btn_3_or_4_deleted = True
 
