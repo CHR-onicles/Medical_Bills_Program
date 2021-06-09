@@ -199,8 +199,9 @@ class UIMainWindow(QWidget):
         self.entry_cur_amount3.setAlignment(Qt.AlignHCenter)
 
         # For duplicate condition
-        self.duplicate_btn1 = QRadioButton()
-        self.duplicate_btn2 = QRadioButton()
+        # self.duplicate_btn1 = QRadioButton()
+        # self.duplicate_btn2 = QRadioButton()
+        # todo: delete later
         # END Staff Details widgets -----------------------------------------------------------------------
 
 
@@ -279,8 +280,9 @@ class UIMainWindow(QWidget):
         self.entry_cur_amount_main_layout.addLayout(self.entry_cur_amount_layout)
 
         # For duplicate condition
-        self.temp_layout = QHBoxLayout()
-        self.temp_layout_2 = QHBoxLayout()
+        # self.temp_layout = QHBoxLayout()
+        # self.temp_layout_2 = QHBoxLayout()
+        # todo: delete later
 
 
         # Adding Widgets to TAB 1 Layout -------------------------------------------------------------------
