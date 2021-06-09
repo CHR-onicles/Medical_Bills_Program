@@ -56,8 +56,8 @@ class UIMainWindow(QWidget):
         self.entry_quick_search.setPlaceholderText('Search For Dependant/Staff')
         if self.desktop.width() == 1920:
             self.entry_quick_search.setMinimumWidth(500)
-            # self.entry_quick_search.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred)  # trying to allow it
-            # to shrink but no good :(
+            # self.entry_quick_search.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred)
+            # trying to allow it to shrink but no good :(
         else:
             self.entry_quick_search.setMinimumWidth(int(round(self.desktop.width() / 3.84, 1)))
             print(int(round(self.desktop.width() / 3.84, 1)))

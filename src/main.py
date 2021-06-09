@@ -129,6 +129,8 @@ class MainApp(QMainWindow):
     """
     App configurations.
     """
+
+    # Class Attributes
     is_duplicate_toggle = False
     dup_name1 = ''
     dup_name2 = ''  # 1 and 2 for staff details section
@@ -219,8 +221,7 @@ class MainApp(QMainWindow):
             color: #FFFFFF;
         }
         
-        QScrollBar:vertical
-        {
+        QScrollBar:vertical {
             background-color: #605F5F;
             width: 15px;
             margin: 15px 3px 15px 3px;
@@ -228,15 +229,13 @@ class MainApp(QMainWindow):
             border-radius: 4px;
         }
 
-        QScrollBar::handle:vertical
-        {
+        QScrollBar::handle:vertical {
             background-color: #2A2929;
             min-height: 5px;
             border-radius: 4px;
         }
         
-        QScrollBar::sub-line:vertical
-        {
+        QScrollBar::sub-line:vertical {
             margin: 3px 0px 3px 0px;
             border-image: url(:/qss_icons/up_arrow_disabled);
             height: 10px;
@@ -245,8 +244,7 @@ class MainApp(QMainWindow):
             subcontrol-origin: margin;
         }
         
-        QScrollBar::add-line:vertical
-        {
+        QScrollBar::add-line:vertical {
             margin: 3px 0px 3px 0px;
             border-image: url(:/qss_icons/down_arrow_disabled);
             height: 10px;
@@ -255,8 +253,7 @@ class MainApp(QMainWindow):
             subcontrol-origin: margin;
         }
         
-        QScrollBar::sub-line:vertical:hover,QScrollBar::sub-line:vertical:on
-        {
+        QScrollBar::sub-line:vertical:hover,QScrollBar::sub-line:vertical:on {
             border-image: url(:/qss_icons/up_arrow);
             height: 10px;
             width: 10px;
@@ -265,8 +262,7 @@ class MainApp(QMainWindow):
         }
         
         
-        QScrollBar::add-line:vertical:hover, QScrollBar::add-line:vertical:on
-        {
+        QScrollBar::add-line:vertical:hover, QScrollBar::add-line:vertical:on {
             border-image: url(:/qss_icons/down_arrow);
             height: 10px;
             width: 10px;
@@ -274,16 +270,13 @@ class MainApp(QMainWindow):
             subcontrol-origin: margin;
         }
         
-        QScrollBar::down-arrow:vertical
-        {
+        QScrollBar::down-arrow:vertical {
             background: none;
         }
         
-        QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
-        {
+        QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
             background: none;
         }
-        
         """)
         # END Auto Completer configs -------------------------------------------------------------------------
 
@@ -319,12 +312,6 @@ class MainApp(QMainWindow):
         """
         Initializing widgets for startup and connecting signals to slots.
         """
-        # Disable these widgets on startup
-        # self.UI.entry_staff_name.setDisabled(True)
-        # self.UI.entry_department.setDisabled(True)
-        # self.UI.entry_spouse.setDisabled(True)
-        # self.UI.combo_children.setDisabled(True)
-        # self.UI.entry_cur_amount1.setDisabled(True)
         self.UI.btn_submit.setEnabled(False)
         self.UI.btn_undo.setEnabled(False)
         self.UI.btn_redo.setEnabled(False)
@@ -448,8 +435,6 @@ class MainApp(QMainWindow):
                 d_name = search_result[0][1]
                 if self.is_btn_1_or_2_deleted is False and s_name.split()[0] not in [self.duplicate_btn1.text(),
                                                                                      self.duplicate_btn2.text()]:
-                    # print(s_name.split()[0], 'not same as', self.duplicate_btn1.text(), 'or',
-                    # self.duplicate_btn2.text())
                     self.remove_duplicate_btns_1_and_2()
                 if len(search_result) > 1 and self.is_duplicate_toggle is False:
                     if self.is_btn_1_or_2_deleted is True:
@@ -563,7 +548,7 @@ class MainApp(QMainWindow):
 
         def what_to_do_after_insert(person):
             """
-            Helper function to make this block reusable.
+            Helper function to make this block of code reusable.
             """
             self.populate_staff_details(person, input_call='Entry')
             if self.is_duplicate_toggle is True:
@@ -583,7 +568,6 @@ class MainApp(QMainWindow):
             self.remove_duplicate_btns_3_and_4()
             self.status_bar.showMessage('Entry entered successfully...', 2000)
 
-        # todo: add code to take care of duplicates
         if self.UI.entry_staff_or_dependant.text() in [names.split('|')[0] for names in self.all_names_and_dept]:
             # start = datetime.now()
             med_bills_functions.UNDO_ENTRY_HISTORY.clear()
@@ -649,6 +633,7 @@ class MainApp(QMainWindow):
                                         self.UI.combo_months.currentText()[0:3].upper(), 'STAFF', f'{float(amount):.2f}'
                                         ])
                 self.update_table()
+
             else:  # person could be dependant or casual/guest
                 search_result = MBillsFunctions.search_for_staff_from_staff_list(person_typed.upper(),
                                                                                  self.staff_details)
@@ -678,7 +663,7 @@ class MainApp(QMainWindow):
                                                     'CHILD' if offset_row == 1 else 'SPOUSE', f'{float(amount):.2f}'
                                                     ])
                             self.update_table()
-                # ------------------------#TODO: (REMOVE LATER) DUPLICATE LOGIC SHOULD END HERE --------------------------------------
+
                 else:  # person is guest/casual
                     # ic('entered guest')
                     dept = MBillsFunctions.get_department_from_name(person_typed, self.all_names_and_dept)
@@ -817,8 +802,8 @@ class MainApp(QMainWindow):
         self.UI.entry_quick_search.clear()
         # self.UI.combo_months.setCurrentIndex(0)
         self.UI.entry_staff_or_dependant.clear()
-        self.UI.table_last_edit.setCurrentCell(0,
-                                               0)  # just to make sure it doesn't remove this row as it is now set as active
+        self.UI.table_last_edit.setCurrentCell(0, 0)
+        # just to make sure it doesn't remove this row as it is now set as active
         self.UI.table_last_edit.setRowCount(
             1)  # pro way of deleting rows, source: (https://stackoverflow.com/questions/15848086/how-to-delete-all-rows-from-qtablewidget)
         self.UI.btn_undo.setEnabled(False)
@@ -902,8 +887,6 @@ class MainApp(QMainWindow):
         :param name1: Name of staff in staff version.
 
         :param name2: Name of staff in spouse version.
-
-        :param location: Layout where duplicate buttons will be added and removed.
         """
         self.UI.entry_quick_search.clear()
         self.is_duplicate_toggle = True
@@ -946,7 +929,7 @@ class MainApp(QMainWindow):
         else:
             return
         self.is_duplicate_toggle = False
-        self.is_btn_1_or_2_deleted = True  # todo: Aren't these two bools the same? remove one later.
+        self.is_btn_1_or_2_deleted = True  # todo: Aren't these two bools the same? Maybe remove one later.
 
     def setup_duplicate_btns_3_and_4(self, name1, name2):
         """
