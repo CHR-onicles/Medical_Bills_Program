@@ -131,7 +131,11 @@ class MainApp(QMainWindow):
     """
     is_duplicate_toggle = False
     dup_name1 = ''
-    dup_name2 = ''
+    dup_name2 = ''  # 1 and 2 for staff details section
+    dup_name3 = ''  # 3 and 4 for data entry section
+    dup_name4 = ''  # Avoiding the use of the same variables for both cases because the user can use both at the
+                    # same time and result in conflict.
+    who_to_insert_into = ''
 
     def __init__(self):
         super().__init__()
@@ -327,7 +331,9 @@ class MainApp(QMainWindow):
 
         # Dynamic widgets created for duplicate condition
         self.duplicate_btn1 = QRadioButton()
-        self.duplicate_btn2 = QRadioButton()
+        self.duplicate_btn2 = QRadioButton()  # btn1 and btn2 for staff details section
+        self.duplicate_btn3 = QRadioButton()  # btn3 and btn4 for data entry section
+        self.duplicate_btn4 = QRadioButton()
         self.temp_layout = QHBoxLayout()
 
         self.UI.combo_months.addItems(list(self.months.keys()))
@@ -354,7 +360,8 @@ class MainApp(QMainWindow):
 
         self.UI.combo_months.currentTextChanged.connect(self.update_details_for_month)
         self.UI.combo_months.currentTextChanged.connect(self.update_cur_amount_label)
-        self.UI.entry_staff_or_dependant.returnPressed.connect(self.UI.entry_amount.setFocus)
+        self.UI.entry_staff_or_dependant.editingFinished.connect(lambda: self.on_edit_finished_entry_st_or_dep(
+            self.UI.entry_staff_or_dependant.text()))
         self.UI.entry_amount.returnPressed.connect(self.insert_into_med_bills)
 
         self.UI.btn_clear.clicked.connect(self.control_clear_staff_details)
@@ -440,13 +447,13 @@ class MainApp(QMainWindow):
                                                                                  self.duplicate_btn2.text()]:
                     # print(s_name.split()[0], 'not same as', self.duplicate_btn1.text(), 'or',
                     # self.duplicate_btn2.text())
-                    self.remove_duplicate_btns()
+                    self.remove_duplicate_btns_1_and_2()
                 if len(search_result) > 1 and self.is_duplicate_toggle is False:
                     if not self.duplicate_btn1.isVisible():
-                        self.setup_duplicate_btns(s_name, d_name[1].title(), self.UI.staff_form)
+                        self.setup_duplicate_btns_1_and_2(s_name, d_name[1].title(), self.UI.staff_form)
                         return
                 if self.duplicate_btn1.isVisible() and len(search_result) == 1:  # searching for non-duplicate
-                    self.remove_duplicate_btns()
+                    self.remove_duplicate_btns_1_and_2()
 
                 self.UI.lbl_staff_name.setText(person_status[0])
                 self.UI.entry_staff_name.setText(s_name.title())
@@ -510,6 +517,18 @@ class MainApp(QMainWindow):
         self.clear_staff_details() if self.is_duplicate_toggle is False else self.clear_staff_details_with_duplicate()
 
 
+    def on_edit_finished_entry_st_or_dep(self, text):
+        result = MBillsFunctions.search_for_staff_from_staff_list(text.upper(), self.staff_details)
+        if len(result) > 1:
+            s_name = result[0][0]
+            d_name = result[0][1]
+            self.setup_duplicate_btns_3_and_4(s_name, d_name[1].title(), self.UI.entry_form)
+        else:
+            if self.duplicate_btn3.isVisible():
+                self.remove_duplicate_btns_3_and_4()
+        self.UI.entry_amount.setFocus()
+
+
     def clear_staff_details(self):
         """
         Method to clear widgets populated with staff details.
@@ -529,7 +548,7 @@ class MainApp(QMainWindow):
 
     def clear_staff_details_with_duplicate(self):
         self.clear_staff_details()
-        self.remove_duplicate_btns()
+        self.remove_duplicate_btns_1_and_2()
 
 
     def insert_into_med_bills(self):
@@ -562,8 +581,8 @@ class MainApp(QMainWindow):
             else:  # person could be dependant or casual/guest
                 search_result = MBillsFunctions.search_for_staff_from_staff_list(person_typed.upper(),
                                                                                  self.staff_details)
-                actual_staff, dependant, status = search_result[0][0], search_result[0][1], search_result[0][2]
-                if actual_staff is not None:  # check if person is in staff list
+                if search_result:  # check if person is in staff list
+                    actual_staff, dependant, status = search_result[0][0], search_result[0][1], search_result[0][2]
                     actual_staff = actual_staff.title()
                     dependant = [x.title() for x in dependant if x is not None]
                     # ic(actual_staff, dependant, status)
@@ -610,6 +629,7 @@ class MainApp(QMainWindow):
             self.undo_clicked_already = 0
             self.UI.entry_staff_or_dependant.setFocus()
             self.remove_hidden_rows()
+            self.remove_duplicate_btns_3_and_4()
 
             self.status_bar.showMessage('Entry entered successfully...', 2000)
 
@@ -746,7 +766,8 @@ class MainApp(QMainWindow):
         self.UI.btn_undo.setEnabled(False)
         self.UI.btn_redo.setEnabled(False)
         self.set_border_highlight_switch(None)
-        self.remove_duplicate_btns()
+        self.remove_duplicate_btns_1_and_2()
+        self.remove_duplicate_btns_3_and_4()
 
 
     def save_workbook(self):
@@ -816,9 +837,15 @@ class MainApp(QMainWindow):
                 self.UI.table_last_edit.removeRow(i)
                 del global_all_entries[i - 1]  # to keep visible rows and entries aligned
 
-    def setup_duplicate_btns(self, name1, name2, location):
+    def setup_duplicate_btns_1_and_2(self, name1, name2, location):
         """
         Helper function to toggle between the two instances of duplicate names.
+
+        :param name1: Name of staff in staff version.
+
+        :param name2: Name of staff in spouse version.
+
+        :param location: Layout where duplicate buttons will be added and removed.
         """
         self.UI.entry_quick_search.clear()
         self.dup_name1 = name1
@@ -834,7 +861,8 @@ class MainApp(QMainWindow):
         self.temp_layout = QHBoxLayout()
         self.temp_layout.addWidget(self.duplicate_btn1)
         self.temp_layout.addWidget(self.duplicate_btn2)
-        location.insertRow(0, '', self.temp_layout)
+        location.insertRow(0, '', self.temp_layout)  # 'location' is used here instead of hardcoded value because I
+        # want to see the exact layout(location) I'm using when I call this function elsewhere in the code.
         self.is_duplicate_toggle = True
 
     def on_dup_btn1_clicked(self, name):
@@ -850,7 +878,7 @@ class MainApp(QMainWindow):
         self.populate_staff_details(name, input_call='Entry')
         # Separated these one-liners into functions to potentially add more stuff later.
 
-    def remove_duplicate_btns(self):
+    def remove_duplicate_btns_1_and_2(self):
         """
         Helper function to remove buttons associated with the duplicate condition.
         """
@@ -858,6 +886,41 @@ class MainApp(QMainWindow):
         self.duplicate_btn2.hide()
         self.UI.staff_form.removeItem(self.temp_layout)
         self.is_duplicate_toggle = False
+
+    def setup_duplicate_btns_3_and_4(self, name1, name2, location):
+        """
+        Refer to func setup_duplicate_btns_1_and_2().
+        """
+        self.dup_name3 = name1
+        self.dup_name4 = name2
+        self.duplicate_btn3.show()
+        self.duplicate_btn3.setText(self.dup_name3.split()[0])
+        self.duplicate_btn3.setChecked(True)
+        self.duplicate_btn3.clicked.connect(lambda: self.on_dup_btn_3_or_4_clicked(self.dup_name3))
+        self.on_dup_btn_3_or_4_clicked(self.dup_name3)
+        self.duplicate_btn4.show()
+        self.duplicate_btn4.setText(self.dup_name4.split()[0])
+        self.duplicate_btn4.clicked.connect(lambda: self.on_dup_btn_3_or_4_clicked(self.dup_name4))
+        self.temp_layout_2 = QHBoxLayout()
+        self.temp_layout_2.addWidget(self.duplicate_btn3)
+        self.temp_layout_2.addWidget(self.duplicate_btn4)
+        location.setVerticalSpacing(5)
+        location.insertRow(0, '', self.temp_layout_2)
+
+    def on_dup_btn_3_or_4_clicked(self, name):
+        """
+        Helper function to toggle between which instance of the duplicate staff to insert data into.
+        """
+        self.who_to_insert_into = name
+
+    def remove_duplicate_btns_3_and_4(self):
+        """
+        Refer to func remove_duplicate_btns_1_and_2()
+        """
+        self.duplicate_btn3.hide()
+        self.duplicate_btn4.hide()
+        self.UI.entry_form.removeItem(self.temp_layout_2)
+        self.UI.entry_form.setVerticalSpacing(15)
 
 
 

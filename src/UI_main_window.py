@@ -307,6 +307,7 @@ class UIMainWindow(QWidget):
         self.entry_from_receipt_layout.addLayout(self.entry_form, 80)
         self.entry_form.addRow(self.lbl_staff_or_dependant, self.entry_staff_or_dependant)
         self.entry_form.addRow(self.lbl_amount, self.entry_amount)
+        self.entry_form.addRow('', QLabel(''))  # dummy to just create space
         self.entry_form.addRow('', self.btn_submit)
 
         self.staff_details_layout.addWidget(self.lbl_staff_details, 20)

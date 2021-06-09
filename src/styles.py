@@ -31,8 +31,7 @@ def main_window_style():
     }
     
     QPushButton#btn_submit {
-        padding-top: 7px;
-        padding-bottom: 7px;
+        padding: 15px 0px;
     }
     
     QLineEdit#entry_amount {
