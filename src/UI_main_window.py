@@ -9,6 +9,8 @@ from src import (QHSeparationLine, QVSeparationLine, CurrencyInputValidator)
 
 
 
+
+
 class UIMainWindow(QWidget):
 
     def __init__(self):
@@ -37,7 +39,8 @@ class UIMainWindow(QWidget):
         self.tabs = QTabWidget()
         self.tab_1 = QWidget()
         # self.tab_2 = QWidget()  # todo: Implement statistics or staff list here
-        # self.tab_3 = QWidget()  # todo: Implement Later (for Graphs maybe or utility stuff: like resetting all entries)
+        # self.tab_3 = QWidget()  # todo: Implement Later (for Graphs maybe or utility stuff:
+                                  # todo: like resetting all entries)
         self.tabs.addTab(self.tab_1, 'Receipt Entry')  # may change later
         # self.tabs.addTab(self.tab_2, 'Tab 2')
         # self.tabs.addTab(self.tab_3, 'Tab 3')
@@ -53,7 +56,8 @@ class UIMainWindow(QWidget):
         self.entry_quick_search.setPlaceholderText('Search For Dependant/Staff')
         if self.desktop.width() == 1920:
             self.entry_quick_search.setMinimumWidth(500)
-            # self.entry_quick_search.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred) # trying to allow it to shrink but no good :(
+            # self.entry_quick_search.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred)  # trying to allow it
+            # to shrink but no good :(
         else:
             self.entry_quick_search.setMinimumWidth(int(round(self.desktop.width() / 3.84, 1)))
             print(int(round(self.desktop.width() / 3.84, 1)))
@@ -196,7 +200,8 @@ class UIMainWindow(QWidget):
         self.hline1 = QHSeparationLine()
         # self.hline1.setStyleSheet('border: 1px solid gray;')
         self.lbl_table_title = QLabel('History for last added entries:')
-        self.lbl_table_title.setStyleSheet('font-size: 14pt;')  # used this because it appeared too big and bold for some reason
+        self.lbl_table_title.setStyleSheet(
+            'font-size: 14pt;')  # used this because it appeared too big and bold for some reason
 
         self.table_last_edit = QTableWidget()
         self.table_last_edit.setRowCount(1)
@@ -213,12 +218,14 @@ class UIMainWindow(QWidget):
         table_lbl3.setAlignment(Qt.AlignHCenter)
         table_lbl4 = QLabel('<i>Child(ren)</i>')
         table_lbl4.setAlignment(Qt.AlignHCenter)
-        table_lbl5 = QLabel('<i>New Amount</i>(<font color=\"#3d8ec9\">GH₵</font>) <i>added for</i>:')  # todo: get better name for this
+        table_lbl5 = QLabel(
+            '<i>New Amount</i>(<font color=\"#3d8ec9\">GH₵</font>) <i>added for</i>:')  # todo: get better name for this
         table_lbl5.setAlignment(Qt.AlignHCenter)
         table_lbl5.setWordWrap(True)
 
         # just using this to set column header resize
-        self.table_last_edit.setHorizontalHeaderLabels(['Time', 'Staff Name', 'Department', 'Spouse Name', 'Children   ', 'New Amount for Month'])
+        self.table_last_edit.setHorizontalHeaderLabels(
+            ['Time', 'Staff Name', 'Department', 'Spouse Name', 'Children   ', 'New Amount for Month'])
         self.table_last_edit.setCellWidget(0, 0, table_lbl0)
         self.table_last_edit.setColumnWidth(0, 100)  # For time
         self.table_last_edit.setColumnWidth(5, 75)  # For Spanned amount columns
@@ -262,8 +269,6 @@ class UIMainWindow(QWidget):
         self.entry_cur_amount_main_layout = QVBoxLayout()
         self.entry_cur_amount_main_layout.addLayout(self.lbl_cur_amount_layout)
         self.entry_cur_amount_main_layout.addLayout(self.entry_cur_amount_layout)
-
-
 
         # Adding Widgets to TAB 1 Layout -------------------------------------------------------------------
         self.menu_buttons_layout = QHBoxLayout()

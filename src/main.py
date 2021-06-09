@@ -416,7 +416,8 @@ class MainApp(QMainWindow):
 
     def populate_staff_details(self, person, input_call=None):
         """
-        Method to populate various widgets with the details of a Staff(either permanent staff/Guest/Casual) or Dependant.
+        Method to populate various widgets with the details of a Staff(either permanent staff/Guest/Casual) or
+        Dependant.
 
         :param person: Person whose details are to be populated.
 
@@ -433,8 +434,10 @@ class MainApp(QMainWindow):
             d_name = search_result[0][1]
 
             if search_result:  # not empty list
-                if self.duplicate_btn1.isVisible() and s_name.split()[0] not in [self.duplicate_btn1.text(), self.duplicate_btn2.text()]:
-                    # print(s_name.split()[0], 'not same as', self.duplicate_btn1.text(), 'or', self.duplicate_btn2.text())
+                if self.duplicate_btn1.isVisible() and s_name.split()[0] not in [self.duplicate_btn1.text(),
+                                                                                 self.duplicate_btn2.text()]:
+                    # print(s_name.split()[0], 'not same as', self.duplicate_btn1.text(), 'or',
+                    # self.duplicate_btn2.text())
                     self.remove_duplicate_btns()
                 if len(search_result) > 1 and self.is_duplicate_toggle is False:
                     if not self.duplicate_btn1.isVisible():
@@ -555,7 +558,8 @@ class MainApp(QMainWindow):
                                         ])
                 self.update_table()
             else:  # person could be dependant or casual/guest
-                search_result = MBillsFunctions.search_for_staff_from_staff_list(person_typed.upper(), self.staff_details)
+                search_result = MBillsFunctions.search_for_staff_from_staff_list(person_typed.upper(),  
+                                                                                 self.staff_details)
                 actual_staff, dependant, status = search_result[0][0], search_result[0][1], search_result[0][2]
                 if actual_staff is not None:  # check if person is in staff list
                     actual_staff = actual_staff.title()

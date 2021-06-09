@@ -92,7 +92,8 @@ class MBillsFunctions:
         for sheet in workbook.sheetnames:
             for row in workbook[sheet].iter_rows(min_row=3, max_row=610, min_col=3, max_col=4):
                 for cell in row:
-                    if cell.value is not None and cell.value.isupper() is True and cell.value != '-':  # check for upper case letters, not empty cell and not available
+                    if cell.value is not None and cell.value.isupper() is True and cell.value != '-':   # check for
+                        # upper case letters, not empty cell and not available
                         d_names.append(cell.value.title())
         return d_names
 

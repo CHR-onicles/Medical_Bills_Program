@@ -91,7 +91,8 @@ QProgressBar:horizontal {
 }
 
 QProgressBar::chunk:horizontal {
-    background-color: qlineargradient(spread:reflect, x1:1, y1:0.545, x2:1, y2:0, stop:0 rgba(28, 66, 111, 255), stop:1 rgba(37, 87, 146, 255));
+    background-color: qlineargradient(spread:reflect, x1:1, y1:0.545, x2:1, y2:0,  stop:0 rgba(28, 66, 111, 255), 
+    stop:1 rgba(37, 87, 146, 255));
 }
 
 QToolTip
@@ -734,7 +735,8 @@ QPushButton:hover {
     color: silver;
 }
 
-QComboBox:hover, QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover
+QComboBox:hover, QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover, QPlainTextEdit:hover,QAbstractView:hover,
+QTreeView:hover
 {
     border: 1px solid #78879b;
     color: silver;
