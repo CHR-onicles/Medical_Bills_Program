@@ -2,7 +2,7 @@
 from PyQt5.QtCore import (Qt)
 from PyQt5.QtGui import (QPixmap, QIcon, QFontDatabase, QKeySequence)
 from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QDesktopWidget, QFrame, QSizePolicy,
-                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QTableWidget, QHeaderView)
+                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QTableWidget, QHeaderView, QRadioButton)
 
 # Local imports
 from src import (QHSeparationLine, QVSeparationLine, CurrencyInputValidator)
@@ -152,6 +152,10 @@ class UIMainWindow(QWidget):
         self.btn_submit.setStatusTip('Submit entry into database')
         self.btn_submit.setObjectName('btn_submit')
         self.btn_submit.setCursor(Qt.PointingHandCursor)
+
+        # For duplicate condition
+        self.duplicate_btn3 = QRadioButton()
+        self.duplicate_btn4 = QRadioButton()
         # END Entry from Receipt Widgets -------------------------------------------------------------------
 
 
@@ -193,6 +197,10 @@ class UIMainWindow(QWidget):
         self.entry_cur_amount3.setReadOnly(True)
         self.entry_cur_amount3.setObjectName('entry_amount')
         self.entry_cur_amount3.setAlignment(Qt.AlignHCenter)
+
+        # For duplicate condition
+        self.duplicate_btn1 = QRadioButton()
+        self.duplicate_btn2 = QRadioButton()
         # END Staff Details widgets -----------------------------------------------------------------------
 
 
@@ -269,6 +277,11 @@ class UIMainWindow(QWidget):
         self.entry_cur_amount_main_layout = QVBoxLayout()
         self.entry_cur_amount_main_layout.addLayout(self.lbl_cur_amount_layout)
         self.entry_cur_amount_main_layout.addLayout(self.entry_cur_amount_layout)
+
+        # For duplicate condition
+        self.temp_layout = QHBoxLayout()
+        self.temp_layout_2 = QHBoxLayout()
+
 
         # Adding Widgets to TAB 1 Layout -------------------------------------------------------------------
         self.menu_buttons_layout = QHBoxLayout()

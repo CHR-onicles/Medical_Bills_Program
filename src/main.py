@@ -9,7 +9,7 @@ from datetime import datetime
 # from icecream import ic
 from PyQt5.QtCore import (Qt, QSettings, QSize, QPoint)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QComboBox, QCompleter, QMessageBox, QTableWidgetItem,
-                             QStyledItemDelegate, QAbstractItemView, QStatusBar, QAction, QRadioButton, QHBoxLayout)
+                             QStyledItemDelegate, QAbstractItemView, QStatusBar, QAction)
 from PyQt5.QtGui import (QIcon, QFont)
 
 # Local imports
@@ -236,7 +236,7 @@ class MainApp(QMainWindow):
         QScrollBar::sub-line:vertical
         {
             margin: 3px 0px 3px 0px;
-            border-image: url(:/qss_icons/up_arrow_disabled.png);
+            border-image: url(:/qss_icons/up_arrow_disabled);
             height: 10px;
             width: 10px;
             subcontrol-position: top;
@@ -255,7 +255,7 @@ class MainApp(QMainWindow):
         
         QScrollBar::sub-line:vertical:hover,QScrollBar::sub-line:vertical:on
         {
-            border-image: url(:/qss_icons/up_arrow.png);
+            border-image: url(:/qss_icons/up_arrow);
             height: 10px;
             width: 10px;
             subcontrol-position: top;
@@ -329,13 +329,6 @@ class MainApp(QMainWindow):
         self.UI.btn_clear.setEnabled(False)
         self.UI.entry_staff_or_dependant.setFocus()
 
-        # Dynamic widgets created for duplicate condition
-        self.duplicate_btn1 = QRadioButton()
-        self.duplicate_btn2 = QRadioButton()  # btn1 and btn2 for staff details section
-        self.duplicate_btn3 = QRadioButton()  # btn3 and btn4 for data entry section
-        self.duplicate_btn4 = QRadioButton()
-        self.temp_layout = QHBoxLayout()
-
         self.UI.combo_months.addItems(list(self.months.keys()))
         try:
             self.UI.combo_months.setCurrentIndex(self.settings.value('current month', 0, type=int))
@@ -397,8 +390,8 @@ class MainApp(QMainWindow):
         """
         Method to update all details of staff in accordance with the month it is set to.
         """
-        if self.duplicate_btn1.isVisible():
-            self.populate_staff_details(self.dup_name1, input_call='Entry') if self.duplicate_btn1.isChecked() \
+        if self.UI.duplicate_btn1.isVisible():
+            self.populate_staff_details(self.dup_name1, input_call='Entry') if self.UI.duplicate_btn1.isChecked() \
                 else self.populate_staff_details(self.dup_name2, input_call='Entry')
             return
 
@@ -443,16 +436,16 @@ class MainApp(QMainWindow):
             if search_result:  # not empty list
                 s_name = search_result[0][0]
                 d_name = search_result[0][1]
-                if self.duplicate_btn1.isVisible() and s_name.split()[0] not in [self.duplicate_btn1.text(),
-                                                                                 self.duplicate_btn2.text()]:
-                    # print(s_name.split()[0], 'not same as', self.duplicate_btn1.text(), 'or',
-                    # self.duplicate_btn2.text())
+                if self.UI.duplicate_btn1.isVisible() and s_name.split()[0] not in [self.UI.duplicate_btn1.text(),
+                                                                                 self.UI.duplicate_btn2.text()]:
+                    # print(s_name.split()[0], 'not same as', self.UI.duplicate_btn1.text(), 'or',
+                    # self.UI.duplicate_btn2.text())
                     self.remove_duplicate_btns_1_and_2()
                 if len(search_result) > 1 and self.is_duplicate_toggle is False:
-                    if not self.duplicate_btn1.isVisible():
+                    if not self.UI.duplicate_btn1.isVisible():
                         self.setup_duplicate_btns_1_and_2(s_name, d_name[1].title(), self.UI.staff_form)
                         return
-                if self.duplicate_btn1.isVisible() and len(search_result) == 1:  # searching for non-duplicate
+                if self.UI.duplicate_btn1.isVisible() and len(search_result) == 1:  # searching for non-duplicate
                     self.remove_duplicate_btns_1_and_2()
 
                 self.UI.lbl_staff_name.setText(person_status[0])
@@ -524,7 +517,7 @@ class MainApp(QMainWindow):
             d_name = result[0][1]
             self.setup_duplicate_btns_3_and_4(s_name, d_name[1].title(), self.UI.entry_form)
         else:
-            if self.duplicate_btn3.isVisible():
+            if self.UI.duplicate_btn3.isVisible():
                 self.remove_duplicate_btns_3_and_4()
         self.UI.entry_amount.setFocus()
 
@@ -850,18 +843,17 @@ class MainApp(QMainWindow):
         self.UI.entry_quick_search.clear()
         self.dup_name1 = name1
         self.dup_name2 = name2  # in order to pass it to the update month details method
-        self.duplicate_btn1.show()
-        self.duplicate_btn1.setText(self.dup_name1.split()[0])
-        self.duplicate_btn1.setChecked(True)
-        self.duplicate_btn1.clicked.connect(lambda: self.on_dup_btn1_clicked(self.dup_name1))
+        self.UI.duplicate_btn1.show()
+        self.UI.duplicate_btn1.setText(self.dup_name1.split()[0])
+        self.UI.duplicate_btn1.setChecked(True)
+        self.UI.duplicate_btn1.clicked.connect(lambda: self.on_dup_btn1_clicked(self.dup_name1))
         self.on_dup_btn1_clicked(self.dup_name1)
-        self.duplicate_btn2.show()
-        self.duplicate_btn2.setText(self.dup_name2.split()[0])
-        self.duplicate_btn2.clicked.connect(lambda: self.on_dup_btn2_clicked(self.dup_name2))
-        self.temp_layout = QHBoxLayout()
-        self.temp_layout.addWidget(self.duplicate_btn1)
-        self.temp_layout.addWidget(self.duplicate_btn2)
-        location.insertRow(0, '', self.temp_layout)  # 'location' is used here instead of hardcoded value because I
+        self.UI.duplicate_btn2.show()
+        self.UI.duplicate_btn2.setText(self.dup_name2.split()[0])
+        self.UI.duplicate_btn2.clicked.connect(lambda: self.on_dup_btn2_clicked(self.dup_name2))
+        self.UI.temp_layout.addWidget(self.UI.duplicate_btn1)
+        self.UI.temp_layout.addWidget(self.UI.duplicate_btn2)
+        location.insertRow(0, '', self.UI.temp_layout)  # 'location' is used here instead of hardcoded value because I
         # want to see the exact layout(location) I'm using when I call this function elsewhere in the code.
         self.is_duplicate_toggle = True
 
@@ -882,9 +874,9 @@ class MainApp(QMainWindow):
         """
         Helper function to remove buttons associated with the duplicate condition.
         """
-        self.duplicate_btn1.hide()
-        self.duplicate_btn2.hide()
-        self.UI.staff_form.removeItem(self.temp_layout)
+        self.UI.duplicate_btn1.hide()
+        self.UI.duplicate_btn2.hide()
+        self.UI.staff_form.removeItem(self.UI.temp_layout)
         self.is_duplicate_toggle = False
 
     def setup_duplicate_btns_3_and_4(self, name1, name2, location):
@@ -893,19 +885,18 @@ class MainApp(QMainWindow):
         """
         self.dup_name3 = name1
         self.dup_name4 = name2
-        self.duplicate_btn3.show()
-        self.duplicate_btn3.setText(self.dup_name3.split()[0])
-        self.duplicate_btn3.setChecked(True)
-        self.duplicate_btn3.clicked.connect(lambda: self.on_dup_btn_3_or_4_clicked(self.dup_name3))
+        self.UI.duplicate_btn3.show()
+        self.UI.duplicate_btn3.setText(self.dup_name3.split()[0])
+        self.UI.duplicate_btn3.setChecked(True)
+        self.UI.duplicate_btn3.clicked.connect(lambda: self.on_dup_btn_3_or_4_clicked(self.dup_name3))
         self.on_dup_btn_3_or_4_clicked(self.dup_name3)
-        self.duplicate_btn4.show()
-        self.duplicate_btn4.setText(self.dup_name4.split()[0])
-        self.duplicate_btn4.clicked.connect(lambda: self.on_dup_btn_3_or_4_clicked(self.dup_name4))
-        self.temp_layout_2 = QHBoxLayout()
-        self.temp_layout_2.addWidget(self.duplicate_btn3)
-        self.temp_layout_2.addWidget(self.duplicate_btn4)
+        self.UI.duplicate_btn4.show()
+        self.UI.duplicate_btn4.setText(self.dup_name4.split()[0])
+        self.UI.duplicate_btn4.clicked.connect(lambda: self.on_dup_btn_3_or_4_clicked(self.dup_name4))
+        self.UI.temp_layout_2.addWidget(self.UI.duplicate_btn3)
+        self.UI.temp_layout_2.addWidget(self.UI.duplicate_btn4)
         location.setVerticalSpacing(5)
-        location.insertRow(0, '', self.temp_layout_2)
+        location.insertRow(0, '', self.UI.temp_layout_2)
 
     def on_dup_btn_3_or_4_clicked(self, name):
         """
@@ -917,9 +908,9 @@ class MainApp(QMainWindow):
         """
         Refer to func remove_duplicate_btns_1_and_2()
         """
-        self.duplicate_btn3.hide()
-        self.duplicate_btn4.hide()
-        self.UI.entry_form.removeItem(self.temp_layout_2)
+        self.UI.duplicate_btn3.hide()
+        self.UI.duplicate_btn4.hide()
+        self.UI.entry_form.removeItem(self.UI.temp_layout_2)
         self.UI.entry_form.setVerticalSpacing(15)
 
 
