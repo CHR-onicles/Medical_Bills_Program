@@ -130,6 +130,8 @@ class MainApp(QMainWindow):
     App configurations.
     """
     is_duplicate_toggle = False
+    dup_name1 = ''
+    dup_name2 = ''
 
     def __init__(self):
         super().__init__()
@@ -430,10 +432,10 @@ class MainApp(QMainWindow):
             person_status = ['Staff Name:', 'Guest Name:', 'Casual Name:']
             self.clear_staff_details()
             search_result = MBillsFunctions.search_for_staff_from_staff_list(person.upper(), self.staff_details)
-            s_name = search_result[0][0]
-            d_name = search_result[0][1]
 
             if search_result:  # not empty list
+                s_name = search_result[0][0]
+                d_name = search_result[0][1]
                 if self.duplicate_btn1.isVisible() and s_name.split()[0] not in [self.duplicate_btn1.text(),
                                                                                  self.duplicate_btn2.text()]:
                     # print(s_name.split()[0], 'not same as', self.duplicate_btn1.text(), 'or',
@@ -558,7 +560,7 @@ class MainApp(QMainWindow):
                                         ])
                 self.update_table()
             else:  # person could be dependant or casual/guest
-                search_result = MBillsFunctions.search_for_staff_from_staff_list(person_typed.upper(),  
+                search_result = MBillsFunctions.search_for_staff_from_staff_list(person_typed.upper(),
                                                                                  self.staff_details)
                 actual_staff, dependant, status = search_result[0][0], search_result[0][1], search_result[0][2]
                 if actual_staff is not None:  # check if person is in staff list
