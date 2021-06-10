@@ -1,4 +1,4 @@
-# Medical Bills Entry App v1.1.0
+# Medical Bills Entry App v1.2.0
  >App to speed up entries of medical claims/receipts into a pre-formatted, pre-filled Excel database.
 
 ## Requirements:
