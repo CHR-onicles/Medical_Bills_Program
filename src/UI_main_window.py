@@ -1,7 +1,7 @@
 # 3rd party packages
 from PyQt5.QtCore import (Qt)
 from PyQt5.QtGui import (QPixmap, QIcon, QFontDatabase, QKeySequence)
-from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QDesktopWidget, QFrame, QSizePolicy,
+from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QDesktopWidget, QFrame, QGroupBox,
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QTableWidget, QHeaderView, QRadioButton)
 
 # Local imports
@@ -259,12 +259,18 @@ class UIMainWindow(QWidget):
         self.tab1_entry_and_details_main_layout = QHBoxLayout()
         self.tab1_entry_and_details_main_layout.setContentsMargins(0, 10, 0, 10)
         self.entry_from_receipt_layout = QVBoxLayout()  # todo: UI change -> change to groupbox
-        self.entry_from_receipt_layout.setContentsMargins(0, 0, 10, 0)
+        self.entry_from_receipt_gbox = QGroupBox()
+        self.entry_from_receipt_gbox.setLayout(self.entry_from_receipt_layout)
+        self.entry_from_receipt_gbox.setTitle('Entry for Bills/Claims')
+        self.entry_from_receipt_layout.setContentsMargins(10, 50, 10, 10)
         self.entry_form = QFormLayout()
         self.entry_form.setVerticalSpacing(15)
 
         self.staff_details_layout = QVBoxLayout()
-        self.staff_details_layout.setContentsMargins(10, 0, 0, 0)
+        self.staff_details_gbox = QGroupBox()
+        self.staff_details_gbox.setLayout(self.staff_details_layout)
+        self.staff_details_gbox.setTitle('Staff Details Summary')
+        self.staff_details_layout.setContentsMargins(10, 50, 10, 10)
         self.staff_form = QFormLayout()
         self.staff_form.setVerticalSpacing(8)
         self.lbl_cur_amount_layout = QHBoxLayout()
@@ -305,18 +311,18 @@ class UIMainWindow(QWidget):
         self.tab1_month_layout.addWidget(self.combo_months)
         self.tab1_month_layout.addStretch()
 
-        self.tab1_entry_and_details_main_layout.addLayout(self.entry_from_receipt_layout, 48)
-        self.tab1_entry_and_details_main_layout.addWidget(QVSeparationLine(), 4)
-        self.tab1_entry_and_details_main_layout.addLayout(self.staff_details_layout, 48)
+        self.tab1_entry_and_details_main_layout.addWidget(self.entry_from_receipt_gbox, 50)
+        # self.tab1_entry_and_details_main_layout.addWidget(QVSeparationLine(), 4)
+        self.tab1_entry_and_details_main_layout.addWidget(self.staff_details_gbox, 50)
 
-        self.entry_from_receipt_layout.addWidget(self.lbl_entry_from_receipt, 20)
-        self.entry_from_receipt_layout.addLayout(self.entry_form, 80)
+        # self.entry_from_receipt_layout.addWidget(self.lbl_entry_from_receipt, 20)
+        self.entry_from_receipt_layout.addLayout(self.entry_form)
         self.entry_form.addRow(self.lbl_staff_or_dependant, self.entry_staff_or_dependant)
         self.entry_form.addRow(self.lbl_amount, self.entry_amount)
         self.entry_form.addRow('', QLabel(''))  # dummy to just create space
         self.entry_form.addRow('', self.btn_submit)
 
-        self.staff_details_layout.addWidget(self.lbl_staff_details, 20)
+        # self.staff_details_layout.addWidget(self.lbl_staff_details, 20)
         self.staff_details_layout.addLayout(self.staff_form, 80)
         self.staff_form.addRow(self.lbl_staff_name, self.entry_staff_name)
         self.staff_form.addRow(self.lbl_department, self.entry_department)

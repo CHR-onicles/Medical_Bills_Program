@@ -25,8 +25,7 @@ def main_window_style():
     }
     
     QPushButton#btn_quick_search_and_refresh {
-        padding-top: 3px;
-        padding-bottom: 3px;
+        padding-bottom: 3px 0px;
         min-width: 4em;
     }
     
@@ -58,15 +57,11 @@ def main_window_style():
     
     QTableWidget, QTableWidget QComboBox {
         font-size: 12pt;
-        /*text-align: center; # doesnt work */
     }
     
     QPushButton#menu_button {
         border: none;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        padding-left: 7px;
-        padding-right: 7px;
+        padding: 8px 7px;
     }
     
     QPushButton#menu_button:hover {
@@ -77,6 +72,17 @@ def main_window_style():
     QFrame#menu_btn_frame {
         border: 1px solid gray;
         border-radius: 5px;
+    }
+    
+    QGroupBox{
+        font-size: 18pt;
+        border: 1px solid rgba(100,100,100,0.5);
+        border-radius: 8px;
+    }
+    
+    QGroupBox:title {
+        color: rgb(255, 85, 255);
+        top: -10%;
     }
     
     
@@ -420,7 +426,7 @@ QLineEdit
 }
 
 QGroupBox {
-    border:1px solid #3A3939;
+    /*border:1px solid #3A3939; */ /* Using my own color here */
     border-radius: 2px;
     margin-top: 20px;
     background-color: #302F2F;
