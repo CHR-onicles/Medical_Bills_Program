@@ -241,39 +241,39 @@ QRadioButton::indicator:unchecked:hover
 QRadioButton::indicator:unchecked:focus,
 QRadioButton::indicator:unchecked:pressed
 {
-  border: none;
-  outline: none;
+    border: none;
+    outline: none;
     image: url(:/qss_icons/radio_unchecked_focus);
 }
 
 QRadioButton::indicator:checked,
 QRadioButton::indicator:checked:hover
 {
-  border: none;
-  outline: none;
-    image: url(:/qss_icons/radio_checked);
+      border: none;
+      outline: none;
+      image: url(:/qss_icons/radio_checked);
 }
 
 QRadioButton::indicator:checked:focus,
 QRadioButton::indicato::menu-arrowr:checked:pressed
 {
-  border: none;
-  outline: none;
-    image: url(:/qss_icons/radio_checked_focus);
+      border: none;
+      outline: none;
+      image: url(:/qss_icons/radio_checked_focus);
 }
 
 QRadioButton::indicator:indeterminate,
 QRadioButton::indicator:indeterminate:hover,
 QRadioButton::indicator:indeterminate:pressed
 {
-        image: url(:/qss_icons/radio_indeterminate); /* no resource available */
+    image: url(:/qss_icons/radio_indeterminate); /* no resource available */
 }
 
 QRadioButton::indicator:checked:disabled
 {
-  outline: none;
-  image: url(:/qss_icons/radio_checked_disabled);
-}
+    outline: none;
+    image: url(:/qss_icons/radio_checked_disabled);
+    }
 
 QRadioButton::indicator:unchecked:disabled
 {
@@ -607,7 +607,6 @@ QSizeGrip {
 QMainWindow
 {
     background-color: #302F2F;
-
 }
 
 QMainWindow::separator
@@ -621,7 +620,6 @@ QMainWindow::separator
 
 QMainWindow::separator:hover
 {
-
     background-color: #787876;
     color: white;
     padding-left: 4px;
@@ -1116,14 +1114,14 @@ QToolButton {
 }
 
 QToolButton[popupMode="1"] { /* only for MenuButtonPopup */
- padding-right: 20px; /* make way for the popup button */
- border: 2px transparent #4A4949;
- border-radius: 4px;
+     padding-right: 20px; /* make way for the popup button */
+     border: 2px transparent #4A4949;
+     border-radius: 4px;
 }
 
 QToolButton[popupMode="2"] { /* only for InstantPopup */
- padding-right: 10px; /* make way for the popup button */
- border: 2px transparent #4A4949;
+     padding-right: 10px; /* make way for the popup button */
+     border: 2px transparent #4A4949;
 }
 
 
@@ -1319,4 +1317,4 @@ ColorButton::disabled {
     border-radius: 0px;
     border: 1px solid #AAAAAA;
 }
-    """
+"""
