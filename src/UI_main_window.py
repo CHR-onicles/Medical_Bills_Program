@@ -40,7 +40,7 @@ class UIMainWindow(QWidget):
         self.tab_1 = QWidget()
         # self.tab_2 = QWidget()  # todo: Implement statistics or staff list here
         # self.tab_3 = QWidget()  # todo: Implement Later (for Graphs maybe or utility stuff:
-                                  # todo: like resetting all entries)
+                                  # todo: like resetting all data in medical bills database)
         self.tabs.addTab(self.tab_1, 'Receipt Entry')  # may change later
         # self.tabs.addTab(self.tab_2, 'Tab 2')
         # self.tabs.addTab(self.tab_3, 'Tab 3')
@@ -224,7 +224,7 @@ class UIMainWindow(QWidget):
         table_lbl4 = QLabel('<i>Child(ren)</i>')
         table_lbl4.setAlignment(Qt.AlignHCenter)
         table_lbl5 = QLabel(
-            '<i>New Amount</i>(<font color=\"#3d8ec9\">GH₵</font>) <i>added for</i>:')  # todo: get better name for this
+            '<i>New Amount</i>(<font color=\"#3d8ec9\">GH₵</font>) <i>added for</i>:')
         table_lbl5.setAlignment(Qt.AlignHCenter)
         table_lbl5.setWordWrap(True)
 
@@ -258,7 +258,7 @@ class UIMainWindow(QWidget):
 
         self.tab1_entry_and_details_main_layout = QHBoxLayout()
         self.tab1_entry_and_details_main_layout.setContentsMargins(0, 10, 0, 10)
-        self.entry_from_receipt_layout = QVBoxLayout()
+        self.entry_from_receipt_layout = QVBoxLayout()  # todo: UI change -> change to groupbox
         self.entry_from_receipt_layout.setContentsMargins(0, 0, 10, 0)
         self.entry_form = QFormLayout()
         self.entry_form.setVerticalSpacing(15)
