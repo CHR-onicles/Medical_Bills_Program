@@ -987,7 +987,6 @@ if __name__ == '__main__':
     # TODO:
     #   - Take screenshots with fake database and update README paths for screenshots
     #   - Create release version
-    #   - Update changelog
     #   - Create app demo gif
     #   - Find a better way of doing "input_call='Entry'" [optional]
     #   - Properly evaluate boolean return value from functions [optional]

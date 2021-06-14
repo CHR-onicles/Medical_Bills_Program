@@ -10,13 +10,16 @@
 ## Description:
 > This is a receipt entry app that makes use of two specific *pre-formatted*
 and *pre-filled* databases. It was custom-made to meet the needs of a nurse at a specific organization and most of the
-reading and writing operations are **rigid** and will only work properly, given the right databases and environments in
-**Ms Excel**.
+reading and writing operations are **rigid** and will only work properly, given the right databases and
+environments in**MS Excel**.
 
 ## Screenshots:
-<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/ss-1.png' width=800 alt="ss-1">
-<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/ss-2.png' width=800 alt="ss-2">
-<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/ss-3.png' width=800 alt="ss-3">
+<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/sss-1.png' width=800 
+alt="screenshot-1">
+<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/sss-2.png' width=800 
+alt="screenshot-2">
+<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/sss-3.png' width=800 
+alt="screenshot-3">
 
 ## App Demo:
 [Short demo](https://imgur.com/3FAxKkB)
