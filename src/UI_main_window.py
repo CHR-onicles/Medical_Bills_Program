@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget
                              QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QTableWidget, QHeaderView, QRadioButton)
 
 # Local imports
-from src import (QHSeparationLine, QVSeparationLine, CurrencyInputValidator)
+from src import (QHSeparationLine, CurrencyInputValidator)
 
 
 
