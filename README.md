@@ -19,12 +19,10 @@ environments in **MS Excel**.
 width=800 
 alt="screenshot-1">
 
-<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/duplicate-name-fix-min-version
--2/screenshots/sss-2.png' width=800 
+<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/duplicate-name-fix-min-version-2/screenshots/sss-2.png' width=800 
 alt="screenshot-2">
 
-<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/duplicate-name-fix-min-version
--2/screenshots/sss-3.png' width=800 
+<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/duplicate-name-fix-min-version-2/screenshots/sss-3.png' width=800 
 alt="screenshot-3">
 
 ## App Demo:
