@@ -92,7 +92,8 @@ class MBillsFunctions:
         for sheet in workbook.sheetnames:
             for row in workbook[sheet].iter_rows(min_row=3, max_row=610, min_col=3, max_col=4):
                 for cell in row:
-                    if cell.value is not None and cell.value.isupper() is True and cell.value != '-':  # check for upper case letters, not empty cell and not available
+                    if cell.value is not None and cell.value.isupper() is True and cell.value != '-':   # check for
+                        # upper case letters, not empty cell and not available
                         d_names.append(cell.value.title())
         return d_names
 
@@ -154,48 +155,39 @@ class MBillsFunctions:
         # stop = datetime.now()
         # ic('Time elapsed for extracting:', (stop - start))
 
-        # ------------------------------------------------------------------------------------------------
-        # Debugging:
-        # To print out the staff in the Staff List Workbook without Spouses (the causes of the current bug)
-        # count = 0
-        # for i, j in staff_details.items():
-        #     if j[1] is None:
-        #         count += 1
-        #         print(i, j)
-        # print('length:', count)
-        # ------------------------------------------------------------------------------------------------
-
         return staff_details
 
 
     @staticmethod
     def search_for_staff_from_staff_list(person, staff_deets):
         """
-        Static method to search for anyone using the Staff List workbook. If found, returns staff's details.
-        If not, returns None for those particulars in the details(For Casuals and Guests).
-
-        :param staff_deets: Dictionary of staff's details.
+        Updated function to search for a staff from staff list while taking duplicates into consideration.
 
         :param person: Person to search for.
 
-        :return: Tuple of staff with dependant(s) or None if not found.
+        :param staff_deets: Dictionary of staff's details.
+
+        :return: list of specific's staff's details or lists of duplicate staff's details.
         """
         # start = datetime.now()
-        for staff, dependants in staff_deets.items():
-            # ic.enable()
-            if staff == person:
-                # ic('Found with key:', staff, dependants)
-                # stop = datetime.now()
-                # ic('Time for Search elapsed:', stop - start)
-                return staff.title(), dependants, 'k'
-            else:
-                for d in dependants:
-                    if d == person:
-                        # ic('Found with value:', staff, dependants)
-                        # stop = datetime.now()
-                        # ic('Time for Search elapsed:', stop - start)
-                        return staff, dependants, 'v'
-        return None, None, None
+        # ic.enable()
+
+        result = [[staff.title(), dependants, 'k'] for staff, dependants in staff_deets.items() if staff == person]
+
+        for st, dep in staff_deets.items():
+            for d in dep:
+                if d == person:
+                    result.append([st.title(), dep, 'v'])
+
+        if len(result) > 1:
+            if result[0][-1] == 'v' and result[1][-1] == 'v':  # only two possible items in result
+                result[0].append(result[0][0].split()[0])
+                result[1].append(result[1][0].split()[0])
+                # simply append the first name of the staff to the items in result to help differentiate
+
+        # stop = datetime.now()
+        # ic('Time for search elapsed:', stop - start)
+        return result
 
 
     @staticmethod
@@ -473,7 +465,3 @@ class MBillsFunctions:
             raise Exception('Problem closing workbook!')
         else:
             return True
-
-
-    # ---------------------------------------- TODO --------------------------------------------------------
-    # TODO:

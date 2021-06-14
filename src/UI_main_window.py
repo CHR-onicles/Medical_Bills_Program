@@ -1,11 +1,13 @@
 # 3rd party packages
 from PyQt5.QtCore import (Qt)
 from PyQt5.QtGui import (QPixmap, QIcon, QFontDatabase, QKeySequence)
-from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QDesktopWidget, QFrame, QSizePolicy,
-                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QTableWidget, QHeaderView)
+from PyQt5.QtWidgets import (QPushButton, QLabel, QTabWidget, QComboBox, QWidget, QDesktopWidget, QFrame, QGroupBox,
+                             QLineEdit, QVBoxLayout, QFormLayout, QHBoxLayout, QTableWidget, QHeaderView, QRadioButton)
 
 # Local imports
-from src import (QHSeparationLine, QVSeparationLine, CurrencyInputValidator)
+from src import (QHSeparationLine, CurrencyInputValidator)
+
+
 
 
 
@@ -37,7 +39,8 @@ class UIMainWindow(QWidget):
         self.tabs = QTabWidget()
         self.tab_1 = QWidget()
         # self.tab_2 = QWidget()  # todo: Implement statistics or staff list here
-        # self.tab_3 = QWidget()  # todo: Implement Later (for Graphs maybe or utility stuff: like resetting all entries)
+        # self.tab_3 = QWidget()  # todo: Implement Later (for Graphs maybe or utility stuff:
+                                  # todo: like resetting all data in medical bills database)
         self.tabs.addTab(self.tab_1, 'Receipt Entry')  # may change later
         # self.tabs.addTab(self.tab_2, 'Tab 2')
         # self.tabs.addTab(self.tab_3, 'Tab 3')
@@ -53,7 +56,8 @@ class UIMainWindow(QWidget):
         self.entry_quick_search.setPlaceholderText('Search For Dependant/Staff')
         if self.desktop.width() == 1920:
             self.entry_quick_search.setMinimumWidth(500)
-            # self.entry_quick_search.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred) # trying to allow it to shrink but no good :(
+            # self.entry_quick_search.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred)
+            # trying to allow it to shrink but no good :(
         else:
             self.entry_quick_search.setMinimumWidth(int(round(self.desktop.width() / 3.84, 1)))
             print(int(round(self.desktop.width() / 3.84, 1)))
@@ -148,6 +152,10 @@ class UIMainWindow(QWidget):
         self.btn_submit.setStatusTip('Submit entry into database')
         self.btn_submit.setObjectName('btn_submit')
         self.btn_submit.setCursor(Qt.PointingHandCursor)
+
+        # For duplicate condition
+        self.duplicate_btn3 = QRadioButton()
+        self.duplicate_btn4 = QRadioButton()
         # END Entry from Receipt Widgets -------------------------------------------------------------------
 
 
@@ -189,6 +197,7 @@ class UIMainWindow(QWidget):
         self.entry_cur_amount3.setReadOnly(True)
         self.entry_cur_amount3.setObjectName('entry_amount')
         self.entry_cur_amount3.setAlignment(Qt.AlignHCenter)
+
         # END Staff Details widgets -----------------------------------------------------------------------
 
 
@@ -196,7 +205,8 @@ class UIMainWindow(QWidget):
         self.hline1 = QHSeparationLine()
         # self.hline1.setStyleSheet('border: 1px solid gray;')
         self.lbl_table_title = QLabel('History for last added entries:')
-        self.lbl_table_title.setStyleSheet('font-size: 14pt;')  # used this because it appeared too big and bold for some reason
+        self.lbl_table_title.setStyleSheet(
+            'font-size: 14pt;')  # used this because it appeared too big and bold for some reason
 
         self.table_last_edit = QTableWidget()
         self.table_last_edit.setRowCount(1)
@@ -213,12 +223,14 @@ class UIMainWindow(QWidget):
         table_lbl3.setAlignment(Qt.AlignHCenter)
         table_lbl4 = QLabel('<i>Child(ren)</i>')
         table_lbl4.setAlignment(Qt.AlignHCenter)
-        table_lbl5 = QLabel('<i>New Amount</i>(<font color=\"#3d8ec9\">GH₵</font>) <i>added for</i>:')  # todo: get better name for this
+        table_lbl5 = QLabel(
+            '<i>New Amount</i>(<font color=\"#3d8ec9\">GH₵</font>) <i>added for</i>:')
         table_lbl5.setAlignment(Qt.AlignHCenter)
         table_lbl5.setWordWrap(True)
 
         # just using this to set column header resize
-        self.table_last_edit.setHorizontalHeaderLabels(['Time', 'Staff Name', 'Department', 'Spouse Name', 'Children   ', 'New Amount for Month'])
+        self.table_last_edit.setHorizontalHeaderLabels(
+            ['Time', 'Staff Name', 'Department', 'Spouse Name', 'Children   ', 'New Amount for Month'])
         self.table_last_edit.setCellWidget(0, 0, table_lbl0)
         self.table_last_edit.setColumnWidth(0, 100)  # For time
         self.table_last_edit.setColumnWidth(5, 75)  # For Spanned amount columns
@@ -246,13 +258,19 @@ class UIMainWindow(QWidget):
 
         self.tab1_entry_and_details_main_layout = QHBoxLayout()
         self.tab1_entry_and_details_main_layout.setContentsMargins(0, 10, 0, 10)
-        self.entry_from_receipt_layout = QVBoxLayout()
-        self.entry_from_receipt_layout.setContentsMargins(0, 0, 10, 0)
+        self.entry_from_receipt_layout = QVBoxLayout()  # todo: UI change -> change to groupbox
+        self.entry_from_receipt_gbox = QGroupBox()
+        self.entry_from_receipt_gbox.setLayout(self.entry_from_receipt_layout)
+        self.entry_from_receipt_gbox.setTitle('Entry for Bills/Claims')
+        self.entry_from_receipt_layout.setContentsMargins(10, 50, 10, 10)
         self.entry_form = QFormLayout()
         self.entry_form.setVerticalSpacing(15)
 
         self.staff_details_layout = QVBoxLayout()
-        self.staff_details_layout.setContentsMargins(10, 0, 0, 0)
+        self.staff_details_gbox = QGroupBox()
+        self.staff_details_gbox.setLayout(self.staff_details_layout)
+        self.staff_details_gbox.setTitle('Staff Details Summary')
+        self.staff_details_layout.setContentsMargins(10, 50, 10, 10)
         self.staff_form = QFormLayout()
         self.staff_form.setVerticalSpacing(8)
         self.lbl_cur_amount_layout = QHBoxLayout()
@@ -262,7 +280,6 @@ class UIMainWindow(QWidget):
         self.entry_cur_amount_main_layout = QVBoxLayout()
         self.entry_cur_amount_main_layout.addLayout(self.lbl_cur_amount_layout)
         self.entry_cur_amount_main_layout.addLayout(self.entry_cur_amount_layout)
-
 
 
         # Adding Widgets to TAB 1 Layout -------------------------------------------------------------------
@@ -294,17 +311,18 @@ class UIMainWindow(QWidget):
         self.tab1_month_layout.addWidget(self.combo_months)
         self.tab1_month_layout.addStretch()
 
-        self.tab1_entry_and_details_main_layout.addLayout(self.entry_from_receipt_layout, 48)
-        self.tab1_entry_and_details_main_layout.addWidget(QVSeparationLine(), 4)
-        self.tab1_entry_and_details_main_layout.addLayout(self.staff_details_layout, 48)
+        self.tab1_entry_and_details_main_layout.addWidget(self.entry_from_receipt_gbox, 50)
+        # self.tab1_entry_and_details_main_layout.addWidget(QVSeparationLine(), 4)
+        self.tab1_entry_and_details_main_layout.addWidget(self.staff_details_gbox, 50)
 
-        self.entry_from_receipt_layout.addWidget(self.lbl_entry_from_receipt, 20)
-        self.entry_from_receipt_layout.addLayout(self.entry_form, 80)
+        # self.entry_from_receipt_layout.addWidget(self.lbl_entry_from_receipt, 20)
+        self.entry_from_receipt_layout.addLayout(self.entry_form)
         self.entry_form.addRow(self.lbl_staff_or_dependant, self.entry_staff_or_dependant)
         self.entry_form.addRow(self.lbl_amount, self.entry_amount)
+        self.entry_form.addRow('', QLabel(''))  # dummy to just create space
         self.entry_form.addRow('', self.btn_submit)
 
-        self.staff_details_layout.addWidget(self.lbl_staff_details, 20)
+        # self.staff_details_layout.addWidget(self.lbl_staff_details, 20)
         self.staff_details_layout.addLayout(self.staff_form, 80)
         self.staff_form.addRow(self.lbl_staff_name, self.entry_staff_name)
         self.staff_form.addRow(self.lbl_department, self.entry_department)
