@@ -14,18 +14,14 @@ reading and writing operations are **rigid** and will only work properly, given 
 environments in **MS Excel**.
 
 ## Screenshots:
-<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/sss-1.png' width=800 
-alt="screenshot-1">
+<img src="https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/sss-1.png" width=800 alt="screenshot-1">
 
-<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/sss-2.png' width=800 
-alt="screenshot-2">
+<img src="https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/sss-2.png" width=800 alt="screenshot-2">
 
-<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/sss-3.png' width=800 
-alt="screenshot-3">
+<img src="https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/sss-3.png" width=800 alt="screenshot-3">
 
 ## App Demo:
-<img src='https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/app_demo.gif' 
-width="800" alt="app demo gif">
+<img src="https://raw.githubusercontent.com/CHR-onicles/Medical_Bills_Program/main/screenshots/app_demo.gif" width="800" alt="app demo gif">
 
 ## NB:
 > The actual databases used cannot be released **publicly** as they contain **private** information. They'll have to
