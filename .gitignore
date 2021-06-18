@@ -131,3 +131,5 @@ queries*.*
 jupyter_stuff/
 app - RELEASES/
 build*
+v*
+*.zip

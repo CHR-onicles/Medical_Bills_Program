@@ -14,7 +14,7 @@ build_options = {'zip_include_packages': ['PyQt5.QtWidgets', 'PyQt5.QtGui', 'PyQ
                               'distutils', 'unittest', 'packaging', 'cffi', 'html', 'http', 'pycparser', 'icecream',
                               'lxml'
                               ],  # had to yeet all these out as it made the executable folder huge af...
-                 'include_files': ['test med bills 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx']
+                 'include_files': ['MEDICAL BILLS 2021.xlsx', 'STAFF DEPENDANT LIST 2020.xlsx']
                  # todo: change these files to work with different databases
                  }
 
